@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.852
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Contra2D", "Contra2D\Contra2D.vcxproj", "{8D3C8394-1E8C-4EFA-925C-F9606DD1AF9F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8D3C8394-1E8C-4EFA-925C-F9606DD1AF9F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8D3C8394-1E8C-4EFA-925C-F9606DD1AF9F}.Debug|Win32.Build.0 = Debug|Win32
+		{8D3C8394-1E8C-4EFA-925C-F9606DD1AF9F}.Release|Win32.ActiveCfg = Release|Win32
+		{8D3C8394-1E8C-4EFA-925C-F9606DD1AF9F}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2121A7E3-2E58-4775-AFD2-D219984EFE0F}
+	EndGlobalSection
+EndGlobal
