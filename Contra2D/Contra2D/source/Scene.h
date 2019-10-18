@@ -6,6 +6,7 @@
 #include "ShaderProgram.h"
 #include "TileMap.h"
 #include "Player.h"
+#include "SoundManager.h"
 
 
 // Scene contains all the entities of our game.
@@ -27,6 +28,8 @@ private:
 	void initShaders();
 
 private:
+	SoundManager sound;				  // Audio engine
+
 	TileMap *map;
 	Player *player;
 	ShaderProgram texProgram;
