@@ -2,13 +2,14 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <glm/gtc/matrix_transform.hpp>
 #include "TileMap.h"
 
 
 using namespace std;
 
 
-TileMap *TileMap::createTileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProgram &program)
+TileMap *TileMap::createTileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProgram *program)
 {
 	TileMap *map = new TileMap(levelFile, minCoords, program);
 	
@@ -16,7 +17,7 @@ TileMap *TileMap::createTileMap(const string &levelFile, const glm::vec2 &minCoo
 }
 
 
-TileMap::TileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProgram &program)
+TileMap::TileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProgram *program)
 {
 	loadLevel(levelFile);
 	prepareArrays(minCoords, program);
@@ -31,6 +32,8 @@ TileMap::~TileMap()
 
 void TileMap::render() const
 {
+	glm::mat4 modelview = glm::translate(glm::mat4(1.0f), glm::vec3(tileMapDispl.x, 0.f, 0.f));
+	shaderProgram->setUniformMatrix4f("modelview", modelview);
 	glEnable(GL_TEXTURE_2D);
 	tilesheet.use();
 	glBindVertexArray(vao);
@@ -43,6 +46,15 @@ void TileMap::render() const
 void TileMap::free()
 {
 	glDeleteBuffers(1, &vbo);
+}
+
+void TileMap::increaseScroll(float x)
+{
+	tileMapDispl.x -= x;
+}
+
+float TileMap::getScroll() {
+	return tileMapDispl.x;
 }
 
 bool TileMap::loadLevel(const string &levelFile)
@@ -99,7 +111,7 @@ bool TileMap::loadLevel(const string &levelFile)
 	return true;
 }
 
-void TileMap::prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program)
+void TileMap::prepareArrays(const glm::vec2 &minCoords, ShaderProgram *program)
 {
 	int tile, nTiles = 0;
 	glm::vec2 posTile, texCoordTile[2], halfTexel;
@@ -143,8 +155,9 @@ void TileMap::prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program)
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, 24 * nTiles * sizeof(float), &vertices[0], GL_STATIC_DRAW);
-	posLocation = program.bindVertexAttribute("position", 2, 4*sizeof(float), 0);
-	texCoordLocation = program.bindVertexAttribute("texCoord", 2, 4*sizeof(float), (void *)(2*sizeof(float)));
+	posLocation = program->bindVertexAttribute("position", 2, 4*sizeof(float), 0);
+	texCoordLocation = program->bindVertexAttribute("texCoord", 2, 4*sizeof(float), (void *)(2*sizeof(float)));
+	shaderProgram = program;
 }
 
 // Collision tests for axis aligned bounding boxes.
@@ -185,7 +198,7 @@ bool TileMap::collisionMoveRight(const glm::ivec2 &pos, const glm::ivec2 &size) 
 	return false;
 }
 
-bool TileMap::collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, int *posY) const
+bool TileMap::collisionMoveDown(const glm::vec2 &pos, const glm::ivec2 &size, float *posY) const
 {
 	int x0, x1, y;
 	
@@ -194,7 +207,7 @@ bool TileMap::collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, i
 	y = (pos.y + size.y - 1) / tileSize;
 	for(int x=x0; x<=x1; x++)
 	{
-		if(map[y*mapSize.x+x] != 0)
+		if(map[y*mapSize.x+x] == 9 || map[y*mapSize.x + x] == 12)
 		{
 			if(*posY - tileSize * y + size.y <= 4)
 			{

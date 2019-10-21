@@ -17,7 +17,7 @@ enum PlayerAnims
 };
 
 
-void Player::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram)
+void Player::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram)
 {
 	bJumping = false;
 	lifes = 2;
@@ -33,14 +33,14 @@ void Player::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram)
 		sprite->addKeyframe(STAND_RIGHT, glm::vec2(0.f, 0.f));
 		sprite->addKeyframe(STAND_RIGHT, glm::vec2(0.125f, 0.f));
 		
-		sprite->setAnimationSpeed(MOVE_LEFT, 6);
+		sprite->setAnimationSpeed(MOVE_LEFT, 5);
 		sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.0f, 0.25f));
 		sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.125f, 0.25f));
 		sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.25f, 0.25f));
 		sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.375f, 0.25f));
 		sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.5f, 0.25f));
 
-		sprite->setAnimationSpeed(MOVE_RIGHT, 6);
+		sprite->setAnimationSpeed(MOVE_RIGHT, 5);
 		sprite->addKeyframe(MOVE_RIGHT, glm::vec2(0.0f, 0.25f));
 		sprite->addKeyframe(MOVE_RIGHT, glm::vec2(0.125f, 0.25f));
 		sprite->addKeyframe(MOVE_RIGHT, glm::vec2(0.25f, 0.25f));
@@ -48,8 +48,7 @@ void Player::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram)
 		sprite->addKeyframe(MOVE_RIGHT, glm::vec2(0.5f, 0.25f));
 		
 	sprite->changeAnimation(0);
-	tileMapDispl = tileMapPos;
-	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
+	sprite->setPosition(glm::vec2(float(posPlayer.x), float(posPlayer.y)));
 	
 }
 
@@ -60,10 +59,10 @@ void Player::update(int deltaTime)
 	{
 		if(sprite->animation() != MOVE_LEFT)
 			sprite->changeAnimation(MOVE_LEFT);
-		posPlayer.x -= 2;
+		posPlayer.x -= 2.5;
 		if(map->collisionMoveLeft(posPlayer, glm::ivec2(64, 128)))
 		{
-			posPlayer.x += 2;
+			posPlayer.x += 2.5;
 			sprite->changeAnimation(STAND_LEFT);
 		}
 	}
@@ -71,10 +70,11 @@ void Player::update(int deltaTime)
 	{
 		if(sprite->animation() != MOVE_RIGHT)
 			sprite->changeAnimation(MOVE_RIGHT);
-		posPlayer.x += 3;
+		posPlayer.x += 2.5;
+		map->increaseScroll(2.5);
 		if(map->collisionMoveRight(posPlayer, glm::ivec2(64, 128)))
 		{
-			posPlayer.x -= 2;
+			posPlayer.x -= 2.5;
 			sprite->changeAnimation(STAND_RIGHT);
 		}
 	}
@@ -115,7 +115,7 @@ void Player::update(int deltaTime)
 		}
 	}
 	
-	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
+	sprite->setPosition(glm::vec2(float(map->getScroll() + posPlayer.x), float(posPlayer.y)));
 }
 
 void Player::render()
@@ -131,7 +131,7 @@ void Player::setTileMap(TileMap *tileMap)
 void Player::setPosition(const glm::vec2 &pos)
 {
 	posPlayer = pos;
-	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
+	sprite->setPosition(glm::vec2(float(map->getScroll() + posPlayer.x), float(posPlayer.y)));
 }
 
 
