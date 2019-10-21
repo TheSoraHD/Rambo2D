@@ -5,8 +5,8 @@
 #include "Scene.h"
 
 
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
+#define SCREEN_WIDTH 704 //11 tiles (TO-DO: Render more or less level)
+#define SCREEN_HEIGHT 512 //8 tiles
 
 
 // Game is a singleton (a class with a single instance) that represents our whole application
