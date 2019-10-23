@@ -54,6 +54,7 @@ void Player::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram)
 
 void Player::update(int deltaTime)
 {
+	//if (Game::instance().getSpecialKey(GLUT_KEY_UP)) sound.playSFX("sfx/zawarudo.wav");
 	sprite->update(deltaTime);
 	if(Game::instance().getSpecialKey(GLUT_KEY_LEFT))
 	{
@@ -76,7 +77,7 @@ void Player::update(int deltaTime)
 			posPlayer.x -= 2.5;
 			sprite->changeAnimation(STAND_RIGHT);
 		}
-		else if (posPlayer.x >= (map->getScroll() + (SCREEN_WIDTH / 2)))
+		else if (posPlayer.x >= (map->getScroll() + (SCREEN_WIDTH / 2))) //TO-DO: Stop scrolling at the end of the level + IS_PLATFORMER_LEVEL?
 			map->increaseScroll(2.5);
 	}
 	else

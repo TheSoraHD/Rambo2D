@@ -37,7 +37,7 @@ void Scene::init()
 	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	currentTime = 0.0f;
-	sound.playBGM("music/stage1.mp3");
+	//sound.playBGM("music/stage1.mp3");
 }
 
 void Scene::update(int deltaTime)
