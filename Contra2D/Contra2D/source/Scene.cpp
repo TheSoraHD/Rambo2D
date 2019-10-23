@@ -3,6 +3,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "Scene.h"
 #include "Game.h"
+#include "BulletManager.h"
 
 
 #define SCREEN_X 0
@@ -44,6 +45,7 @@ void Scene::update(int deltaTime)
 {
 	currentTime += deltaTime;
 	player->update(deltaTime);
+	BulletManager::instance().update();
 }
 
 void Scene::render()
