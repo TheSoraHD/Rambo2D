@@ -32,7 +32,7 @@ TileMap::~TileMap()
 
 void TileMap::render() const
 {
-	glm::mat4 modelview = glm::translate(glm::mat4(1.0f), glm::vec3(tileMapDispl.x, 0.f, 0.f));
+	glm::mat4 modelview = glm::translate(glm::mat4(1.0f), glm::vec3(-tileMapDispl.x, 0.f, 0.f));
 	shaderProgram->setUniformMatrix4f("modelview", modelview);
 	glEnable(GL_TEXTURE_2D);
 	tilesheet.use();
@@ -50,7 +50,7 @@ void TileMap::free()
 
 void TileMap::increaseScroll(float x)
 {
-	tileMapDispl.x -= x;
+	tileMapDispl.x += x;
 }
 
 float TileMap::getScroll() {
