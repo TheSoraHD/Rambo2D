@@ -71,12 +71,13 @@ void Player::update(int deltaTime)
 		if(sprite->animation() != MOVE_RIGHT)
 			sprite->changeAnimation(MOVE_RIGHT);
 		posPlayer.x += 2.5;
-		map->increaseScroll(2.5);
 		if(map->collisionMoveRight(posPlayer, glm::ivec2(64, 128)))
 		{
 			posPlayer.x -= 2.5;
 			sprite->changeAnimation(STAND_RIGHT);
 		}
+		else if (posPlayer.x >= (map->getScroll() + (SCREEN_WIDTH / 2)))
+			map->increaseScroll(2.5);
 	}
 	else
 	{
@@ -115,7 +116,7 @@ void Player::update(int deltaTime)
 		}
 	}
 	
-	sprite->setPosition(glm::vec2(float(map->getScroll() + posPlayer.x), float(posPlayer.y)));
+	sprite->setPosition(glm::vec2(float(posPlayer.x - map->getScroll()), float(posPlayer.y)));
 }
 
 void Player::render()
@@ -131,7 +132,7 @@ void Player::setTileMap(TileMap *tileMap)
 void Player::setPosition(const glm::vec2 &pos)
 {
 	posPlayer = pos;
-	sprite->setPosition(glm::vec2(float(map->getScroll() + posPlayer.x), float(posPlayer.y)));
+	sprite->setPosition(glm::vec2(float(posPlayer.x - map->getScroll()), float(posPlayer.y)));
 }
 
 
