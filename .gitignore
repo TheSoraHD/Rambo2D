@@ -1,0 +1,13 @@
+*.cache
+*.db
+*.exe
+*.filters
+*.ilk
+*.ipch
+*.lastbuildstate
+*.log
+*.obj
+*.pdb
+*.sqlite
+*.suo
+*.tlog
