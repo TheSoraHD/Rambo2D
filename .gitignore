@@ -3,7 +3,9 @@
 *.exe
 *.filters
 *.ilk
+*.iobj
 *.ipch
+*.ipdb
 *.lastbuildstate
 *.log
 *.obj
