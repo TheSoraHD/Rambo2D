@@ -30,7 +30,6 @@ private:
 	Texture spritesheet;
 	Sprite *sprite;
 	TileMap *map;
-
 };
 
 
