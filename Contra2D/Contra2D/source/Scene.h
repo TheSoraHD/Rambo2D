@@ -27,13 +27,15 @@ public:
 
 private:
 	void initShaders();
+	void initEnemies();
 
 private:
 	SoundManager sound;				  // Audio engine
 
 	TileMap *map;
 	Player *player;
-	Enemy *enemy;
+	Enemy *enemy_aux;
+	vector<Enemy*> enemyList;
 	ShaderProgram texProgram;
 	float currentTime;
 	glm::mat4 projection;
