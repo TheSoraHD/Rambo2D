@@ -24,7 +24,7 @@ void Player::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram)
 	bJumping = false;
 	lifes = 2;
 	spritesheet.loadFromFile("images/lance2x.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	sprite = Sprite::createSprite(glm::ivec2(64, 128), glm::vec2(0.125, 0.25), &spritesheet, &shaderProgram);
+	sprite = Sprite::createSprite(glm::ivec2(64, 128), glm::vec2(0.125f, 0.25f), &spritesheet, &shaderProgram);
 	aux = shaderProgram;
 	sprite->setNumberAnimations(4);
 	

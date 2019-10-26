@@ -4,11 +4,12 @@
 
 #include "Sprite.h"
 #include "TileMap.h"
+#include "SoundManager.h"
 
 class Enemy
 {
 public:
-	void init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram);
+	void init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram);
 	void update(int deltaTime);
 	void render();
 
@@ -16,12 +17,10 @@ public:
 	void setPosition(const glm::vec2 &pos);
 
 private:
-	bool bJumping;
-	glm::ivec2 tileMapDispl, posEnemy;
-	int health;
+	glm::vec2 posEnemy;
 	Texture spritesheet;
 	Sprite *sprite;
 	TileMap *map;
 };
 
-#endif
+#endif // _ENEMY_INCLUDE

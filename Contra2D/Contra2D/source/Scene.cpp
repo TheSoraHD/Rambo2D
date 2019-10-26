@@ -12,11 +12,14 @@
 #define INIT_PLAYER_X_TILES 1
 #define INIT_PLAYER_Y_TILES 2
 
+#define INIT_ENEMY_X_TILES 2
+#define INIT_ENEMY_Y_TILES 3
 
 Scene::Scene()
 {
 	map = NULL;
 	player = NULL;
+	enemy = NULL;
 }
 
 Scene::~Scene()
@@ -25,6 +28,8 @@ Scene::~Scene()
 		delete map;
 	if(player != NULL)
 		delete player;
+	if (enemy != NULL)
+		delete enemy;
 }
 
 
@@ -36,6 +41,10 @@ void Scene::init()
 	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	player->setTileMap(map);
 	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
+	enemy = new Enemy();
+	enemy->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	enemy->setTileMap(map);
+	enemy->setPosition(glm::vec2(INIT_ENEMY_X_TILES * map->getTileSize(), INIT_ENEMY_Y_TILES * map->getTileSize()));
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	currentTime = 0.0f;
 	//sound.playBGM("music/stage1.mp3");
@@ -44,8 +53,10 @@ void Scene::init()
 void Scene::update(int deltaTime)
 {
 	currentTime += deltaTime;
-	player->update(deltaTime);
 	BulletManager::instance().update();
+	player->update(deltaTime);
+	enemy->update(deltaTime);
+	
 }
 
 void Scene::render()
@@ -60,6 +71,7 @@ void Scene::render()
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 	map->render();
 	player->render();
+	enemy->render();
 }
 
 void Scene::initShaders()
