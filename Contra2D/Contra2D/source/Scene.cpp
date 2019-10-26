@@ -12,7 +12,9 @@
 #define INIT_PLAYER_X_TILES 1
 #define INIT_PLAYER_Y_TILES 2
 
-
+#define TURRET 0
+#define SOLDIER_KAMIKAZE 1
+#define SOLDIER_GROUND 2
 
 Scene::Scene()
 {
@@ -110,25 +112,23 @@ void Scene::initShaders()
 void Scene::initEnemies() {
 	int number_of_enemies = 3; //cuantos enemigos hay en el nivel
 	for (int i = 0; i < number_of_enemies; ++i) {
-		enemy_aux = new Enemy();
-		enemy_aux->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, player);
-		enemy_aux->setTileMap(map);
 		int enemy_x;
 		int enemy_y;
+		int typeofEnemy;
 		switch (i+1) {
 			case 1: //enemigo 1
-				enemy_x = 1;
-				enemy_y = 2;
+				enemy_x = 3; enemy_y = 5; typeofEnemy = TURRET;
 				break;
 			case 2: //enemigo 2
-				enemy_x = 3;
-				enemy_y = 2;
+				enemy_x = 9; enemy_y = 5; typeofEnemy = TURRET;
 				break;
-			case 3:
-				enemy_x = 5;
-				enemy_y = 2;
+			case 3: //enemigo 3
+				enemy_x = 5; enemy_y = 3; typeofEnemy = SOLDIER_GROUND;
 				break;
 		}
+		enemy_aux = new Enemy();
+		enemy_aux->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, player, typeofEnemy);
+		enemy_aux->setTileMap(map);
 		enemy_aux->setPosition(glm::vec2(enemy_x * map->getTileSize(), enemy_y * map->getTileSize()));
 		enemyList.push_back(enemy_aux);
 	}
