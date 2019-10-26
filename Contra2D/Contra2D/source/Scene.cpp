@@ -45,6 +45,7 @@ void Scene::init()
 	enemy->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	enemy->setTileMap(map);
 	enemy->setPosition(glm::vec2(INIT_ENEMY_X_TILES * map->getTileSize(), INIT_ENEMY_Y_TILES * map->getTileSize()));
+	BulletManager::instance().setTileMap(map);
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	currentTime = 0.0f;
 	//sound.playBGM("music/stage1.mp3");
@@ -72,6 +73,7 @@ void Scene::render()
 	map->render();
 	player->render();
 	enemy->render();
+	BulletManager::instance().render();
 }
 
 void Scene::initShaders()

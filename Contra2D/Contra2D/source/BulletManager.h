@@ -13,7 +13,10 @@ public:
 	}
 
 	void createPlayerBullet(float posPlayerx, float posPlayery, int direction, ShaderProgram &shaderProgram);
+	void setTileMap(TileMap *tileMap);
 	void update();
+	void render();
 private:
+	TileMap *map;
 };
 

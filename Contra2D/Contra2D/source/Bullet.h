@@ -1,11 +1,14 @@
 #pragma once
 #include "Sprite.h"
+#include "TileMap.h"
 
 class Bullet
 {
 public:
 	void createBullet(float posx , float posy, int direction, bool playe, ShaderProgram &shaderProgram);
 	void update();
+	void render();
+	void setTileMap(TileMap *tileMap);
 	~Bullet();
 
 private:
@@ -14,5 +17,6 @@ private:
 	int dir;
 	Texture spritesheet;
 	Sprite *sprite;
+	TileMap *map;
 };
 
