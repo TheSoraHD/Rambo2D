@@ -42,7 +42,7 @@ void Scene::init()
 	player->setTileMap(map);
 	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
 	enemy = new Enemy();
-	enemy->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	enemy->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, player);
 	enemy->setTileMap(map);
 	enemy->setPosition(glm::vec2(INIT_ENEMY_X_TILES * map->getTileSize(), INIT_ENEMY_Y_TILES * map->getTileSize()));
 	BulletManager::instance().setTileMap(map);

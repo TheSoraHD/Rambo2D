@@ -21,6 +21,7 @@ public:
 	
 	void setTileMap(TileMap *tileMap);
 	void setPosition(const glm::vec2 &pos);
+	const glm::vec2 sharePosition();
 	
 private:
 	SoundManager sound;

@@ -148,6 +148,10 @@ void Player::setPosition(const glm::vec2 &pos)
 	sprite->setPosition(glm::vec2(float(posPlayer.x - map->getScroll()), float(posPlayer.y)));
 }
 
+const glm::vec2 Player::sharePosition() {
+	return glm::vec2(float(posPlayer.x), float(posPlayer.y));
+}
+
 
 
 
