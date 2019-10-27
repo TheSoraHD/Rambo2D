@@ -8,7 +8,7 @@
 
 
 #define JUMP_ANGLE_STEP 4
-#define JUMP_HEIGHT 96
+#define JUMP_HEIGHT 120
 #define FALL_STEP 4
 
 ShaderProgram aux;
@@ -74,14 +74,14 @@ void Player::update(int deltaTime)
 	{
 		if(sprite->animation() != MOVE_RIGHT)
 			sprite->changeAnimation(MOVE_RIGHT);
-		posPlayer.x += 2.5;
+		posPlayer.x += 12.5;
 		if(map->collisionMoveRight(posPlayer, glm::ivec2(64, 128)))
 		{
 			posPlayer.x -= 2.5;
 			sprite->changeAnimation(STAND_RIGHT);
 		}
 		else if (posPlayer.x >= (map->getScroll() + (SCREEN_WIDTH / 2))) //TO-DO: Stop scrolling at the end of the level + IS_PLATFORMER_LEVEL?
-			map->increaseScroll(2.5);
+			map->increaseScroll(12.5);
 	}
 	else
 	{
