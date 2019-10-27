@@ -4,18 +4,18 @@
 #include <GL/glut.h>
 #include "Player.h"
 #include "Game.h"
-#include "BulletManager.h"
+
 
 
 #define JUMP_ANGLE_STEP 4
 #define JUMP_HEIGHT 120
 #define FALL_STEP 4
 
-ShaderProgram aux;
+ShaderProgram *aux;
 
 enum PlayerAnims
 {
-	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, LOOK_UP, LOOK_DOWN, JUMP_LEFT, JUMP_RIGHT
+	STAND_RIGHT, STAND_LEFT, MOVE_LEFT, MOVE_RIGHT, LOOK_UP, LOOK_DOWN, JUMP_LEFT, JUMP_RIGHT
 };
 
 
@@ -23,9 +23,10 @@ void Player::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Bul
 {
 	bJumping = false;
 	lifes = 2;
+	cooldown_shot = 0;
 	spritesheet.loadFromFile("images/lance2x.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	sprite = Sprite::createSprite(glm::ivec2(64, 128), glm::vec2(0.125f, 0.25f), &spritesheet, &shaderProgram);
-	aux = shaderProgram;
+	aux = &shaderProgram;
 	sprite->setNumberAnimations(4);
 	
 		sprite->setAnimationSpeed(STAND_LEFT, 6);
@@ -98,6 +99,7 @@ void Player::update(int deltaTime)
 		{
 			bJumping = false;
 			posPlayer.y = startY;
+			sound.playSFX("sfx/hit_ground.wav");
 		}
 		else
 		{
@@ -116,19 +118,23 @@ void Player::update(int deltaTime)
 				bJumping = true;
 				jumpAngle = 0;
 				startY = posPlayer.y;
+				sound.playSFX("sfx/jump.wav");
 			}
 		}
 	}
 
-	if (Game::instance().getKey('z') || Game::instance().getKey('Z')) { //disparar
+	if ((Game::instance().getKey('z') || Game::instance().getKey('Z')) && cooldown_shot <= 0) { //disparar
 		int direction = sprite->animation();
 		if (direction == STAND_LEFT || direction == MOVE_LEFT || direction == JUMP_LEFT) { direction = 0; } //LEFT
 		else if (direction == STAND_RIGHT || direction == MOVE_RIGHT || direction == JUMP_RIGHT) { direction = 1; } //RIGHT
 		else if (direction == LOOK_UP) { direction = 2; } //UP
 		else direction = 3; //DOWN
 
-		bM->createPlayerBullet(posPlayer.x,posPlayer.y, direction, aux);
+		bM->createPlayerBullet(posPlayer.x,posPlayer.y, direction, *aux);
+		sound.playSFX("sfx/shoot.wav");
+		cooldown_shot = 10;
 	}
+	--cooldown_shot;
 	sprite->setPosition(glm::vec2(float(posPlayer.x - map->getScroll()), float(posPlayer.y)));
 }
 
