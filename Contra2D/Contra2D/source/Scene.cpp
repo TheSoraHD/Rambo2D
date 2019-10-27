@@ -20,6 +20,8 @@ Scene::Scene()
 	map = NULL;
 	player = NULL;
 	enemy = NULL;
+	for (int i = 0; i < bridgeList.size(); ++i)
+		bridgeList[i] = NULL;
 }
 
 Scene::~Scene()
@@ -30,13 +32,39 @@ Scene::~Scene()
 		delete player;
 	if (enemy != NULL)
 		delete enemy;
+	if (bridgeList.size() != NULL) {
+		for (int i = 0; i < bridgeList.size(); ++i)
+			bridgeList[i] = NULL;
+	}
 }
 
 
-void Scene::init()
+void Scene::init(int level)
 {
 	initShaders();
-	map = TileMap::createTileMap("levels/level01.txt", glm::vec2(SCREEN_X, SCREEN_Y), &texProgram);
+	switch (level)
+	{
+		case 0: {
+			//map = TileMap::createTileMap("levels/level01.txt", glm::vec2(SCREEN_X, SCREEN_Y), &texProgram);
+			//sound.playBGM("music/stage1.mp3");
+			break;
+		}
+		case 1: {
+			map = TileMap::createTileMap("levels/level01.txt", glm::vec2(SCREEN_X, SCREEN_Y), &texProgram);
+			sound.playBGM("music/stage1.mp3");
+			break;
+		}
+		case 2: {
+			map = TileMap::createTileMap("levels/level02.txt", glm::vec2(SCREEN_X, SCREEN_Y), &texProgram);
+			sound.playBGM("music/stage2.mp3");
+			break;
+		}
+		case 3: {
+			map = TileMap::createTileMap("levels/level03.txt", glm::vec2(SCREEN_X, SCREEN_Y), &texProgram);
+			sound.playBGM("music/stage3.mp3");
+			break;
+		}
+	}
 	player = new Player();
 	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	player->setTileMap(map);
@@ -45,10 +73,10 @@ void Scene::init()
 	enemy->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, player);
 	enemy->setTileMap(map);
 	enemy->setPosition(glm::vec2(INIT_ENEMY_X_TILES * map->getTileSize(), INIT_ENEMY_Y_TILES * map->getTileSize()));
+	initBridges();
 	BulletManager::instance().setTileMap(map);
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	currentTime = 0.0f;
-	//sound.playBGM("music/stage1.mp3");
 }
 
 void Scene::update(int deltaTime)
@@ -57,7 +85,8 @@ void Scene::update(int deltaTime)
 	BulletManager::instance().update();
 	player->update(deltaTime);
 	enemy->update(deltaTime);
-	
+	for (int i = 0; i < bridgeList.size(); ++i)
+		bridgeList[i]->update(deltaTime);
 }
 
 void Scene::render()
@@ -104,6 +133,21 @@ void Scene::initShaders()
 	texProgram.bindFragmentOutput("outColor");
 	vShader.free();
 	fShader.free();
+}
+
+void Scene::initBridges() {
+	int number_of_bridges = 1;
+	for (int i = 0; i < number_of_bridges; ++i) {
+		Bridge *bridge_aux;
+		bridge_aux = new Bridge();
+		switch (i) {
+			case 0:
+				bridge_aux->setTileMap(map);
+				bridge_aux->init(3, glm::ivec2(2, 3), texProgram);
+				break;
+		}
+		bridgeList.push_back(bridge_aux);
+	}
 }
 
 

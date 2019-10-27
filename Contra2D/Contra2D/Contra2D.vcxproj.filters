@@ -54,6 +54,9 @@
     <ClCompile Include="source\BulletManager.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
+    <ClCompile Include="source\Bridge.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\TileMap.h">
@@ -93,6 +96,9 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="source\BulletManager.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Bridge.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

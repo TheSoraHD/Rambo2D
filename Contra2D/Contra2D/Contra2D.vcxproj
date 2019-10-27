@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\Bridge.cpp" />
     <ClCompile Include="source\Bullet.cpp" />
     <ClCompile Include="source\BulletManager.cpp" />
     <ClCompile Include="source\Enemy.cpp" />
@@ -27,6 +28,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\AnimKeyframes.h" />
+    <ClInclude Include="source\Bridge.h" />
     <ClInclude Include="source\Bullet.h" />
     <ClInclude Include="source\BulletManager.h" />
     <ClInclude Include="source\Enemy.h" />

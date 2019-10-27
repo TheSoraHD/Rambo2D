@@ -4,6 +4,10 @@
 #include "Sprite.h"
 
 
+Sprite::Sprite() {
+
+}
+
 Sprite *Sprite::createSprite(const glm::vec2 &quadSize, const glm::vec2 &sizeInSpritesheet, Texture *spritesheet, ShaderProgram *program)
 {
 	Sprite *quad = new Sprite(quadSize, sizeInSpritesheet, spritesheet, program);

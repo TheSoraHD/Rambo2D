@@ -3,6 +3,7 @@
 
 
 #include <glm/glm.hpp>
+#include "Bridge.h"
 #include "ShaderProgram.h"
 #include "TileMap.h"
 #include "Player.h"
@@ -21,18 +22,20 @@ public:
 	Scene();
 	~Scene();
 
-	void init();
+	void init(int level);
 	void update(int deltaTime);
 	void render();
 
 private:
 	void initShaders();
+	void initBridges();
 
 private:
 	SoundManager sound;				  // Audio engine
 
 	TileMap *map;
 	Player *player;
+	vector<Bridge*> bridgeList;
 	Enemy *enemy;
 	ShaderProgram texProgram;
 	float currentTime;
