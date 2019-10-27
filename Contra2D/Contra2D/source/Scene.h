@@ -5,6 +5,7 @@
 #include <glm/glm.hpp>
 #include "Bridge.h"
 #include "BulletManager.h"
+#include "MainMenu.h"
 #include "ShaderProgram.h"
 #include "TileMap.h"
 #include "Player.h"
@@ -31,11 +32,16 @@ private:
 	void initShaders();
 	void initBridges();
 	void initEnemies();
+	void initMainMenu();
+	void initPlayer();
 
 private:
 	BulletManager bulletManager;
 	SoundManager sound;				  // Audio engine
 
+	MainMenu mainMenu;
+
+	int activeLevel;
 	TileMap *map;
 	Player *player;
 	vector<Bridge*> bridgeList;

@@ -1,7 +1,6 @@
 #include "Bridge.h"
 
 
-
 void Bridge::init(int length, const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram)
 {
 	spritesheet.loadFromFile("images/bridge2x.png", TEXTURE_PIXEL_FORMAT_RGBA);

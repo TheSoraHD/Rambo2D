@@ -16,9 +16,9 @@ SoundManager::~SoundManager()
 }
 
 
-void SoundManager::playBGM(const char* filename)
+void SoundManager::playBGM(const char* filename, bool isLooped)
 {
-	music = soundEngine->play2D(filename, true, false, true, ESM_AUTO_DETECT, true);
+	music = soundEngine->play2D(filename, isLooped, false, true, ESM_AUTO_DETECT, true);
 }
 
 

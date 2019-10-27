@@ -48,46 +48,48 @@ void Scene::init(int level)
 	switch (level)
 	{
 		case 0: {
-			//map = TileMap::createTileMap("levels/level01.txt", glm::vec2(SCREEN_X, SCREEN_Y), &texProgram);
-			//sound.playBGM("music/stage1.mp3");
+			initMainMenu();
 			break;
 		}
 		case 1: {
 			map = TileMap::createTileMap("levels/level01.txt", glm::vec2(SCREEN_X, SCREEN_Y), &texProgram);
-			sound.playBGM("music/stage1.mp3");
+			sound.playBGM("music/stage1.mp3", true);
 			break;
 		}
 		case 2: {
 			map = TileMap::createTileMap("levels/level02.txt", glm::vec2(SCREEN_X, SCREEN_Y), &texProgram);
-			sound.playBGM("music/stage2.mp3");
+			sound.playBGM("music/stage2.mp3", true);
 			break;
 		}
 		case 3: {
 			map = TileMap::createTileMap("levels/level03.txt", glm::vec2(SCREEN_X, SCREEN_Y), &texProgram);
-			sound.playBGM("music/stage3.mp3");
+			sound.playBGM("music/stage3.mp3", true);
 			break;
 		}
 	}
-	player = new Player();
-	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, &bulletManager);
-	player->setTileMap(map);
-	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
-	//initBridges();
-	initEnemies();
-	bulletManager.setTileMap(map);
+	if (level != 0) {
+		bulletManager.setTileMap(map);
+		initPlayer();
+		//initBridges();
+		initEnemies();
+	}
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	currentTime = 0.0f;
+	activeLevel = level;
 }
 
 void Scene::update(int deltaTime)
 {
 	currentTime += deltaTime;
-	bulletManager.update(deltaTime);
-	player->update(deltaTime);
-	for (int i = 0; i < bridgeList.size(); i++)
-		bridgeList[i]->update(deltaTime);
-	for (int i = 0; i < enemyList.size(); ++i)
-		enemyList[i]->update(deltaTime); //TODO eliminar enemigo si se sale del scroll
+	if (activeLevel != 0) {
+		bulletManager.update(deltaTime);
+		player->update(deltaTime);
+		for (int i = 0; i < bridgeList.size(); i++)
+			bridgeList[i]->update(deltaTime);
+		for (int i = 0; i < enemyList.size(); ++i)
+			enemyList[i]->update(deltaTime); //TODO eliminar enemigo si se sale del scroll
+	}
+	else mainMenu.update(deltaTime);
 }
 
 void Scene::render()
@@ -100,13 +102,16 @@ void Scene::render()
 	modelview = glm::mat4(1.0f);
 	texProgram.setUniformMatrix4f("modelview", modelview);
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
-	map->render();
-	player->render();
-	for (int i = 0; i < enemyList.size(); ++i)
-		enemyList[i]->render();
-	for (int i = 0; i < bridgeList.size(); ++i)
-		bridgeList[i]->render();
-	bulletManager.render();
+	if (activeLevel != 0) {
+		map->render();
+		player->render();
+		for (int i = 0; i < enemyList.size(); ++i)
+			enemyList[i]->render();
+		for (int i = 0; i < bridgeList.size(); ++i)
+			bridgeList[i]->render();
+		bulletManager.render();
+	}
+	else mainMenu.render();
 }
 
 void Scene::initShaders()
@@ -202,7 +207,18 @@ void Scene::initEnemies() {
 		enemy_aux->setPosition(glm::vec2(enemy_x * map->getTileSize(), enemy_y * map->getTileSize()));
 		enemyList.push_back(enemy_aux);
 	}
-	
+}
+
+void Scene::initMainMenu() {
+	mainMenu.init(texProgram);
+	sound.playBGM("music/title.mp3", false);
+}
+
+void Scene::initPlayer() {
+	player = new Player();
+	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, &bulletManager);
+	player->setTileMap(map);
+	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
 }
 
 

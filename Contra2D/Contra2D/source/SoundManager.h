@@ -9,7 +9,7 @@ class SoundManager
 public:
 	SoundManager();
 	~SoundManager();
-	void playBGM(const char* filename);
+	void playBGM(const char* filename, bool isLooped);
 	void stopBGM();
 	void playSFX(const char* filename);
 
