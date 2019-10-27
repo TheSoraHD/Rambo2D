@@ -57,6 +57,10 @@ float TileMap::getScroll() {
 	return tileMapDispl.x;
 }
 
+float TileMap::getLevelWidth() {
+	return mapSize.x * tileSize;
+}
+
 bool TileMap::loadLevel(const string &levelFile)
 {
 	ifstream fin;

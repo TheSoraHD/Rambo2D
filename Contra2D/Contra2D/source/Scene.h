@@ -34,6 +34,7 @@ private:
 	void initEnemies();
 	void initMainMenu();
 	void initPlayer();
+	void initTransition(int level);
 
 private:
 	BulletManager bulletManager;
@@ -41,12 +42,14 @@ private:
 
 	MainMenu mainMenu;
 
-	int activeLevel;
+	int activeLevel, nextLevel, transitionDelay;
 	TileMap *map;
 	Player *player;
 	vector<Bridge*> bridgeList;
 	vector<Enemy*> enemyList;
 	ShaderProgram texProgram;
+	Sprite *transition;
+	Texture spritesheet;
 	float currentTime;
 	glm::mat4 projection;
 	vector<glm::vec2> Enemy_FirstLevel;

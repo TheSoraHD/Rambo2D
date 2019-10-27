@@ -76,12 +76,12 @@ void Player::update(int deltaTime)
 		if(sprite->animation() != MOVE_RIGHT)
 			sprite->changeAnimation(MOVE_RIGHT);
 		posPlayer.x += 12.5;
-		if(map->collisionMoveRight(posPlayer, glm::ivec2(64, 128)))
+		if(map->collisionMoveRight(posPlayer, glm::ivec2(64, 128)) || posPlayer.x >= (map->getLevelWidth() - 64.0f))
 		{
-			posPlayer.x -= 2.5;
+			posPlayer.x -= 12.5;
 			sprite->changeAnimation(STAND_RIGHT);
 		}
-		else if (posPlayer.x >= (map->getScroll() + (SCREEN_WIDTH / 2))) //TO-DO: Stop scrolling at the end of the level + IS_PLATFORMER_LEVEL?
+		else if (posPlayer.x >= (map->getScroll() + (SCREEN_WIDTH / 2)) && posPlayer.x < (map->getLevelWidth() - (SCREEN_WIDTH / 2) - 32.0f)) //Level 3 Hack
 			map->increaseScroll(12.5);
 	}
 	else
