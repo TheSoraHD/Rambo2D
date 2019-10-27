@@ -1,3 +1,6 @@
+#ifndef _BULLETMANAGER_INCLUDE
+#define _BULLETMANAGER_INCLUDE
+
 #include "Bullet.h"
 
 
@@ -5,18 +8,15 @@ class BulletManager
 {
 public:
 
-	static BulletManager &instance()
-	{
-		static BulletManager B;
-
-		return B;
-	}
 
 	void createPlayerBullet(float posPlayerx, float posPlayery, int direction, ShaderProgram &shaderProgram);
 	void setTileMap(TileMap *tileMap);
-	void update();
+	void update(int deltaTime);
 	void render();
 private:
+	vector<Bullet*> activeBullets;
 	TileMap *map;
 };
+
+#endif
 

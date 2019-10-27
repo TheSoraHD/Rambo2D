@@ -19,7 +19,7 @@ void Bullet::createBullet(float posx, float posy, int direction, bool player, Sh
 	posBullet = glm::vec2(float(posx), float(posy));
 	isPlayer = player;
 	spritesheet.loadFromFile("images/bullet.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	sprite = Sprite::createSprite(glm::ivec2(4, 4), glm::vec2(0.5f, 1.0f), &spritesheet, &shaderProgram);
+	sprite = Sprite::createSprite(glm::ivec2(8, 8), glm::vec2(0.5f, 1.0f), &spritesheet, &shaderProgram);
 	//sprite->setNumberAnimations(1);
 
 	//sprite->setAnimationSpeed(NORMAL, 3);
@@ -30,7 +30,7 @@ void Bullet::createBullet(float posx, float posy, int direction, bool player, Sh
 	sprite->setPosition(glm::vec2(float(posBullet.x), float(posBullet.y)));
 }
 
-void Bullet::update() {
+void Bullet::update(int deltaTime) {
 	if (dir == LEFT) {
 		posBullet.x -= 5;
 	}
@@ -43,7 +43,8 @@ void Bullet::update() {
 	else if (dir == DOWN) {
 		posBullet.y -= 5;
 	}
-	sprite->setPosition(glm::vec2(float(posBullet.x), float(posBullet.y)));
+	sprite->update(deltaTime);
+	sprite->setPosition(glm::vec2(float(posBullet.x - map->getScroll()), float(posBullet.y)));
 }
 
 void Bullet::setTileMap(TileMap *tileMap)

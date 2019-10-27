@@ -6,7 +6,7 @@ class Bullet
 {
 public:
 	void createBullet(float posx , float posy, int direction, bool playe, ShaderProgram &shaderProgram);
-	void update();
+	void update(int deltaTime);
 	void render();
 	void setTileMap(TileMap *tileMap);
 	~Bullet();

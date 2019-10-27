@@ -1,7 +1,7 @@
 #ifndef _PLAYER_INCLUDE
 #define _PLAYER_INCLUDE
 
-
+#include "BulletManager.h"
 #include "Sprite.h"
 #include "TileMap.h"
 #include "SoundManager.h"
@@ -15,7 +15,7 @@ class Player
 {
 
 public:
-	void init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram);
+	void init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, BulletManager *bulletManager);
 	void update(int deltaTime);
 	void render();
 	
@@ -24,6 +24,7 @@ public:
 	const glm::vec2 sharePosition();
 	
 private:
+	BulletManager *bM;
 	SoundManager sound;
 	bool bJumping;
 	glm::vec2 posPlayer;

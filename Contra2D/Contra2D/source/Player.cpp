@@ -19,7 +19,7 @@ enum PlayerAnims
 };
 
 
-void Player::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram)
+void Player::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, BulletManager *bulletManager)
 {
 	bJumping = false;
 	lifes = 2;
@@ -52,7 +52,7 @@ void Player::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram)
 		
 	sprite->changeAnimation(0);
 	sprite->setPosition(glm::vec2(float(posPlayer.x), float(posPlayer.y)));
-	
+	bM = bulletManager;
 }
 
 void Player::update(int deltaTime)
@@ -127,7 +127,7 @@ void Player::update(int deltaTime)
 		else if (direction == LOOK_UP) { direction = 2; } //UP
 		else direction = 3; //DOWN
 
-		BulletManager::instance().createPlayerBullet(posPlayer.x,posPlayer.y, direction, aux);
+		bM->createPlayerBullet(posPlayer.x,posPlayer.y, direction, aux);
 	}
 	sprite->setPosition(glm::vec2(float(posPlayer.x - map->getScroll()), float(posPlayer.y)));
 }

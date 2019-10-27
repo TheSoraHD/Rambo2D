@@ -69,12 +69,12 @@ void Scene::init(int level)
 		}
 	}
 	player = new Player();
-	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, &bulletManager);
 	player->setTileMap(map);
 	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
 	//initBridges();
 	initEnemies();
-	BulletManager::instance().setTileMap(map);
+	bulletManager.setTileMap(map);
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	currentTime = 0.0f;
 }
@@ -82,7 +82,7 @@ void Scene::init(int level)
 void Scene::update(int deltaTime)
 {
 	currentTime += deltaTime;
-	BulletManager::instance().update();
+	bulletManager.update(deltaTime);
 	player->update(deltaTime);
 	for (int i = 0; i < bridgeList.size(); i++)
 		bridgeList[i]->update(deltaTime);
@@ -106,7 +106,7 @@ void Scene::render()
 		enemyList[i]->render();
 	for (int i = 0; i < bridgeList.size(); ++i)
 		bridgeList[i]->render();
-	BulletManager::instance().render();
+	bulletManager.render();
 }
 
 void Scene::initShaders()

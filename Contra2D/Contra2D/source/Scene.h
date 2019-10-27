@@ -4,6 +4,7 @@
 
 #include <glm/glm.hpp>
 #include "Bridge.h"
+#include "BulletManager.h"
 #include "ShaderProgram.h"
 #include "TileMap.h"
 #include "Player.h"
@@ -32,6 +33,7 @@ private:
 	void initEnemies();
 
 private:
+	BulletManager bulletManager;
 	SoundManager sound;				  // Audio engine
 
 	TileMap *map;
