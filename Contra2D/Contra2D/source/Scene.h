@@ -29,6 +29,7 @@ public:
 private:
 	void initShaders();
 	void initBridges();
+	void initEnemies();
 
 private:
 	SoundManager sound;				  // Audio engine
@@ -37,6 +38,8 @@ private:
 	Player *player;
 	vector<Bridge*> bridgeList;
 	Enemy *enemy;
+	Enemy *enemy_aux;
+	vector<Enemy*> enemyList;
 	ShaderProgram texProgram;
 	float currentTime;
 	glm::mat4 projection;

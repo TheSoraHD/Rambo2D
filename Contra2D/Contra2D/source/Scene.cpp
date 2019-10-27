@@ -12,8 +12,9 @@
 #define INIT_PLAYER_X_TILES 1
 #define INIT_PLAYER_Y_TILES 2
 
-#define INIT_ENEMY_X_TILES 2
-#define INIT_ENEMY_Y_TILES 3
+#define TURRET 0
+#define SOLDIER_KAMIKAZE 1
+#define SOLDIER_GROUND 2
 
 Scene::Scene()
 {
@@ -22,6 +23,8 @@ Scene::Scene()
 	enemy = NULL;
 	for (int i = 0; i < bridgeList.size(); ++i)
 		bridgeList[i] = NULL;
+	for (int i = 0; i < enemyList.size(); ++i)
+		enemyList[i] = NULL;
 }
 
 Scene::~Scene()
@@ -36,6 +39,9 @@ Scene::~Scene()
 		for (int i = 0; i < bridgeList.size(); ++i)
 			bridgeList[i] = NULL;
 	}
+	if (enemyList.size() != NULL)
+		for (int i = 0; i < enemyList.size(); ++i)
+			enemyList[i] = NULL;
 }
 
 
@@ -69,11 +75,8 @@ void Scene::init(int level)
 	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	player->setTileMap(map);
 	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
-	enemy = new Enemy();
-	enemy->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, player);
-	enemy->setTileMap(map);
-	enemy->setPosition(glm::vec2(INIT_ENEMY_X_TILES * map->getTileSize(), INIT_ENEMY_Y_TILES * map->getTileSize()));
 	initBridges();
+	initEnemies();
 	BulletManager::instance().setTileMap(map);
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	currentTime = 0.0f;
@@ -87,6 +90,8 @@ void Scene::update(int deltaTime)
 	enemy->update(deltaTime);
 	for (int i = 0; i < bridgeList.size(); ++i)
 		bridgeList[i]->update(deltaTime);
+	for (int i = 0; i < enemyList.size(); ++i)
+		enemyList[i]->update(deltaTime); //TODO eliminar enemigo si se sale del scroll
 }
 
 void Scene::render()
@@ -101,7 +106,8 @@ void Scene::render()
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 	map->render();
 	player->render();
-	enemy->render();
+	for (int i = 0; i < enemyList.size(); ++i)
+		enemyList[i]->render();
 	BulletManager::instance().render();
 }
 
@@ -150,5 +156,30 @@ void Scene::initBridges() {
 	}
 }
 
+void Scene::initEnemies() {
+	int number_of_enemies = 3; //cuantos enemigos hay en el nivel
+	for (int i = 0; i < number_of_enemies; ++i) {
+		int enemy_x;
+		int enemy_y;
+		int typeofEnemy;
+		switch (i+1) {
+			case 1: //enemigo 1
+				enemy_x = 3; enemy_y = 5; typeofEnemy = TURRET;
+				break;
+			case 2: //enemigo 2
+				enemy_x = 9; enemy_y = 5; typeofEnemy = TURRET;
+				break;
+			case 3: //enemigo 3
+				enemy_x = 5; enemy_y = 3; typeofEnemy = SOLDIER_GROUND;
+				break;
+		}
+		enemy_aux = new Enemy();
+		enemy_aux->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, player, typeofEnemy);
+		enemy_aux->setTileMap(map);
+		enemy_aux->setPosition(glm::vec2(enemy_x * map->getTileSize(), enemy_y * map->getTileSize()));
+		enemyList.push_back(enemy_aux);
+	}
+	
+}
 
 

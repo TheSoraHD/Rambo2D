@@ -10,15 +10,17 @@
 class Enemy
 {
 public:
-	void init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Player *objetivo);
+	void init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Player *objetivo, int typeOf);
 	void update(int deltaTime);
 	void render();
 
 	void setTileMap(TileMap *tileMap);
 	void setPosition(const glm::vec2 &pos);
 	void turretAim();
+	void turretAnim();
 
 private:
+	int typeofEnemy;
 	glm::vec2 posEnemy;
 	Player *player;
 	Texture spritesheet;
