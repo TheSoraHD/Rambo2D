@@ -31,6 +31,7 @@ private:
 	Texture spritesheet;
 	Sprite *sprite;
 	TileMap *map;
+	int cooldown_shot;
 };
 
 

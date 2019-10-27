@@ -23,7 +23,7 @@ void Bullet::createBullet(float posx, float posy, int direction, bool player, Sh
 	sprite->setNumberAnimations(1);
 
 	sprite->setAnimationSpeed(NORMAL, 3);
-	sprite->addKeyframe(NORMAL, glm::vec2(0.5f, 0.0f));
+	sprite->addKeyframe(NORMAL, glm::vec2(0.0f, 0.0f));
 
 	sprite->changeAnimation(0);
 
