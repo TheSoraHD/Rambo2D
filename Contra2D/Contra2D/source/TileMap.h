@@ -28,6 +28,7 @@ public:
 
 	void increaseScroll(float x);
 	float getScroll();
+	float getLevelWidth();
 	
 	int getTileSize() const { return tileSize; }
 

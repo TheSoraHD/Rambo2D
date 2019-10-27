@@ -66,12 +66,28 @@ void Scene::init(int level)
 			sound.playBGM("music/stage3.mp3", true);
 			break;
 		}
+		case 11: {
+			initTransition(1);
+			break;
+		}
+		case 12: {
+			initTransition(2);
+			break;
+		}
+		case 13: {
+			initTransition(3);
+			break;
+		}
+		case 14: {
+			initTransition(0);
+			break;
+		}
 	}
-	if (level != 0) {
+	if (level != 0 && level < 10) {
 		bulletManager.setTileMap(map);
-		initPlayer();
 		//initBridges();
 		initEnemies();
+		initPlayer();
 	}
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	currentTime = 0.0f;
@@ -81,13 +97,18 @@ void Scene::init(int level)
 void Scene::update(int deltaTime)
 {
 	currentTime += deltaTime;
-	if (activeLevel != 0) {
+	if (activeLevel > 10) {
+		transitionDelay -= deltaTime * 0.1f;
+		if (transitionDelay <= 0)
+			Game::instance().loadLevel(nextLevel);
+	}
+	else if (activeLevel != 0) {
 		bulletManager.update(deltaTime);
-		player->update(deltaTime);
 		for (int i = 0; i < bridgeList.size(); i++)
 			bridgeList[i]->update(deltaTime);
 		for (int i = 0; i < enemyList.size(); ++i)
 			enemyList[i]->update(deltaTime); //TODO eliminar enemigo si se sale del scroll
+		player->update(deltaTime);
 	}
 	else mainMenu.update(deltaTime);
 }
@@ -102,7 +123,9 @@ void Scene::render()
 	modelview = glm::mat4(1.0f);
 	texProgram.setUniformMatrix4f("modelview", modelview);
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
-	if (activeLevel != 0) {
+	if (activeLevel > 10)
+		transition->render();
+	else if (activeLevel != 0) {
 		map->render();
 		player->render();
 		for (int i = 0; i < enemyList.size(); ++i)
@@ -212,6 +235,30 @@ void Scene::initEnemies() {
 void Scene::initMainMenu() {
 	mainMenu.init(texProgram);
 	sound.playBGM("music/title.mp3", false);
+}
+
+void Scene::initTransition(int level) {
+	switch (level){
+		case 0:
+			spritesheet.loadFromFile("images/ending.png", TEXTURE_PIXEL_FORMAT_RGBA);
+			transitionDelay = 600;
+			break;
+		case 1:
+			spritesheet.loadFromFile("images/transition1.png", TEXTURE_PIXEL_FORMAT_RGBA);
+			transitionDelay = 180;
+			break;
+		case 2:
+			spritesheet.loadFromFile("images/transition2.png", TEXTURE_PIXEL_FORMAT_RGBA);
+			transitionDelay = 180;
+			break;
+		case 3:
+			spritesheet.loadFromFile("images/transition3.png", TEXTURE_PIXEL_FORMAT_RGBA);
+			transitionDelay = 180;
+			break;
+	}
+	nextLevel = level;
+	transition = Sprite::createSprite(glm::ivec2(704, 512), glm::vec2(1.0f, 1.0f), &spritesheet, &texProgram);
+	transition->setPosition(glm::vec2(0.0f, 0.0f));
 }
 
 void Scene::initPlayer() {
