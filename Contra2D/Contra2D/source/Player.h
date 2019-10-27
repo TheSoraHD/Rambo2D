@@ -5,7 +5,7 @@
 #include "Sprite.h"
 #include "TileMap.h"
 #include "SoundManager.h"
-
+#include "BulletManager.h"
 
 // Player is basically a Sprite that represents the player. As such it has
 // all properties it needs to track its movement, jumping, and collisions.

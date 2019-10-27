@@ -4,7 +4,7 @@
 #include <GL/glut.h>
 #include "Player.h"
 #include "Game.h"
-#include "BulletManager.h"
+
 
 
 #define JUMP_ANGLE_STEP 4
@@ -15,7 +15,7 @@ ShaderProgram *aux;
 
 enum PlayerAnims
 {
-	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, LOOK_UP, LOOK_DOWN, JUMP_LEFT, JUMP_RIGHT
+	STAND_RIGHT, STAND_LEFT, MOVE_LEFT, MOVE_RIGHT, LOOK_UP, LOOK_DOWN, JUMP_LEFT, JUMP_RIGHT
 };
 
 
@@ -99,6 +99,7 @@ void Player::update(int deltaTime)
 		{
 			bJumping = false;
 			posPlayer.y = startY;
+			sound.playSFX("sfx/hit_ground.wav");
 		}
 		else
 		{
@@ -117,6 +118,7 @@ void Player::update(int deltaTime)
 				bJumping = true;
 				jumpAngle = 0;
 				startY = posPlayer.y;
+				sound.playSFX("sfx/jump.wav");
 			}
 		}
 	}
@@ -129,6 +131,7 @@ void Player::update(int deltaTime)
 		else direction = 3; //DOWN
 
 		BulletManager::instance().createPlayerBullet(posPlayer.x - map->getScroll(), posPlayer.y, direction, *aux);
+		sound.playSFX("sfx/shoot.wav");
 		cooldown_shot = 20;
 	}
 	--cooldown_shot;
