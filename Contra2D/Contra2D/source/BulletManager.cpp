@@ -14,7 +14,7 @@ enum directions //0, 1, 2, 3
 
 void BulletManager::createPlayerBullet(float posPlayerx, float posPlayery, int direction, ShaderProgram &shaderProgram) {
 	Bullet new_bull;
-	new_bull.createBullet(posPlayerx, posPlayery, direction, 1, shaderProgram);
+	new_bull.createBullet(posPlayerx+5, posPlayery+80, direction, 1, &shaderProgram);
 	new_bull.setTileMap(map);
 	activeBullets.push_back(new_bull);
 }

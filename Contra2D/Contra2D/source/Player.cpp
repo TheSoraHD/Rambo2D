@@ -127,7 +127,7 @@ void Player::update(int deltaTime)
 		else if (direction == LOOK_UP) { direction = 2; } //UP
 		else direction = 3; //DOWN
 
-		BulletManager::instance().createPlayerBullet(posPlayer.x,posPlayer.y, direction, aux);
+		BulletManager::instance().createPlayerBullet(posPlayer.x - map->getScroll(),posPlayer.y, direction, aux);
 	}
 	sprite->setPosition(glm::vec2(float(posPlayer.x - map->getScroll()), float(posPlayer.y)));
 }

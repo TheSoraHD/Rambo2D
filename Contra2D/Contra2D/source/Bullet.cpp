@@ -11,7 +11,7 @@ enum directions //0, 1, 2, 3
 
 enum anim
 {
-	SPREAD, NORMAL
+	NORMAL, SPREAD
 };
 
 void Bullet::createBullet(float posx, float posy, int direction, bool player, ShaderProgram &shaderProgram) {
@@ -19,13 +19,13 @@ void Bullet::createBullet(float posx, float posy, int direction, bool player, Sh
 	posBullet = glm::vec2(float(posx), float(posy));
 	isPlayer = player;
 	spritesheet.loadFromFile("images/bullet.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	sprite = Sprite::createSprite(glm::ivec2(4, 4), glm::vec2(0.5f, 1.0f), &spritesheet, &shaderProgram);
-	//sprite->setNumberAnimations(1);
+	sprite = Sprite::createSprite(glm::ivec2(8, 8), glm::vec2(0.5f, 1.0f), &spritesheet, &shaderProgram);
+	sprite->setNumberAnimations(1);
 
-	//sprite->setAnimationSpeed(NORMAL, 3);
-	//sprite->addKeyframe(NORMAL, glm::vec2(0.0f, 0.0f));
+	sprite->setAnimationSpeed(NORMAL, 3);
+	sprite->addKeyframe(NORMAL, glm::vec2(0.5f, 0.0f));
 
-	//sprite->changeAnimation(0);
+	sprite->changeAnimation(0);
 
 	sprite->setPosition(glm::vec2(float(posBullet.x), float(posBullet.y)));
 }
