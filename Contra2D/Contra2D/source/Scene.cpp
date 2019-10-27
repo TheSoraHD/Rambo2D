@@ -20,7 +20,6 @@ Scene::Scene()
 {
 	map = NULL;
 	player = NULL;
-	enemy = NULL;
 	for (int i = 0; i < bridgeList.size(); ++i)
 		bridgeList[i] = NULL;
 	for (int i = 0; i < enemyList.size(); ++i)
@@ -33,8 +32,6 @@ Scene::~Scene()
 		delete map;
 	if(player != NULL)
 		delete player;
-	if (enemy != NULL)
-		delete enemy;
 	if (bridgeList.size() != NULL) {
 		for (int i = 0; i < bridgeList.size(); ++i)
 			bridgeList[i] = NULL;
@@ -75,7 +72,7 @@ void Scene::init(int level)
 	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	player->setTileMap(map);
 	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
-	initBridges();
+	//initBridges();
 	initEnemies();
 	BulletManager::instance().setTileMap(map);
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
@@ -87,8 +84,7 @@ void Scene::update(int deltaTime)
 	currentTime += deltaTime;
 	BulletManager::instance().update();
 	player->update(deltaTime);
-	enemy->update(deltaTime);
-	for (int i = 0; i < bridgeList.size(); ++i)
+	for (int i = 0; i < bridgeList.size(); i++)
 		bridgeList[i]->update(deltaTime);
 	for (int i = 0; i < enemyList.size(); ++i)
 		enemyList[i]->update(deltaTime); //TODO eliminar enemigo si se sale del scroll
@@ -108,6 +104,8 @@ void Scene::render()
 	player->render();
 	for (int i = 0; i < enemyList.size(); ++i)
 		enemyList[i]->render();
+	for (int i = 0; i < bridgeList.size(); ++i)
+		bridgeList[i]->render();
 	BulletManager::instance().render();
 }
 
@@ -148,8 +146,8 @@ void Scene::initBridges() {
 		bridge_aux = new Bridge();
 		switch (i) {
 			case 0:
-				bridge_aux->setTileMap(map);
 				bridge_aux->init(3, glm::ivec2(2, 3), texProgram);
+				bridge_aux->setTileMap(map);
 				break;
 		}
 		bridgeList.push_back(bridge_aux);
@@ -173,6 +171,7 @@ void Scene::initEnemies() {
 				enemy_x = 5; enemy_y = 3; typeofEnemy = SOLDIER_GROUND;
 				break;
 		}
+		Enemy *enemy_aux;
 		enemy_aux = new Enemy();
 		enemy_aux->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, player, typeofEnemy);
 		enemy_aux->setTileMap(map);

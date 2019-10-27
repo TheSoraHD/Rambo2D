@@ -7,22 +7,21 @@
 #include "SoundManager.h"
 
 
-// Player is basically a Sprite that represents the player. As such it has
-// all properties it needs to track its movement, jumping, and collisions.
-
-
 class Bridge
 {
 public:
 	void init(int length, const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram);
 	void render();
+	void setPosition(const glm::vec2 &pos);
 	void setTileMap(TileMap *tileMap);
 	void update(int deltaTime);
 
 private:
-	TileMap *map;
-	vector<Sprite> *sprite;
+	int m_length;
+	glm::vec2 posBridge; //position of the first module
+	Sprite *sprite;
 	Texture spritesheet;
+	TileMap *map;
 };
 
 

@@ -45,7 +45,8 @@ void Enemy::update(int deltaTime)
 {
 	turretAim();
 
-	//setPosition(glm::vec2(float(posEnemy.x - map->getScroll()), float(posEnemy.y)));
+	sprite->update(deltaTime);
+	sprite->setPosition(glm::vec2(float(posEnemy.x - map->getScroll()), float(posEnemy.y)));
 }
 
 void Enemy::turretAim() {

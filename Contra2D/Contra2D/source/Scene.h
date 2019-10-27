@@ -37,8 +37,6 @@ private:
 	TileMap *map;
 	Player *player;
 	vector<Bridge*> bridgeList;
-	Enemy *enemy;
-	Enemy *enemy_aux;
 	vector<Enemy*> enemyList;
 	ShaderProgram texProgram;
 	float currentTime;
