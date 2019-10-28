@@ -33,103 +33,103 @@ void Player::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Bul
 {
 	bJumping = false;
 	spreadGun = false;
+	left = false;
 	lifes = 2;
 	cooldown_shot = 0;
-	spritesheet.loadFromFile("images/lance_new2x.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	sprite = Sprite::createSprite(glm::ivec2(64, 128), glm::vec2(0.125f, 0.125f), &spritesheet, &shaderProgram);
+	spritesheet.loadFromFile("images/lance2x.png", TEXTURE_PIXEL_FORMAT_RGBA);
+	sprite = Sprite::createSprite(glm::ivec2(64, 128), glm::vec2(0.0625f, 0.125f), &spritesheet, &shaderProgram);
 	aux = &shaderProgram;
 	sprite->setNumberAnimations(22);
 	
 		sprite->setAnimationSpeed(STAND_LEFT, 6);
-		sprite->addKeyframe(STAND_LEFT, glm::vec2(0.f, 0.f));
-		sprite->addKeyframe(STAND_LEFT, glm::vec2(0.125f, 0.f));
+		sprite->addKeyframe(STAND_LEFT, glm::vec2(0.5f, 0.f));
+		sprite->addKeyframe(STAND_LEFT, glm::vec2(0.5625f, 0.f));
 
 		sprite->setAnimationSpeed(STAND_RIGHT, 6);
-		sprite->addKeyframe(STAND_RIGHT, glm::vec2(0.f, 0.f));
-		sprite->addKeyframe(STAND_RIGHT, glm::vec2(0.125f, 0.f));
+		sprite->addKeyframe(STAND_RIGHT, glm::vec2(0.0f, 0.f));
+		sprite->addKeyframe(STAND_RIGHT, glm::vec2(0.0625f, 0.f));
 		
 		sprite->setAnimationSpeed(MOVE_LEFT, 5);
-		sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.0f, 0.125f));
-		sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.125f, 0.125f));
-		sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.25f, 0.125f));
-		sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.375f, 0.125f));
 		sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.5f, 0.125f));
+		sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.5625f, 0.125f));
+		sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.625f, 0.125f));
+		sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.6875f, 0.125f));
+		sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.75f, 0.125f));
 
 		sprite->setAnimationSpeed(MOVE_RIGHT, 5);
 		sprite->addKeyframe(MOVE_RIGHT, glm::vec2(0.0f, 0.125f));
+		sprite->addKeyframe(MOVE_RIGHT, glm::vec2(0.0625f, 0.125f));
 		sprite->addKeyframe(MOVE_RIGHT, glm::vec2(0.125f, 0.125f));
+		sprite->addKeyframe(MOVE_RIGHT, glm::vec2(0.1875f, 0.125f));
 		sprite->addKeyframe(MOVE_RIGHT, glm::vec2(0.25f, 0.125f));
-		sprite->addKeyframe(MOVE_RIGHT, glm::vec2(0.375f, 0.125f));
-		sprite->addKeyframe(MOVE_RIGHT, glm::vec2(0.5f, 0.125f));
 
 		sprite->setAnimationSpeed(LOOK_UP, 6);
-		sprite->addKeyframe(LOOK_UP, glm::vec2(0.25f, 0.0f));
-		sprite->addKeyframe(LOOK_UP, glm::vec2(0.375f, 0.f));
+		sprite->addKeyframe(LOOK_UP, glm::vec2(0.125f, 0.0f));
+		sprite->addKeyframe(LOOK_UP, glm::vec2(0.1875f, 0.0f));
 
 		sprite->setAnimationSpeed(LOOK_DOWN, 6);
-		sprite->addKeyframe(LOOK_DOWN, glm::vec2(0.5f, 0.0f));
-		sprite->addKeyframe(LOOK_DOWN, glm::vec2(0.625f, 0.0f));
-		
+		sprite->addKeyframe(LOOK_DOWN, glm::vec2(0.25f, 0.0f));
+		sprite->addKeyframe(LOOK_DOWN, glm::vec2(0.3125f, 0.0f));
 
 		sprite->setAnimationSpeed(JUMP_LEFT, 6);
-		sprite->addKeyframe(JUMP_LEFT, glm::vec2(0.5f, 0.25f));
-		sprite->addKeyframe(JUMP_LEFT, glm::vec2(0.625f, 0.25f));
-		sprite->addKeyframe(JUMP_LEFT, glm::vec2(0.75f, 0.25f));
-		sprite->addKeyframe(JUMP_LEFT, glm::vec2(0.865f, 0.25f));
+		sprite->addKeyframe(JUMP_LEFT, glm::vec2(0.25f, 0.25f));
+		sprite->addKeyframe(JUMP_LEFT, glm::vec2(0.3125f, 0.25f));
+		sprite->addKeyframe(JUMP_LEFT, glm::vec2(0.375f, 0.25f));
+		sprite->addKeyframe(JUMP_LEFT, glm::vec2(0.4325f, 0.25f));
 
 		sprite->setAnimationSpeed(JUMP_RIGHT, 6);
-		sprite->addKeyframe(JUMP_RIGHT, glm::vec2(0.5f, 0.25f));
-		sprite->addKeyframe(JUMP_RIGHT, glm::vec2(0.625f, 0.25f));
-		sprite->addKeyframe(JUMP_RIGHT, glm::vec2(0.75f, 0.25f));
-		sprite->addKeyframe(JUMP_RIGHT, glm::vec2(0.865f, 0.25f));
+		sprite->addKeyframe(JUMP_RIGHT, glm::vec2(0.25f, 0.25f));
+		sprite->addKeyframe(JUMP_RIGHT, glm::vec2(0.3125f, 0.25f));
+		sprite->addKeyframe(JUMP_RIGHT, glm::vec2(0.375f, 0.25f));
+		sprite->addKeyframe(JUMP_RIGHT, glm::vec2(0.4325f, 0.25f));
 
 		sprite->setAnimationSpeed(SHOOT_RIGHT, 6);
 		sprite->addKeyframe(SHOOT_RIGHT, glm::vec2(0.0f, 0.375f));
+		sprite->addKeyframe(SHOOT_RIGHT, glm::vec2(0.0625f, 0.375f));
 		sprite->addKeyframe(SHOOT_RIGHT, glm::vec2(0.125f, 0.375f));
-		sprite->addKeyframe(SHOOT_RIGHT, glm::vec2(0.25f, 0.375f));
 
 		sprite->setAnimationSpeed(SHOOT_LEFT, 6);
-		sprite->addKeyframe(SHOOT_LEFT, glm::vec2(0.0f, 0.375f));
-		sprite->addKeyframe(SHOOT_LEFT, glm::vec2(0.125f, 0.375f));
-		sprite->addKeyframe(SHOOT_LEFT, glm::vec2(0.25f, 0.375f));
+		sprite->addKeyframe(SHOOT_LEFT, glm::vec2(0.5f, 0.375f));
+		sprite->addKeyframe(SHOOT_LEFT, glm::vec2(0.5625f, 0.375f));
+		sprite->addKeyframe(SHOOT_LEFT, glm::vec2(0.625f, 0.375f));
 
 		sprite->setAnimationSpeed(SHOOT_DOWN, 6);
-		sprite->addKeyframe(SHOOT_DOWN, glm::vec2(0.5f, 0.25f));
-		sprite->addKeyframe(SHOOT_DOWN, glm::vec2(0.625f, 0.25f));
-		sprite->addKeyframe(SHOOT_DOWN, glm::vec2(0.75f, 0.25f));
-		sprite->addKeyframe(SHOOT_DOWN, glm::vec2(0.865f, 0.25f));
+		sprite->addKeyframe(SHOOT_DOWN, glm::vec2(0.25f, 0.25f));
+		sprite->addKeyframe(SHOOT_DOWN, glm::vec2(0.3125f, 0.25f));
+		sprite->addKeyframe(SHOOT_DOWN, glm::vec2(0.375f, 0.25f));
+		sprite->addKeyframe(SHOOT_DOWN, glm::vec2(0.4325f, 0.25f));
 
 		sprite->setAnimationSpeed(MOVE_UR, 6);
 		sprite->addKeyframe(MOVE_UR, glm::vec2(0.0f, 0.5f));
+		sprite->addKeyframe(MOVE_UR, glm::vec2(0.0625f, 0.5f));
 		sprite->addKeyframe(MOVE_UR, glm::vec2(0.125f, 0.5f));
-		sprite->addKeyframe(MOVE_UR, glm::vec2(0.25f, 0.5f));
 
 		sprite->setAnimationSpeed(MOVE_DR, 6);
 		sprite->addKeyframe(MOVE_DR, glm::vec2(0.0f, 0.75f));
+		sprite->addKeyframe(MOVE_DR, glm::vec2(0.0625f, 0.75f));
 		sprite->addKeyframe(MOVE_DR, glm::vec2(0.125f, 0.75f));
-		sprite->addKeyframe(MOVE_DR, glm::vec2(0.25f, 0.75f));
 
 		sprite->setAnimationSpeed(MOVE_UL, 6);
-		sprite->addKeyframe(MOVE_UL, glm::vec2(0.0f, 0.5f));
-		sprite->addKeyframe(MOVE_UL, glm::vec2(0.125f, 0.5f));
-		sprite->addKeyframe(MOVE_UL, glm::vec2(0.25f, 0.5f));
+		sprite->addKeyframe(MOVE_UL, glm::vec2(0.50f, 0.5f));
+		sprite->addKeyframe(MOVE_UL, glm::vec2(0.5625f, 0.5f));
+		sprite->addKeyframe(MOVE_UL, glm::vec2(0.625f, 0.5f));
 
 		sprite->setAnimationSpeed(MOVE_DL, 6);
-		sprite->addKeyframe(MOVE_DL, glm::vec2(0.0f, 0.75f));
-		sprite->addKeyframe(MOVE_DL, glm::vec2(0.125f, 0.75f));
-		sprite->addKeyframe(MOVE_DL, glm::vec2(0.25f, 0.75f));
+		sprite->addKeyframe(MOVE_DL, glm::vec2(0.5f, 0.75f));
+		sprite->addKeyframe(MOVE_DL, glm::vec2(0.5625f, 0.75f));
+		sprite->addKeyframe(MOVE_DL, glm::vec2(0.625f, 0.75f));
 
 		sprite->setAnimationSpeed(DEATH, 6);
 		sprite->addKeyframe(DEATH, glm::vec2(0.0f, 0.25f));
+		sprite->addKeyframe(DEATH, glm::vec2(0.0625f, 0.25f));
 		sprite->addKeyframe(DEATH, glm::vec2(0.125f, 0.25f));
-		sprite->addKeyframe(DEATH, glm::vec2(0.25f, 0.25f));
 
 		sprite->setAnimationSpeed(UP_LEVEL2, 6);
-		sprite->addKeyframe(UP_LEVEL2, glm::vec2(0.75f, 0.0f));
-		sprite->addKeyframe(UP_LEVEL2, glm::vec2(0.875f, 0.0f));
+		sprite->addKeyframe(UP_LEVEL2, glm::vec2(0.375f, 0.0f));
+		sprite->addKeyframe(UP_LEVEL2, glm::vec2(0.4375f, 0.0f));
 
 		sprite->setAnimationSpeed(DOWN_LEVEL2, 6);
-		sprite->addKeyframe(DOWN_LEVEL2, glm::vec2(0.75f, 0.125f));
+		sprite->addKeyframe(DOWN_LEVEL2, glm::vec2(0.375f, 0.125f));
 
 	sprite->changeAnimation(0);
 	sprite->setPosition(glm::vec2(float(posPlayer.x), float(posPlayer.y)));
@@ -152,10 +152,10 @@ void Player::update(int deltaTime)
 				direction = RIGHT; offset_x = 36; offset_y = 78;
 				break;
 			case (STAND_LEFT):
-				direction = LEFT;
+				direction = LEFT; offset_x = 0; offset_y = 78;
 				break;
 			case (MOVE_LEFT):
-				direction = LEFT;
+				direction = LEFT; offset_x = 0; offset_y = 78;
 				break;
 			case (LOOK_UP):
 				direction = UP; offset_x = 20; offset_y = 40;
@@ -164,7 +164,7 @@ void Player::update(int deltaTime)
 				direction = RIGHT; offset_x = 60; offset_y = 105;
 				break;
 			case (JUMP_LEFT):
-				direction = LEFT;
+				direction = LEFT; offset_x = 0; offset_y = 78;
 				break;
 			case (JUMP_RIGHT):
 				direction = RIGHT; offset_x = 36; offset_y = 78;
@@ -173,7 +173,7 @@ void Player::update(int deltaTime)
 				direction = RIGHT; offset_x = 36; offset_y = 78;
 				break;
 			case (SHOOT_LEFT):
-				direction = LEFT; 
+				direction = LEFT; offset_x = 0; offset_y = 78;
 				break;
 			case (SHOOT_DOWN):
 				direction = DOWN; offset_x = 16; offset_y = 78;
@@ -185,10 +185,10 @@ void Player::update(int deltaTime)
 				direction = DR; offset_x = 33; offset_y = 90;
 				break;
 			case (MOVE_UL):
-				direction = UL;
+				direction = UL; offset_x = 0; offset_y = 58;
 				break;
 			case (MOVE_DL):
-				direction = DL;
+				direction = DL; offset_x = 0; offset_y = 90;
 				break;
 			case (UP_LEVEL2):
 				direction = UP; offset_x = 20; offset_y = 40;
@@ -206,8 +206,10 @@ void Player::update(int deltaTime)
 }
 
 void Player::movement() {
+	
 	if (Game::instance().getSpecialKey(GLUT_KEY_LEFT))
 	{
+		left = true;
 		posPlayer.x -= 2.5;
 		if (map->collisionMoveLeft(posPlayer, glm::ivec2(64, 128)))
 		{
@@ -233,6 +235,7 @@ void Player::movement() {
 	}
 	else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT))
 	{
+		left = false;
 		posPlayer.x += 12.5;
 
 		if(map->collisionMoveRight(posPlayer, glm::ivec2(64, 128)) || posPlayer.x >= (map->getLevelWidth() - 64.0f))
@@ -276,9 +279,9 @@ void Player::movement() {
 	}
 	else
 	{
-		//if (sprite->animation() != STAND_LEFT && !bJumping)
-		//	sprite->changeAnimation(STAND_LEFT);
-		/*else*/ if (sprite->animation() != STAND_RIGHT && !bJumping)
+		if (sprite->animation() != STAND_LEFT && left &&!bJumping)
+			sprite->changeAnimation(STAND_LEFT);
+		else if (sprite->animation() != STAND_RIGHT && !left && !bJumping)
 			sprite->changeAnimation(STAND_RIGHT);
 	}
 
@@ -289,8 +292,11 @@ void Player::movement() {
 		{
 			bJumping = false;
 			posPlayer.y = startY;
-			if (sprite->animation() != STAND_RIGHT) {
+			if (sprite->animation() != STAND_RIGHT && !left) {
 				sprite->changeAnimation(STAND_RIGHT);
+			}
+			else if (sprite->animation() != STAND_LEFT && left) {
+				sprite->changeAnimation(STAND_LEFT);
 			}
 			sound.playSFX("sfx/hit_ground.wav");
 		}
@@ -312,8 +318,11 @@ void Player::movement() {
 				jumpAngle = 0;
 				startY = posPlayer.y;
 				sound.playSFX("sfx/jump.wav");
-				if (sprite->animation() != JUMP_RIGHT) {
+				if (sprite->animation() != JUMP_RIGHT && !left) {
 					sprite->changeAnimation(JUMP_RIGHT);
+				}
+				else if (sprite->animation() != JUMP_LEFT && left) {
+					sprite->changeAnimation(JUMP_LEFT);
 				}
 			}
 		}
