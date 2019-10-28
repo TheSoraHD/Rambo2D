@@ -27,7 +27,7 @@ public:
 private:
 	BulletManager *bM;
 	SoundManager sound;
-	bool bJumping;
+	bool bJumping, spreadGun;
 	glm::vec2 posPlayer;
 	int jumpAngle, startY, lifes;
 	Texture spritesheet;

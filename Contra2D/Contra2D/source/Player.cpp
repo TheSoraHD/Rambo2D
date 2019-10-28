@@ -34,6 +34,7 @@ enum directions //1, 2, 3, 4
 void Player::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, BulletManager *bulletManager)
 {
 	bJumping = false;
+	spreadGun = false;
 	lifes = 2;
 	cooldown_shot = 0;
 	spritesheet.loadFromFile("images/lance_new2x.png", TEXTURE_PIXEL_FORMAT_RGBA);
@@ -139,6 +140,7 @@ void Player::update(int deltaTime)
 	movement();
 	int offset_x = 0;
 	int offset_y = 0;
+	if ((Game::instance().getKey('2'))) spreadGun = true;
 	if ((Game::instance().getKey('z') || Game::instance().getKey('Z')) && cooldown_shot <= 0) { //disparar
 		int direction = RIGHT;
 		switch (sprite->animation()) {
@@ -188,7 +190,7 @@ void Player::update(int deltaTime)
 				direction = UP; offset_x = 20; offset_y = 40;
 				break;
 		}
-		bM->createPlayerBullet(posPlayer.x+(int)offset_x,posPlayer.y+(int)offset_y, direction, *aux);
+		bM->createPlayerBullet(posPlayer.x+(int)offset_x,posPlayer.y+(int)offset_y, direction, spreadGun, *aux);
 		sound.playSFX("sfx/shoot.wav");
 		cooldown_shot = 10;
 	}
