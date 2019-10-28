@@ -43,7 +43,7 @@ void MainMenu::update(int deltaTime) {
 		else if ((Game::instance().getKey('z') || Game::instance().getKey('Z'))) {
 			switch (cursor) {
 			case 0:	//PLAY
-				//sound.stopBGM(); //It crashes :(
+				sound.stopBGM();
 				Game::instance().loadLevel(11);
 				break;
 			case 1: //INSTRUCTIONS
@@ -57,7 +57,7 @@ void MainMenu::update(int deltaTime) {
 	}
 	if (introAnim) {
 		if (backgroundPos > 0)
-			backgroundPos = backgroundPos - 0.25 * deltaTime;
+			backgroundPos = backgroundPos - float(0.25f * deltaTime);
 		else
 			introAnim = false;
 		background->setPosition(glm::vec2(backgroundPos, 0.0f));

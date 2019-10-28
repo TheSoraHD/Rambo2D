@@ -18,26 +18,29 @@
 
 Scene::Scene()
 {
+	boss = NULL;
 	map = NULL;
 	player = NULL;
-	for (int i = 0; i < bridgeList.size(); ++i)
+	for (int i = 0; i < int(bridgeList.size()); ++i)
 		bridgeList[i] = NULL;
-	for (int i = 0; i < enemyList.size(); ++i)
+	for (int i = 0; i < int(enemyList.size()); ++i)
 		enemyList[i] = NULL;
 }
 
 Scene::~Scene()
 {
+	if (boss != NULL)
+		delete boss;
 	if(map != NULL)
 		delete map;
 	if(player != NULL)
 		delete player;
 	if (bridgeList.size() != NULL) {
-		for (int i = 0; i < bridgeList.size(); ++i)
+		for (int i = 0; i < int(bridgeList.size()); ++i)
 			bridgeList[i] = NULL;
 	}
 	if (enemyList.size() != NULL)
-		for (int i = 0; i < enemyList.size(); ++i)
+		for (int i = 0; i < int(enemyList.size()); ++i)
 			enemyList[i] = NULL;
 }
 
@@ -94,6 +97,26 @@ void Scene::init(int level)
 	activeLevel = level;
 }
 
+void Scene::checkVictory() {
+	switch (activeLevel){
+		case 1: //END REACHED
+			if (player->sharePosition().x >= map->getLevelWidth() - 128.0f) endVictory();
+			break;
+		case 2: //ALL ENEMIES DEAD
+			if (enemyList.size() == 0) endVictory();
+			break;
+		case 3: //BOSS DEFEATED
+			if (boss != NULL && boss->isBossDefeated()) endVictory();
+			break;
+	}
+}
+
+void Scene::endVictory()
+{
+	sound.playBGM("music/stageclear.mp3", false);
+	victory = true;
+}
+
 void Scene::update(int deltaTime)
 {
 	currentTime += deltaTime;
@@ -104,11 +127,13 @@ void Scene::update(int deltaTime)
 	}
 	else if (activeLevel != 0) {
 		bulletManager.update(deltaTime);
-		for (int i = 0; i < bridgeList.size(); i++)
+		for (int i = 0; i < int(bridgeList.size()); i++)
 			bridgeList[i]->update(deltaTime);
-		for (int i = 0; i < enemyList.size(); ++i)
+		for (int i = 0; i < int(enemyList.size()); ++i)
 			enemyList[i]->update(deltaTime); //TODO eliminar enemigo si se sale del scroll
+		if (boss != NULL) boss->update(deltaTime);
 		player->update(deltaTime);
+		if (!victory) checkVictory();
 	}
 	else mainMenu.update(deltaTime);
 }
@@ -127,11 +152,12 @@ void Scene::render()
 		transition->render();
 	else if (activeLevel != 0) {
 		map->render();
-		player->render();
-		for (int i = 0; i < enemyList.size(); ++i)
+		for (int i = 0; i < int(enemyList.size()); ++i)
 			enemyList[i]->render();
-		for (int i = 0; i < bridgeList.size(); ++i)
+		for (int i = 0; i < int(bridgeList.size()); ++i)
 			bridgeList[i]->render();
+		if (boss != NULL) boss->render();
+		player->render();
 		bulletManager.render();
 	}
 	else mainMenu.render();
@@ -182,6 +208,12 @@ void Scene::initBridges() {
 	}
 }
 
+void Scene::initBoss() {
+	boss = new Boss();
+	boss->setTileMap(map);
+	boss->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, player, &bulletManager);
+}
+
 void Scene::initEnemies() {
 	int number_of_enemies = 11; //cuantos enemigos hay en el nivel
 	for (int i = 0; i < number_of_enemies; ++i) {
@@ -225,7 +257,7 @@ void Scene::initEnemies() {
 		}
 		Enemy *enemy_aux;
 		enemy_aux = new Enemy();
-		enemy_aux->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, player, typeofEnemy);
+		enemy_aux->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, player, typeofEnemy, &bulletManager);
 		enemy_aux->setTileMap(map);
 		enemy_aux->setPosition(glm::vec2(enemy_x * map->getTileSize(), enemy_y * map->getTileSize()));
 		enemyList.push_back(enemy_aux);

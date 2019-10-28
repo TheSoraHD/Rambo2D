@@ -4,6 +4,7 @@ using namespace irrklang;
 
 SoundManager::SoundManager()
 {
+	music = NULL;
 	// start the sound engine with default parameters
 	soundEngine = createIrrKlangDevice();
 
@@ -12,6 +13,7 @@ SoundManager::SoundManager()
 
 SoundManager::~SoundManager()
 {
+	if (music != NULL) delete music;
 	soundEngine->drop(); // delete engine
 }
 
