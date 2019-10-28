@@ -10,14 +10,12 @@ public:
 	void render();
 	void setTileMap(TileMap *tileMap);
 	~Bullet();
-	glm::vec2 ret_pos();
-	glm::vec2 ret_size();
 
 private:
 	int dev;
 	bool isPlayer;
 	bool spreadBullet;
-	glm::vec2 posBullet, size;
+	glm::vec2 posBullet;
 	int dir;
 	Texture spritesheet;
 	Sprite *sprite;

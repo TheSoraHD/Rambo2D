@@ -20,6 +20,7 @@ public:
 	void setTileMap(TileMap *tileMap);
 	void update(int deltaTime);
 
+	bool stopMusic();
 	bool isBossDefeated();
 private:
 
@@ -28,7 +29,8 @@ private:
 	int cutsceneDelay;
 
 	BulletManager *bM;
-	SoundManager sound;
+	ShaderProgram sP;
+	SoundManager sM;
 
 	Texture spritesheet, spritesheet2;
 	TileMap *map;

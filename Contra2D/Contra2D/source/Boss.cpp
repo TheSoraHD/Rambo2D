@@ -10,6 +10,11 @@ enum MouthAnims
 	OPEN, CLOSE
 };
 
+enum directions //1, 2, 3, 4
+{
+	LEFT, RIGHT, UP, DOWN, UR, DR, UL, DL
+};
+
 void Boss::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Player *target, BulletManager *bulletManager)
 {
 	spritesheet.loadFromFile("images/bossbase2x.png", TEXTURE_PIXEL_FORMAT_RGBA);
@@ -17,10 +22,12 @@ void Boss::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Playe
 	bossBaseSprite->setPosition(glm::vec2(1952.0f - map->getScroll(), 0.0f));
 	bossBaseSprite->setNumberAnimations(5);
 
-	bossBaseSprite->setAnimationSpeed(INTRO, 1);
+	bossBaseSprite->setAnimationSpeed(INTRO, 2);
 	bossBaseSprite->addKeyframe(INTRO, glm::vec2(0.0f, 0.0f));
 	bossBaseSprite->addKeyframe(INTRO, glm::vec2(0.0f, 0.125f));
 	bossBaseSprite->addKeyframe(INTRO, glm::vec2(0.0f, 0.25f));
+	bossBaseSprite->addKeyframe(INTRO, glm::vec2(0.0f, 0.375f));
+	bossBaseSprite->addKeyframe(INTRO, glm::vec2(0.0f, 0.375f));
 	bossBaseSprite->addKeyframe(INTRO, glm::vec2(0.0f, 0.375f));
 
 	bossBaseSprite->setAnimationSpeed(PHASE1, 1);
@@ -39,20 +46,24 @@ void Boss::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Playe
 
 	bossHealth = 75;
 	bM = bulletManager;
-	cutsceneDelay = 120;
+	sP = shaderProgram;
+	cutsceneDelay = 300;
 	isInvincible = true;
 	isDefeated = false;
 
-	sound.playSFX("sound/godzilla.wav");
+	sM.playSFX("sfx/godzilla.wav");
 }
 
 void Boss::defeated() {
-	sound.playSFX("sound/booom.wav");
+	cutsceneDelay = 300;
+	sM.stopBGM();
+	sM.playSFX("sfx/booom.wav");
+	isDefeated = true;
 }
 
 void Boss::phase1() { //75HP
 	bossBaseSprite->changeAnimation(1);
-	createPlayerBullet();
+	bM->createPlayerBullet(1952.0f, 100.0f, DOWN, true, sP);
 }
 
 void Boss::phase2() { //50HP
@@ -78,6 +89,7 @@ void Boss::update(int deltaTime) {
 		cutsceneDelay -= 0.1f * deltaTime;
 	}
 	else if (!isDefeated) {
+		bossHealth--;
 		if (bossHealth <= 0) {
 			defeated();
 		}
@@ -89,6 +101,10 @@ void Boss::update(int deltaTime) {
 		}
 	}
 	bossBaseSprite->setPosition(glm::vec2(1952.0f - map->getScroll(), 0.0f));
+}
+
+bool Boss::stopMusic() {
+	return (isDefeated && cutsceneDelay > 0);
 }
 
 bool Boss::isBossDefeated() {
