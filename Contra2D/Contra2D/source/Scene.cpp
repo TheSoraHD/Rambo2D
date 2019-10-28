@@ -140,6 +140,11 @@ void Scene::update(int deltaTime)
 		if (boss != NULL) boss->update(deltaTime);
 		player->update(deltaTime);
 		if (!victory) checkVictory();
+
+		//Specific level behaviours
+		if (activeLevel == 3) {
+			if (boss == NULL && player->sharePosition().x >= (map->getLevelWidth() - 400.0f)) initBoss();
+		}
 	}
 	else mainMenu.update(deltaTime);
 }
@@ -220,53 +225,58 @@ void Scene::initBoss() {
 }
 
 void Scene::initEnemies() {
-	int number_of_enemies = 11; //cuantos enemigos hay en el nivel
-	for (int i = 0; i < number_of_enemies; ++i) {
-		int enemy_x;
-		int enemy_y;
-		int typeofEnemy;
-		switch (i+1) { //enemy_list
-			case 1:
-				enemy_x = 10; enemy_y = 5; typeofEnemy = TURRET;//PRIZE
-				break;
-			case 2:
-				enemy_x = 40; enemy_y = 5; typeofEnemy = TURRET;
-				break;
-			case 3:
-				enemy_x = 50; enemy_y = 5; typeofEnemy = TURRET;//PRIZE
-				break;
-			case 4:
-				enemy_x = 52; enemy_y = 4; typeofEnemy = TURRET;
-				break;
-			case 5:
-				enemy_x = 58; enemy_y = 4; typeofEnemy = TURRET;
-				break;
-			case 6:
-				enemy_x = 65; enemy_y = 5; typeofEnemy = TURRET;
-				break;
-			case 7:
-				enemy_x = 69; enemy_y = 2; typeofEnemy = TURRET;
-				break;
-			case 8:
-				enemy_x = 72; enemy_y = 6; typeofEnemy = TURRET;//PRIZE
-				break;
-			case 9:
-				enemy_x = 94; enemy_y = 6; typeofEnemy = TURRET;
-				break;
-			case 10:
-				enemy_x = 98; enemy_y = 6; typeofEnemy = TURRET;
-				break;
-			case 11:
-				enemy_x = 5; enemy_y = 3; typeofEnemy = SOLDIER_GROUND;
-				break;
+	switch (activeLevel){
+	case 1:
+		int number_of_enemies = 11; //cuantos enemigos hay en el nivel
+		for (int i = 0; i < number_of_enemies; ++i) {
+			int enemy_x;
+			int enemy_y;
+			int typeofEnemy;
+			switch (i + 1) { //enemy_list
+				case 1:
+					enemy_x = 10; enemy_y = 5; typeofEnemy = TURRET;//PRIZE
+					break;
+				case 2:
+					enemy_x = 40; enemy_y = 5; typeofEnemy = TURRET;
+					break;
+				case 3:
+					enemy_x = 50; enemy_y = 5; typeofEnemy = TURRET;//PRIZE
+					break;
+				case 4:
+					enemy_x = 52; enemy_y = 4; typeofEnemy = TURRET;
+					break;
+				case 5:
+					enemy_x = 58; enemy_y = 4; typeofEnemy = TURRET;
+					break;
+				case 6:
+					enemy_x = 65; enemy_y = 5; typeofEnemy = TURRET;
+					break;
+				case 7:
+					enemy_x = 69; enemy_y = 2; typeofEnemy = TURRET;
+					break;
+				case 8:
+					enemy_x = 72; enemy_y = 6; typeofEnemy = TURRET;//PRIZE
+					break;
+				case 9:
+					enemy_x = 94; enemy_y = 6; typeofEnemy = TURRET;
+					break;
+				case 10:
+					enemy_x = 98; enemy_y = 6; typeofEnemy = TURRET;
+					break;
+				case 11:
+					enemy_x = 5; enemy_y = 3; typeofEnemy = SOLDIER_GROUND;
+					break;
+			}
+			Enemy *enemy_aux;
+			enemy_aux = new Enemy();
+			enemy_aux->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, player, typeofEnemy, &bulletManager);
+			enemy_aux->setTileMap(map);
+			enemy_aux->setPosition(glm::vec2(enemy_x * map->getTileSize(), enemy_y * map->getTileSize()));
+			enemyList.push_back(enemy_aux);
 		}
-		Enemy *enemy_aux;
-		enemy_aux = new Enemy();
-		enemy_aux->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, player, typeofEnemy, &bulletManager);
-		enemy_aux->setTileMap(map);
-		enemy_aux->setPosition(glm::vec2(enemy_x * map->getTileSize(), enemy_y * map->getTileSize()));
-		enemyList.push_back(enemy_aux);
+		break;
 	}
+	
 }
 
 void Scene::initMainMenu() {

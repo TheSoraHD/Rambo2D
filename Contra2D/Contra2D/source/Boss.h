@@ -25,15 +25,15 @@ public:
 private:
 
 	bool isInvincible, isDefeated;
-	int bossHealth, leftHealth, rightHealth;
+	int bossHealth;
 	int cutsceneDelay;
 
 	BulletManager *bM;
 	SoundManager sound;
 
-	Texture spritesheet;
+	Texture spritesheet, spritesheet2;
 	TileMap *map;
-	Sprite *bossBaseSprite;
+	Sprite *bossBaseSprite, *bossMouthSprite;
 };
 
 #endif
