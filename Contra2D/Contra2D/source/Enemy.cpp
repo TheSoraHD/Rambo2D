@@ -25,13 +25,16 @@ void Enemy::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Play
 		case TURRET:
 			spritesheet.loadFromFile("images/turrets.png", TEXTURE_PIXEL_FORMAT_RGBA);
 			sprite = Sprite::createSprite(glm::ivec2(64, 64), glm::vec2(0.25f, 0.25f), &spritesheet, &shaderProgram);
+			size.x = 64;
+			size.y = 64;
 			turretAnim();
 			break;
 		case SOLDIER_GROUND:
 			spritesheet.loadFromFile("images/soldier_ground.png", TEXTURE_PIXEL_FORMAT_RGBA);
 			sprite = Sprite::createSprite(glm::ivec2(64, 64), glm::vec2(1.0f, 1.0f), &spritesheet, &shaderProgram);
 			sprite->setNumberAnimations(1);
-
+			size.x = 32;
+			size.y = 13;
 			sprite->setAnimationSpeed(GROUND, 5);
 			sprite->addKeyframe(GROUND, glm::vec2(0.0f, 0.0f));
 			break;
@@ -45,7 +48,6 @@ void Enemy::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Play
 void Enemy::update(int deltaTime)
 {
 	turretAim();
-
 	sprite->update(deltaTime);
 	sprite->setPosition(glm::vec2(float(posEnemy.x - map->getScroll()), float(posEnemy.y)));
 }
