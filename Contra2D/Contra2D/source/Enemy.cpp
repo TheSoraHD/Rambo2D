@@ -150,3 +150,15 @@ void Enemy::turretAnim() {
 	sprite->addKeyframe(R_TO_UP, glm::vec2(0.25f, 0.75f));
 	sprite->addKeyframe(R_TO_UP, glm::vec2(0.0f, 0.75f));
 }
+
+glm::vec2 Enemy::ret_pos() {
+	return posEnemy;
+}
+
+glm::vec2 Enemy::ret_size() {
+	return size;
+}
+
+void Enemy::hit() {
+	sound.playSFX("sfx/Powerupfuturista.wav");
+}

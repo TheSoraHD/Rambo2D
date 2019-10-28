@@ -40,6 +40,7 @@ private:
 	void initMainMenu();
 	void initPlayer();
 	void initTransition(int level);
+	void checkHits();
 
 private:
 	BulletManager bulletManager;

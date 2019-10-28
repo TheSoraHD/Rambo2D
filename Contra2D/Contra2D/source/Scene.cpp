@@ -133,6 +133,7 @@ void Scene::update(int deltaTime)
 	}
 	else if (activeLevel != 0) {
 		bulletManager.update(deltaTime);
+		checkHits();
 		for (int i = 0; i < int(bridgeList.size()); i++)
 			bridgeList[i]->update(deltaTime);
 		for (int i = 0; i < int(enemyList.size()); ++i)
@@ -315,4 +316,45 @@ void Scene::initPlayer() {
 	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
 }
 
+void Scene::checkHits() {
+	vector<Bullet*> activeBullets = bulletManager.ret_actBullets();
+	for (int j = 0; j < int(enemyList.size()); ++j) {
+		for (int i = 0; i < int(activeBullets.size()); ++i) {
+			//colision en las X
+			bool collisionX = (((enemyList[j]->ret_pos().x + enemyList[j]->ret_size().x) >= activeBullets[i]->ret_pos().x) &&
+				((activeBullets[i]->ret_pos().x + activeBullets[i]->ret_size().x) >= enemyList[j]->ret_pos().x));
+			//colision en las Y
+			bool collisionY = (((enemyList[j]->ret_pos().y + enemyList[j]->ret_size().y) >= activeBullets[i]->ret_pos().y) &&
+				((activeBullets[i]->ret_pos().y + activeBullets[i]->ret_size().y) >= enemyList[j]->ret_pos().y));
 
+			if (collisionX && collisionY) {
+				enemyList[j]->hit();
+				activeBullets[i]->~Bullet();
+			}
+		}
+	}
+}
+
+
+
+
+
+
+/*void BulletManager::update(int deltaTime, vector<Enemy*> enemyList) {
+	for (int j = 0; j < int(enemyList.size()); ++j) {
+		for (int i = 0; i < int(activeBullets.size()); ++i) {
+			//colision en las X
+			activeBullets[i]->update(deltaTime);
+			bool collisionX = (((enemyList[j]->ret_pos.x + enemyList[j]->ret_size.x) >= activeBullets[i]->ret_pos.x) &&
+				((activeBullets[i]->ret_pos.x + activeBullets[i]->ret_size.x) >= enemyList[j]->ret_pos.x));
+			//colision en las Y
+			bool collisionY = (((enemyList[j]->ret_pos.y + enemyList[j]->ret_size.y) >= activeBullets[i]->ret_pos.y) &&
+				((activeBullets[i]->ret_pos.y + activeBullets[i]->ret_size.y) >= enemyList[j]->ret_pos.y));
+
+			if (collisionX && collisionY) {
+				enemyList[j]->hit();
+				activeBullets[i]->~Bullet();
+			}
+		}
+	}
+} */

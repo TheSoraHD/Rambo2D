@@ -13,6 +13,8 @@ public:
 	void setTileMap(TileMap *tileMap);
 	void update(int deltaTime);
 	void render();
+	vector<Bullet*> ret_actBullets();
+
 private:
 	vector<Bullet*> activeBullets;
 	TileMap *map;

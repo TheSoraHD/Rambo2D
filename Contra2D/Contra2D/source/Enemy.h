@@ -19,6 +19,9 @@ public:
 	void setPosition(const glm::vec2 &pos);
 	void turretAim();
 	void turretAnim();
+	glm::vec2 ret_pos();
+	glm::vec2 ret_size();
+	void hit();
 
 private:
 
