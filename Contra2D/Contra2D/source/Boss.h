@@ -13,7 +13,6 @@ class Boss
 public:
 	void init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Player *target, BulletManager *bulletManager);
 	void defeated();
-	void intro();
 	void phase1();
 	void phase2();
 	void phase3();
@@ -21,6 +20,7 @@ public:
 	void setTileMap(TileMap *tileMap);
 	void update(int deltaTime);
 
+	bool stopMusic();
 	bool isBossDefeated();
 private:
 
@@ -29,7 +29,8 @@ private:
 	int cutsceneDelay;
 
 	BulletManager *bM;
-	SoundManager sound;
+	ShaderProgram sP;
+	SoundManager sM;
 
 	Texture spritesheet, spritesheet2;
 	TileMap *map;

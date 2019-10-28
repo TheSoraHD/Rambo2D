@@ -348,7 +348,3 @@ void Player::setPosition(const glm::vec2 &pos)
 const glm::vec2 Player::sharePosition() {
 	return glm::vec2(float(posPlayer.x), float(posPlayer.y));
 }
-
-
-
-

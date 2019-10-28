@@ -1,7 +1,7 @@
 #ifndef _ENEMY_INCLUDE
 #define _ENEMY_INCLUDE
 
-
+#include <glm/glm.hpp>
 #include "Sprite.h"
 #include "TileMap.h"
 #include "SoundManager.h"
@@ -35,4 +35,4 @@ private:
 	TileMap *map;
 };
 
-#endif // _ENEMY_INCLUDE
+#endif
