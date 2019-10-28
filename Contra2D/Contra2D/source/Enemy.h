@@ -6,6 +6,7 @@
 #include "TileMap.h"
 #include "SoundManager.h"
 #include "Player.h"
+#include "BulletManager.h"
 
 class Enemy
 {
@@ -23,9 +24,8 @@ private:
 
 	BulletManager *bM;
 	SoundManager sound;
-
 	int typeofEnemy;
-	glm::vec2 posEnemy;
+	glm::vec2 posEnemy, size;
 	Player *player;
 	Texture spritesheet;
 	Sprite *sprite;
