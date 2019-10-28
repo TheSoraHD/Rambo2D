@@ -14,20 +14,17 @@ public:
 	void init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Player *target, int typeOf, BulletManager *bulletManager);
 	void update(int deltaTime);
 	void render();
-	void hit();
 
 	void setTileMap(TileMap *tileMap);
 	void setPosition(const glm::vec2 &pos);
 	void turretAim();
 	void turretAnim();
-	glm::vec2 ret_pos();
-	glm::vec2 ret_size();
 
 private:
 
 	BulletManager *bM;
 	SoundManager sound;
-	int typeofEnemy, life;
+	int typeofEnemy;
 	glm::vec2 posEnemy, size;
 	Player *player;
 	Texture spritesheet;
