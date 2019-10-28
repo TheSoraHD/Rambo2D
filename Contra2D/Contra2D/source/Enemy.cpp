@@ -18,7 +18,7 @@ enum GroundAnims
 	GROUND
 };
 
-void Enemy::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Player *objetivo, int typeOf)
+void Enemy::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Player *target, int typeOf)
 {
 	typeofEnemy = typeOf;
 	switch (typeofEnemy) {
@@ -38,7 +38,7 @@ void Enemy::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Play
 	}
 	sprite->changeAnimation(0);
 	//sprite->setPosition(glm::vec2(float(posEnemy.x - map->getScroll()), float(posEnemy.y)));
-	player = objetivo;
+	player = target;
 }
 
 void Enemy::update(int deltaTime)
