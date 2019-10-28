@@ -57,37 +57,39 @@ void Bullet::update(int deltaTime) {
 		case (DEVIATION_2R):
 			dev_x = -1.5; break;
 	}
-	if (dir == LEFT) {
-		posBullet.x -= 5;
-		posBullet.y += (0+dev_x);
-	}
-	else if (dir == RIGHT) {
-		posBullet.x += 5;
-		posBullet.y += (0+dev_x);
-	}
-	else if (dir == UP) {
-		posBullet.x += (0+dev_x);
-		posBullet.y -= 5;
-	}
-	else if (dir == DOWN) {
-		posBullet.x += (0+dev_x);
-		posBullet.y += 5;
-	}
-	else if (dir == UR) {
-		posBullet.x += (2.5+dev_x);
-		posBullet.y -= (2.5-dev_x);
-	}
-	else if (dir == DR) {
-		posBullet.x += (2.5+dev_x);
-		posBullet.y += (2.5-dev_x);
-	}
-	else if (dir == UL) {
-		posBullet.x -= (2.5+dev_x);
-		posBullet.y -= (2.5-dev_x);
-	}
-	else if (dir == DL) {
-		posBullet.x -= (2.5+dev_x);
-		posBullet.y += (2.5-dev_x);
+	switch (dir) {
+		case (LEFT):
+			posBullet.x -= 5;
+			posBullet.y += (0 + dev_x);
+			break;
+		case (RIGHT):
+			posBullet.x += 5;
+			posBullet.y += (0 + dev_x);
+			break;
+		case (UP):
+			posBullet.x += (0 + dev_x);
+			posBullet.y -= 5;
+			break;
+		case (DOWN):
+			posBullet.x += (0 + dev_x);
+			posBullet.y += 5;
+			break;
+		case (UR):
+			posBullet.x += (2.5 + dev_x);
+			posBullet.y -= (2.5 - dev_x);
+			break;
+		case (DR):
+			posBullet.x += (2.5 + dev_x);
+			posBullet.y += (2.5 - dev_x);
+			break;
+		case (UL):
+			posBullet.x -= (2.5 + dev_x);
+			posBullet.y -= (2.5 - dev_x);
+			break;
+		case (DL):
+			posBullet.x -= (2.5 + dev_x);
+			posBullet.y += (2.5 - dev_x);
+			break;
 	}
 	sprite->update(deltaTime);
 	sprite->setPosition(glm::vec2(float(posBullet.x - map->getScroll()), float(posBullet.y)));
