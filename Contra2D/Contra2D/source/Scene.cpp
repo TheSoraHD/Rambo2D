@@ -329,7 +329,9 @@ void Scene::checkHits() {
 
 			if (collisionX && collisionY) {
 				enemyList[j]->hit();
-				activeBullets[i]->~Bullet();
+				if (enemyList[j]->health_remaining() == 0) {
+					//kill enemy
+				}
 			}
 		}
 	}

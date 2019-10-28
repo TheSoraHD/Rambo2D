@@ -22,12 +22,13 @@ public:
 	glm::vec2 ret_pos();
 	glm::vec2 ret_size();
 	void hit();
+	int health_remaining();
 
 private:
 
 	BulletManager *bM;
 	SoundManager sound;
-	int typeofEnemy;
+	int typeofEnemy, health;
 	glm::vec2 posEnemy, size;
 	Player *player;
 	Texture spritesheet;

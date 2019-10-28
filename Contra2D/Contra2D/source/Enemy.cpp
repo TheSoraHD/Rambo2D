@@ -27,6 +27,7 @@ void Enemy::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Play
 			sprite = Sprite::createSprite(glm::ivec2(64, 64), glm::vec2(0.25f, 0.25f), &spritesheet, &shaderProgram);
 			size.x = 64;
 			size.y = 64;
+			health = 3;
 			turretAnim();
 			break;
 		case SOLDIER_GROUND:
@@ -35,6 +36,7 @@ void Enemy::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Play
 			sprite->setNumberAnimations(1);
 			size.x = 32;
 			size.y = 13;
+			health = 1;
 			sprite->setAnimationSpeed(GROUND, 5);
 			sprite->addKeyframe(GROUND, glm::vec2(0.0f, 0.0f));
 			break;
@@ -160,5 +162,10 @@ glm::vec2 Enemy::ret_size() {
 }
 
 void Enemy::hit() {
-	sound.playSFX("sfx/Powerupfuturista.wav");
+	sound.playSFX("sfx/Soldier_death.wav");
+	--health;
+}
+
+int Enemy::health_remaining() {
+	return health;
 }
