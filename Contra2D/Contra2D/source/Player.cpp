@@ -17,7 +17,7 @@ enum PlayerAnims
 	MOVE_LEFT, MOVE_RIGHT,
 	LOOK_UP, LOOK_DOWN,
 	JUMP_LEFT, JUMP_RIGHT,
-	SHOOT_RIGHT, SHOOT_LEFT,
+	SHOOT_RIGHT, SHOOT_LEFT, SHOOT_DOWN,
 	MOVE_UR, MOVE_DR, MOVE_UL, MOVE_DL,
 	UP_LEVEL2, DOWN_LEVEL2,
 	DEATH
@@ -38,7 +38,7 @@ void Player::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Bul
 	spritesheet.loadFromFile("images/lance_new2x.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	sprite = Sprite::createSprite(glm::ivec2(64, 128), glm::vec2(0.125f, 0.125f), &spritesheet, &shaderProgram);
 	aux = &shaderProgram;
-	sprite->setNumberAnimations(21);
+	sprite->setNumberAnimations(22);
 	
 		sprite->setAnimationSpeed(STAND_LEFT, 6);
 		sprite->addKeyframe(STAND_LEFT, glm::vec2(0.f, 0.f));
@@ -92,6 +92,12 @@ void Player::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Bul
 		sprite->addKeyframe(SHOOT_LEFT, glm::vec2(0.0f, 0.375f));
 		sprite->addKeyframe(SHOOT_LEFT, glm::vec2(0.125f, 0.375f));
 		sprite->addKeyframe(SHOOT_LEFT, glm::vec2(0.25f, 0.375f));
+
+		sprite->setAnimationSpeed(SHOOT_DOWN, 6);
+		sprite->addKeyframe(SHOOT_DOWN, glm::vec2(0.5f, 0.25f));
+		sprite->addKeyframe(SHOOT_DOWN, glm::vec2(0.625f, 0.25f));
+		sprite->addKeyframe(SHOOT_DOWN, glm::vec2(0.75f, 0.25f));
+		sprite->addKeyframe(SHOOT_DOWN, glm::vec2(0.865f, 0.25f));
 
 		sprite->setAnimationSpeed(MOVE_UR, 6);
 		sprite->addKeyframe(MOVE_UR, glm::vec2(0.0f, 0.5f));
@@ -169,6 +175,9 @@ void Player::update(int deltaTime)
 			case (SHOOT_LEFT):
 				direction = LEFT; 
 				break;
+			case (SHOOT_DOWN):
+				direction = DOWN; offset_x = 16; offset_y = 78;
+				break;
 			case (MOVE_UR):
 				direction = UR; offset_x = 31; offset_y = 58;
 				break;
@@ -212,6 +221,8 @@ void Player::movement() {
 		else if (Game::instance().getSpecialKey(GLUT_KEY_DOWN)) {
 			if (sprite->animation() != MOVE_DL && !bJumping)
 				sprite->changeAnimation(MOVE_DL);
+			else if (sprite->animation() != SHOOT_DOWN && bJumping)
+				sprite->changeAnimation(SHOOT_DOWN);
 		}
 		else if (Game::instance().getKey('z') || Game::instance().getKey('Z')) {
 			if (sprite->animation() != SHOOT_LEFT && !bJumping)
@@ -239,6 +250,8 @@ void Player::movement() {
 		else if (Game::instance().getSpecialKey(GLUT_KEY_DOWN)) {
 			if (sprite->animation() != MOVE_DR && !bJumping)
 				sprite->changeAnimation(MOVE_DR);
+			else if (sprite->animation() != SHOOT_DOWN && bJumping)
+				sprite->changeAnimation(SHOOT_DOWN);
 		}
 		else if (Game::instance().getKey('z') || Game::instance().getKey('Z')) {
 			if (sprite->animation() != SHOOT_RIGHT && !bJumping)
@@ -256,6 +269,9 @@ void Player::movement() {
 	else if (Game::instance().getSpecialKey(GLUT_KEY_DOWN)) {
 		if (sprite->animation() != LOOK_DOWN && !bJumping) {
 			sprite->changeAnimation(LOOK_DOWN);
+		}
+		else if (sprite->animation() != SHOOT_DOWN && bJumping) {
+			sprite->changeAnimation(SHOOT_DOWN);
 		}
 	}
 	else
