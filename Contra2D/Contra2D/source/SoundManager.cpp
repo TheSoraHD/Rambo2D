@@ -26,7 +26,7 @@ void SoundManager::playBGM(const char* filename, bool isLooped)
 
 void SoundManager::stopBGM()
 {
-	if (music != NULL) music->drop();
+	if (music != NULL) music->stop();
 }
 
 void SoundManager::playSFX(const char* filename)

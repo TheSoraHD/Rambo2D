@@ -25,6 +25,7 @@ Scene::Scene()
 		bridgeList[i] = NULL;
 	for (int i = 0; i < int(enemyList.size()); ++i)
 		enemyList[i] = NULL;
+	transition = NULL;
 }
 
 Scene::~Scene()
@@ -42,6 +43,8 @@ Scene::~Scene()
 	if (enemyList.size() != NULL)
 		for (int i = 0; i < int(enemyList.size()); ++i)
 			enemyList[i] = NULL;
+	if (transition != NULL)
+		delete transition;
 }
 
 
@@ -113,14 +116,17 @@ void Scene::checkVictory() {
 
 void Scene::endVictory()
 {
+	sound.stopBGM();
 	sound.playBGM("music/stageclear.mp3", false);
 	victory = true;
+	transitionDelay = 400;
+	nextLevel = activeLevel + 11;
 }
 
 void Scene::update(int deltaTime)
 {
 	currentTime += deltaTime;
-	if (activeLevel > 10) {
+	if (activeLevel > 10 || victory) {
 		transitionDelay -= deltaTime * 0.1f;
 		if (transitionDelay <= 0)
 			Game::instance().loadLevel(nextLevel);
@@ -148,8 +154,7 @@ void Scene::render()
 	modelview = glm::mat4(1.0f);
 	texProgram.setUniformMatrix4f("modelview", modelview);
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
-	if (activeLevel > 10)
-		transition->render();
+	if (activeLevel > 10 && transition != NULL) transition->render();
 	else if (activeLevel != 0) {
 		map->render();
 		for (int i = 0; i < int(enemyList.size()); ++i)
