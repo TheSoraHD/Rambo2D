@@ -56,6 +56,10 @@ void BulletManager::render() {
 	}
 }
 
+void BulletManager::set_actBullets(vector<Bullet*> bullets) {
+	activeBullets = bullets;
+}
+
 vector<Bullet*> BulletManager::ret_actBullets() {
 	return activeBullets;
 }

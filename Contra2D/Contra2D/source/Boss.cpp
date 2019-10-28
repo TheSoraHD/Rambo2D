@@ -44,34 +44,60 @@ void Boss::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Playe
 
 	bossBaseSprite->changeAnimation(0);
 
-	bossHealth = 75;
+	bossHealth = bossMaxHealth = 240;
+	posEnemy.x = 2152.0f; posEnemy.y = 64.0f;
+	size.x = 64.0f; size.y = 100.0f;
 	bM = bulletManager;
 	sP = shaderProgram;
 	cutsceneDelay = 300;
 	isInvincible = true;
 	isDefeated = false;
+	isPhase1 = isPhase2 = isPhase3 = false;
 
 	sM.playSFX("sfx/godzilla.wav");
 }
 
 void Boss::defeated() {
+	bossBaseSprite->changeAnimation(4);
 	cutsceneDelay = 300;
 	sM.stopBGM();
 	sM.playSFX("sfx/booom.wav");
+	isInvincible = true;
 	isDefeated = true;
 }
 
-void Boss::phase1() { //75HP
-	bossBaseSprite->changeAnimation(1);
-	bM->createPlayerBullet(1952.0f, 100.0f, DOWN, true, sP);
+void Boss::phase1() { //FULL HP
+	if (!isPhase1) {
+		bossBaseSprite->changeAnimation(1);
+		cooldownMax = 15;
+		isPhase1 = true;
+		isInvincible = false;
+	}
+	if (cooldown <= 0) {
+		cooldown = cooldownMax;
+		bM->createPlayerBullet(1952.0f, 50.0f, DOWN, true, sP);
+	}
 }
 
-void Boss::phase2() { //50HP
-	bossBaseSprite->changeAnimation(2);
+void Boss::phase2() { //2/3 HP
+	if (!isPhase2) {
+		bossBaseSprite->changeAnimation(2);
+		cooldownMax = 60;
+		isPhase2 = true;
+	}
+	if (cooldown <= 0) {
+		cooldown = cooldownMax;
+		bM->createPlayerBullet(1952.0f, 100.0f, DOWN, false, sP);
+	}
 }
 
-void Boss::phase3() { //25HP
+void Boss::phase3() { //1/3 HP
 	bossBaseSprite->changeAnimation(3);
+	cooldownMax = 3;
+	if (cooldown <= 0) {
+		cooldown = cooldownMax;
+		bM->createPlayerBullet(1952.0f, 100.0f, DOWN, false, sP);
+	}
 }
 
 void Boss::render() {
@@ -89,14 +115,14 @@ void Boss::update(int deltaTime) {
 		cutsceneDelay -= 0.1f * deltaTime;
 	}
 	else if (!isDefeated) {
-		bossHealth--;
 		if (bossHealth <= 0) {
 			defeated();
 		}
 		else {
 			//AI
-			if (bossHealth <= 25) phase3();
-			else if (bossHealth <= 50) phase2();
+			cooldown -= 0.1f * deltaTime;
+			if (bossHealth <= bossMaxHealth / 3) phase3();
+			else if (bossHealth <= bossMaxHealth * 2 / 3) phase2();
 			else phase1();
 		}
 	}
@@ -109,4 +135,19 @@ bool Boss::stopMusic() {
 
 bool Boss::isBossDefeated() {
 	return (isDefeated && cutsceneDelay <= 0);
+}
+
+glm::vec2 Boss::ret_pos() {
+	return posEnemy;
+}
+
+glm::vec2 Boss::ret_size() {
+	return size;
+}
+
+void Boss::hit() {
+	if (!isInvincible) {
+		bossHealth--;
+		sM.playSFX("sfx/hit_ground.wav");
+	}
 }

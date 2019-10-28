@@ -22,11 +22,16 @@ public:
 
 	bool stopMusic();
 	bool isBossDefeated();
+
+	glm::vec2 ret_pos();
+	glm::vec2 ret_size();
+	void hit();
 private:
 
-	bool isInvincible, isDefeated;
-	int bossHealth;
+	bool isInvincible, isDefeated, isPhase1, isPhase2, isPhase3;
+	int bossHealth, bossMaxHealth, cooldown, cooldownMax;
 	int cutsceneDelay;
+	glm::vec2 posEnemy, size;
 
 	BulletManager *bM;
 	ShaderProgram sP;
