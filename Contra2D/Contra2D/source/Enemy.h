@@ -1,7 +1,7 @@
 #ifndef _ENEMY_INCLUDE
 #define _ENEMY_INCLUDE
 
-
+#include <glm/glm.hpp>
 #include "Sprite.h"
 #include "TileMap.h"
 #include "SoundManager.h"
@@ -20,6 +20,7 @@ public:
 	void setPosition(const glm::vec2 &pos);
 	void turretAim();
 	void turretAnim();
+	
 	glm::vec2 ret_pos();
 	glm::vec2 ret_size();
 
@@ -35,4 +36,4 @@ private:
 	TileMap *map;
 };
 
-#endif // _ENEMY_INCLUDE
+#endif

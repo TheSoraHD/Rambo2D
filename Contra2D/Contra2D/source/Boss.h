@@ -13,7 +13,6 @@ class Boss
 public:
 	void init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Player *target, BulletManager *bulletManager);
 	void defeated();
-	void intro();
 	void phase1();
 	void phase2();
 	void phase3();
