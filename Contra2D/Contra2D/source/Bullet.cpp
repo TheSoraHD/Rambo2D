@@ -6,7 +6,7 @@
 
 enum directions //0, 1, 2, 3
 {
-	LEFT, RIGHT, UP, DOWN
+	LEFT, RIGHT, UP, DOWN, UR, DR, UL, DL
 };
 
 enum anim
@@ -21,10 +21,13 @@ void Bullet::createBullet(float posx, float posy, int direction, bool player, Sh
 	spritesheet.loadFromFile("images/bullet.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	sprite = Sprite::createSprite(glm::ivec2(8, 8), glm::vec2(0.5f, 1.0f), &spritesheet, &shaderProgram);
 
-	sprite->setNumberAnimations(1);
+	sprite->setNumberAnimations(2);
 
 	sprite->setAnimationSpeed(NORMAL, 3);
 	sprite->addKeyframe(NORMAL, glm::vec2(0.0f, 0.0f));
+
+	sprite->setAnimationSpeed(SPREAD, 3);
+	sprite->addKeyframe(SPREAD, glm::vec2(0.5f, 0.0f));
 
 	sprite->changeAnimation(0);
 
@@ -39,10 +42,26 @@ void Bullet::update(int deltaTime) {
 		posBullet.x += 5;
 	}
 	else if (dir == UP) {
-		posBullet.y += 5;
+		posBullet.y -= 5;
 	}
 	else if (dir == DOWN) {
-		posBullet.y -= 5;
+		posBullet.y += 5;
+	}
+	else if (dir == UR) {
+		posBullet.x += 2.5;
+		posBullet.y -= 2.5;
+	}
+	else if (dir == DR) {
+		posBullet.x += 2.5;
+		posBullet.y += 2.5;
+	}
+	else if (dir == UL) {
+		posBullet.x -= 2.5;
+		posBullet.y -= 2.5;
+	}
+	else if (dir == DL) {
+		posBullet.x -= 2.5;
+		posBullet.y += 2.5;
 	}
 	sprite->update(deltaTime);
 	sprite->setPosition(glm::vec2(float(posBullet.x - map->getScroll()), float(posBullet.y)));

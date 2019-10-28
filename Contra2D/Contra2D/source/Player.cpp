@@ -21,10 +21,15 @@ enum PlayerAnims
 	JUMP_LEFT, JUMP_RIGHT,
 	SHOOT_RIGHT, SHOOT_LEFT,
 	MOVE_UR, MOVE_DR, MOVE_UL, MOVE_DL,
-	DEATH, UP_LEVEL2, DOWN_LEVEL2
+	UP_LEVEL2, DOWN_LEVEL2,
+	DEATH
 
 };
 
+enum directions //1, 2, 3, 4
+{
+	LEFT, RIGHT, UP, DOWN, UR, DR, UL, DL
+};
 
 void Player::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, BulletManager *bulletManager)
 {
@@ -132,15 +137,58 @@ void Player::update(int deltaTime)
 	sprite->update(deltaTime);
 
 	movement();
-
+	int offset_x = 0;
+	int offset_y = 0;
 	if ((Game::instance().getKey('z') || Game::instance().getKey('Z')) && cooldown_shot <= 0) { //disparar
-		int direction = sprite->animation();
-		if (direction == STAND_LEFT || direction == MOVE_LEFT || direction == JUMP_LEFT) { direction = 0; } //LEFT
-		else if (direction == STAND_RIGHT || direction == MOVE_RIGHT || direction == JUMP_RIGHT) { direction = 1; } //RIGHT
-		else if (direction == LOOK_UP) { direction = 2; } //UP
-		else direction = 3; //DOWN
-
-		bM->createPlayerBullet(posPlayer.x+10,posPlayer.y+60, direction, *aux);
+		int direction = RIGHT;
+		switch (sprite->animation()) {
+			case (STAND_RIGHT):
+				direction = RIGHT; offset_x = 36; offset_y = 78;
+				break;
+			case (STAND_LEFT):
+				direction = LEFT;
+				break;
+			case (MOVE_LEFT):
+				direction = LEFT;
+				break;
+			case (LOOK_UP):
+				direction = UP; offset_x = 20; offset_y = 40;
+				break;
+			case (LOOK_DOWN):
+				direction = RIGHT; offset_x = 60; offset_y = 105;
+				break;
+			case (JUMP_LEFT):
+				direction = LEFT;
+				break;
+			case (JUMP_RIGHT):
+				direction = RIGHT; offset_x = 36; offset_y = 78;
+				break;
+			case (SHOOT_RIGHT):
+				direction = RIGHT; offset_x = 36; offset_y = 78;
+				break;
+			case (SHOOT_LEFT):
+				direction = LEFT; 
+				break;
+			case (MOVE_UR):
+				direction = UR; offset_x = 31; offset_y = 58;
+				break;
+			case (MOVE_DR):
+				direction = DR; offset_x = 33; offset_y = 90;
+				break;
+			case (MOVE_UL):
+				direction = UL;
+				break;
+			case (MOVE_DL):
+				direction = DL;
+				break;
+			case (UP_LEVEL2):
+				direction = UP; offset_x = 20; offset_y = 40;
+				break;
+			case (DOWN_LEVEL2):
+				direction = UP; offset_x = 20; offset_y = 40;
+				break;
+		}
+		bM->createPlayerBullet(posPlayer.x+(int)offset_x,posPlayer.y+(int)offset_y, direction, *aux);
 		sound.playSFX("sfx/shoot.wav");
 		cooldown_shot = 10;
 	}
@@ -212,9 +260,9 @@ void Player::movement() {
 	}
 	else
 	{
-		if (sprite->animation() != STAND_LEFT && !bJumping)
-			sprite->changeAnimation(STAND_LEFT);
-		else if (sprite->animation() == STAND_RIGHT && !bJumping)
+		//if (sprite->animation() != STAND_LEFT && !bJumping)
+		//	sprite->changeAnimation(STAND_LEFT);
+		/*else*/ if (sprite->animation() != STAND_RIGHT && !bJumping)
 			sprite->changeAnimation(STAND_RIGHT);
 	}
 

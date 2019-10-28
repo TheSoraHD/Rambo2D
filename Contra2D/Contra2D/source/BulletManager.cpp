@@ -5,9 +5,9 @@
 #include "BulletManager.h"
 #include "Scene.h"
 
-enum directions //0, 1, 2, 3
+enum directions //1, 2, 3, 4
 {
-	LEFT, RIGHT, UP, DOWN
+	LEFT, RIGHT, UP, DOWN, UR, DR, UL, DL
 };
 
 
