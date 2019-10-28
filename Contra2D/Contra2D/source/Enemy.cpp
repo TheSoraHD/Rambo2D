@@ -23,6 +23,7 @@ void Enemy::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Play
 	typeofEnemy = typeOf;
 	switch (typeofEnemy) {
 		case TURRET:
+			life = 3;
 			spritesheet.loadFromFile("images/turrets.png", TEXTURE_PIXEL_FORMAT_RGBA);
 			sprite = Sprite::createSprite(glm::ivec2(64, 64), glm::vec2(0.25f, 0.25f), &spritesheet, &shaderProgram);
 			size.x = 64;
@@ -69,6 +70,10 @@ void Enemy::turretAim() {
 			sprite->changeAnimation(U_TO_R);
 		}
 	}*/
+}
+
+void Enemy::hit() {
+	sound.playSFX("sfx/Powerupfuturista.wav");
 }
 
 void Enemy::render()
@@ -149,4 +154,12 @@ void Enemy::turretAnim() {
 	sprite->addKeyframe(R_TO_UP, glm::vec2(0.5f, 0.75f));
 	sprite->addKeyframe(R_TO_UP, glm::vec2(0.25f, 0.75f));
 	sprite->addKeyframe(R_TO_UP, glm::vec2(0.0f, 0.75f));
+}
+
+glm::vec2 Enemy::ret_pos() {
+	return posEnemy;
+}
+
+glm::vec2 Enemy::ret_size() {
+	return size;
 }

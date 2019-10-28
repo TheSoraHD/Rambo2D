@@ -132,7 +132,7 @@ void Scene::update(int deltaTime)
 			Game::instance().loadLevel(nextLevel);
 	}
 	else if (activeLevel != 0) {
-		bulletManager.update(deltaTime);
+		bulletManager.update(deltaTime, enemyList);
 		for (int i = 0; i < int(bridgeList.size()); i++)
 			bridgeList[i]->update(deltaTime);
 		for (int i = 0; i < int(enemyList.size()); ++i)

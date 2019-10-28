@@ -39,9 +39,22 @@ void BulletManager::createPlayerBullet(float posPlayerx, float posPlayery, int d
 	}
 }
 
-void BulletManager::update(int deltaTime) {
-	for (int i = 0; i < int(activeBullets.size()); ++i) {
-		activeBullets[i]->update(deltaTime);
+void BulletManager::update(int deltaTime, vector<Enemy*> enemyList) {
+	for (int j = 0; j < int(enemyList.size()); ++j) {
+		for (int i = 0; i < int(activeBullets.size()); ++i) {
+			//colision en las X
+			activeBullets[i]->update(deltaTime);
+			bool collisionX = (((enemyList[j]->ret_pos.x + enemyList[j]->ret_size.x) >= activeBullets[i]->ret_pos.x) &&
+								((activeBullets[i]->ret_pos.x + activeBullets[i]->ret_size.x) >= enemyList[j]->ret_pos.x));
+			//colision en las Y
+			bool collisionY = (((enemyList[j]->ret_pos.y + enemyList[j]->ret_size.y) >= activeBullets[i]->ret_pos.y) &&
+				((activeBullets[i]->ret_pos.y + activeBullets[i]->ret_size.y) >= enemyList[j]->ret_pos.y));
+
+			if (collisionX && collisionY) {
+				enemyList[j]->hit();
+				activeBullets[i]->~Bullet();
+			}
+		}
 	}
 }
 

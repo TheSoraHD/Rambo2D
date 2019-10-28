@@ -24,6 +24,8 @@ void Bullet::createBullet(float posx, float posy, int direction, bool spreadGun,
 	isPlayer = player;
 	spreadBullet = spreadGun;
 	dev = deviation;
+	size.x = 8;
+	size.y = 8;
 
 	spritesheet.loadFromFile("images/bullet.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	sprite = Sprite::createSprite(glm::ivec2(8, 8), glm::vec2(0.5f, 1.0f), &spritesheet, &shaderProgram);
@@ -105,4 +107,12 @@ void Bullet::render() {
 }
 
 Bullet::~Bullet() {
+}
+
+glm::vec2 Bullet::ret_pos() {
+	return posBullet;
+}
+
+glm::vec2 Bullet::ret_size() {
+	return size;
 }
