@@ -211,7 +211,7 @@ void Player::movement() {
 	{
 		left = true;
 		posPlayer.x -= 2.5;
-		if (map->collisionMoveLeft(posPlayer, glm::ivec2(64, 128)))
+		if (map->collisionMoveLeft(posPlayer, glm::ivec2(64, 128)) || posPlayer.x <= map->getScroll())
 		{
 			posPlayer.x += 2.5;
 			sprite->changeAnimation(STAND_LEFT);

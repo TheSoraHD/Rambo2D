@@ -1,14 +1,21 @@
 #include "Boss.h"
 
+enum BossAnims
+{
+	INTRO, PHASE1, PHASE2, PHASE3
+};
+
+enum MouthAnims
+{
+	OPEN, CLOSE
+};
 
 void Boss::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Player *target, BulletManager *bulletManager)
 {
 	spritesheet.loadFromFile("images/bossbase2x.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	bossBaseSprite = Sprite::createSprite(glm::ivec2(448, 256), glm::vec2(1.0f, 1.0f), &spritesheet, &shaderProgram);
-	bossBaseSprite->setPosition(glm::vec2(200.0f, 0.0f));
-	bossHealth = 50;
-	leftHealth = 15;
-	rightHealth = 15;
+	bossBaseSprite->setPosition(glm::vec2(1952.0f - map->getScroll(), 0.0f));
+	bossHealth = 75;
 	bM = bulletManager;
 	cutsceneDelay = 120;
 	isInvincible = true;
@@ -55,14 +62,13 @@ void Boss::update(int deltaTime) {
 		}
 		else {
 			//AI
-			if (leftHealth <= 0) {
-				if (rightHealth <= 0) phase3();
-				else phase2();
-			}
-			else if (rightHealth <= 0) phase2();
+			if (bossHealth <= 25) phase3();
+			else if (bossHealth <= 50) phase2();
 			else phase1();
 		}
-	}}
+	}
+	bossBaseSprite->setPosition(glm::vec2(1952.0f - map->getScroll(), 0.0f));
+}
 
 bool Boss::isBossDefeated() {
 	return (isDefeated && cutsceneDelay <= 0);
