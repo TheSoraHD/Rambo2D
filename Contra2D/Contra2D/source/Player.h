@@ -16,6 +16,7 @@ class Player
 public:
 	void init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, BulletManager *bulletManager);
 	void update(int deltaTime);
+	void movement();
 	void render();
 	
 	void setTileMap(TileMap *tileMap);
