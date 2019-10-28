@@ -3,14 +3,15 @@
 
 
 #include <glm/glm.hpp>
+#include "Boss.h"
 #include "Bridge.h"
 #include "BulletManager.h"
-#include "MainMenu.h"
-#include "ShaderProgram.h"
-#include "TileMap.h"
-#include "Player.h"
-#include "SoundManager.h"
 #include "Enemy.h"
+#include "MainMenu.h"
+#include "Player.h"
+#include "ShaderProgram.h"
+#include "SoundManager.h"
+#include "TileMap.h"
 
 
 // Scene contains all the entities of our game.
@@ -28,9 +29,13 @@ public:
 	void update(int deltaTime);
 	void render();
 
+	void checkVictory();
+	void endVictory();
+
 private:
 	void initShaders();
 	void initBridges();
+	void initBoss();
 	void initEnemies();
 	void initMainMenu();
 	void initPlayer();
@@ -42,14 +47,19 @@ private:
 
 	MainMenu mainMenu;
 
-	int activeLevel, nextLevel, transitionDelay;
-	TileMap *map;
+	bool victory = false;
+	int activeLevel, nextLevel;
+	float transitionDelay;
+
+	Boss *boss;
 	Player *player;
 	vector<Bridge*> bridgeList;
 	vector<Enemy*> enemyList;
 	ShaderProgram texProgram;
 	Sprite *transition;
 	Texture spritesheet;
+	TileMap *map;
+
 	float currentTime;
 	glm::mat4 projection;
 	vector<glm::vec2> Enemy_FirstLevel;

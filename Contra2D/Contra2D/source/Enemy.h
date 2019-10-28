@@ -10,7 +10,7 @@
 class Enemy
 {
 public:
-	void init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Player *objetivo, int typeOf);
+	void init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Player *target, int typeOf, BulletManager *bulletManager);
 	void update(int deltaTime);
 	void render();
 
@@ -20,6 +20,10 @@ public:
 	void turretAnim();
 
 private:
+
+	BulletManager *bM;
+	SoundManager sound;
+
 	int typeofEnemy;
 	glm::vec2 posEnemy;
 	Player *player;
