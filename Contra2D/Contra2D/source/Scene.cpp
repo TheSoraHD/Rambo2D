@@ -167,6 +167,11 @@ void Scene::update(int deltaTime)
 				powerup->update(deltaTime);
 				checkPowerUp();
 			}
+
+			for (int i = 0; i < int(bridgeList.size()); i++)
+				bridgeList[i]->update(deltaTime);
+			for (int i = 0; i < int(enemyList.size()); ++i)
+				enemyList[i]->update(deltaTime);
 	
 			//Specific level behaviours
 			if (activeLevel == 3) {
@@ -185,10 +190,6 @@ void Scene::update(int deltaTime)
 			if (za_warudo && (timer_za_warudo > 0)) timer_za_warudo -= 0.1f * deltaTime;
 
 			else {
-				for (int i = 0; i < int(bridgeList.size()); i++)
-					bridgeList[i]->update(deltaTime);
-				for (int i = 0; i < int(enemyList.size()); ++i)
-					enemyList[i]->update(deltaTime);
 				if (boss != NULL) boss->update(deltaTime);
 
 				bulletManager.update(deltaTime);

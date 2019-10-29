@@ -35,7 +35,7 @@ private:
 	float phase3offset;
 	glm::vec2 posEnemy, size;
 
-	Explosion *explosion;
+	Explosion *explosion, *explosion2;
 
 	BulletManager *bM;
 	ShaderProgram sP;

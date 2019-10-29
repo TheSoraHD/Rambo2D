@@ -60,7 +60,8 @@ void Boss::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Playe
 	sM.playSFX("sfx/godzilla.wav");
 	explosion = new Explosion;
 	explosion->init(glm::vec2(2252.0f, 100.0f), glm::ivec2(256, 256), sP);
-	explosion->init(glm::vec2(2152.0f, 200.0f), glm::ivec2(256, 256), sP);
+	explosion2 = new Explosion;
+	explosion2->init(glm::vec2(2152.0f, 200.0f), glm::ivec2(256, 256), sP);
 }
 
 void Boss::defeated() {
