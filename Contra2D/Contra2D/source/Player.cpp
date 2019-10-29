@@ -410,7 +410,7 @@ void Player::hit() {
 		if (sprite->animation() != DEATH)
 			sprite->changeAnimation(DEATH);
 		cooldown_dead = 300;
-		sound.playSFX("sfx/playerhit.wav");
+		sound.playSFX("sfx/Player_death.wav");
 	}
 }
 

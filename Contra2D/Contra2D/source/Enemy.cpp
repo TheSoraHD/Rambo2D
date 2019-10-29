@@ -16,7 +16,7 @@ enum directions_bullets
 
 enum TurretAnims
 {
-	UL, LEFT, L_TO_UP, UP_TO_L, UP, UP_TO_R, R_TO_UP, RIGHT, R_TO_D, D_TO_R, DOWN, D_TO_L, L_TO_D
+	UL, UR, LEFT, L_TO_UP, UP_TO_L, UP, UP_TO_R, R_TO_UP, RIGHT, R_TO_D, D_TO_R, DOWN, D_TO_L, L_TO_D
 };
 enum SoldierAnims
 {
@@ -109,8 +109,29 @@ void Enemy::turretAim() {
 			sprite->changeAnimation(U_TO_R);
 		}
 	}*/
+	/*if (float(player->sharePosition().x) < float(posEnemy.x-32)) {
+		if (sprite->animation() != UL) sprite->changeAnimation(UL);
+	}
+	else if (float(player->sharePosition().x) > float(posEnemy.x + 96)) {
+		if (sprite->animation() != UR) sprite->changeAnimation(UR);
+	}
+	else {
+		if (sprite->animation() != UP) sprite->changeAnimation(UP);
+	}*/
 	if (cooldown <= 0) {
-		bM->createEnemyBullet(posEnemy.x, posEnemy.y + 16, UL_BULL, false, *aux, 1.0f);
+		switch (sprite->animation()) {
+			case UL:
+				bM->createEnemyBullet(posEnemy.x, posEnemy.y + 16, UL_BULL, false, *aux, 1.0f);
+				break;
+			case UP:
+				bM->createEnemyBullet(posEnemy.x+32, posEnemy.y, UP_BULL, false, *aux, 1.0f);
+				break;
+			case UR:
+				bM->createEnemyBullet(posEnemy.x+64, posEnemy.y + 16, UL_BULL, false, *aux, 1.0f);
+				break;
+		}
+
+
 		cooldown = 60;
 	}
 	else --cooldown;
@@ -151,7 +172,7 @@ void Enemy::setPosition(const glm::vec2 &pos)
 }
 
 void Enemy::turretAnim() { 
-	sprite->setNumberAnimations(13);
+	sprite->setNumberAnimations(14);
 
 	sprite->setAnimationSpeed(RIGHT, 5);
 	sprite->addKeyframe(RIGHT, glm::vec2(0.0f, 0.0f));
@@ -215,6 +236,9 @@ void Enemy::turretAnim() {
 	sprite->addKeyframe(R_TO_UP, glm::vec2(0.5f, 0.75f));
 	sprite->addKeyframe(R_TO_UP, glm::vec2(0.25f, 0.75f));
 	sprite->addKeyframe(R_TO_UP, glm::vec2(0.0f, 0.75f));
+
+	sprite->setAnimationSpeed(UR, 5);
+	sprite->addKeyframe(UR, glm::vec2(0.25f, 0.75f));
 }
 
 glm::vec2 Enemy::ret_pos() {
