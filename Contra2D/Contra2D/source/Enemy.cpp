@@ -6,22 +6,16 @@
 #include "Game.h"
 
 #define TURRET 0
-#define SOLDIER_KAMIKAZE 1
-#define SOLDIER_GROUND 2
-#define SOLDIER 3
-#define SOLDIER_2ND_LEVEL 3
+#define SOLDIER 1
+#define SOLDIER_2ND_LEVEL 2
 
 enum TurretAnims
 {
 	LEFT, L_TO_UP, UP_TO_L, UP, UP_TO_R, R_TO_UP, RIGHT, R_TO_D, D_TO_R, DOWN, D_TO_L, L_TO_D
 };
-enum GroundAnims
+enum SoldierAnims
 {
-	GROUND
-};
-enum KamikazeAnims
-{
-	RUN
+	DEFAULT
 };
 
 void Enemy::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Player *target, int typeOf, BulletManager *bulletManager)
@@ -36,17 +30,28 @@ void Enemy::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Play
 			health = 3;
 			turretAnim();
 			break;
-		case SOLDIER_GROUND:
-			spritesheet.loadFromFile("images/soldier_ground.png", TEXTURE_PIXEL_FORMAT_RGBA);
-			sprite = Sprite::createSprite(glm::ivec2(64, 64), glm::vec2(1.0f, 1.0f), &spritesheet, &shaderProgram);
+		case SOLDIER:
+			spritesheet.loadFromFile("images/soldier2x.png", TEXTURE_PIXEL_FORMAT_RGBA);
+			sprite = Sprite::createSprite(glm::ivec2(64, 64), glm::vec2(0.5f, 1.0f), &spritesheet, &shaderProgram);
 			sprite->setNumberAnimations(1);
-			size.x = 32;
-			size.y = 13;
+			size.x = 64;
+			size.y = 64;
 			health = 1;
-			sprite->setAnimationSpeed(GROUND, 5);
-			sprite->addKeyframe(GROUND, glm::vec2(0.0f, 0.0f));
+			sprite->setAnimationSpeed(DEFAULT, 5);
+			sprite->addKeyframe(DEFAULT, glm::vec2(0.0f, 0.0f));
+			sprite->addKeyframe(DEFAULT, glm::vec2(0.5f, 0.0f));
 			break;
-		case SOLDIER_KAMIKAZE:
+		case SOLDIER_2ND_LEVEL:
+			spritesheet.loadFromFile("images/soldierLevel2_2x.png", TEXTURE_PIXEL_FORMAT_RGBA);
+			sprite = Sprite::createSprite(glm::ivec2(32, 64), glm::vec2(1.0f, 1.0f), &spritesheet, &shaderProgram);
+			sprite->setNumberAnimations(1);
+			size.x = 64;
+			size.y = 64;
+			health = 3;
+			sprite->setAnimationSpeed(DEFAULT, 5);
+			sprite->addKeyframe(DEFAULT, glm::vec2(0.0f, 0.0f));
+			break;
+		/*case SOLDIER_KAMIKAZE:
 			spritesheet.loadFromFile("images/kamikaze2x.png", TEXTURE_PIXEL_FORMAT_RGBA);
 			sprite = Sprite::createSprite(glm::ivec2(32, 64), glm::vec2(0.125f, 1.0f), &spritesheet, &shaderProgram);
 			sprite->setNumberAnimations(1);
@@ -62,7 +67,7 @@ void Enemy::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Play
 			sprite->addKeyframe(RUN, glm::vec2(0.125f, 0.0f));
 			sprite->addKeyframe(RUN, glm::vec2(0.0f, 0.0f));
 			
-			break;
+			break;*/
 	}
 	sprite->changeAnimation(0);
 	//sprite->setPosition(glm::vec2(float(posEnemy.x - map->getScroll()), float(posEnemy.y)));

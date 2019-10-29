@@ -13,8 +13,8 @@
 #define INIT_PLAYER_Y_TILES 2
 
 #define TURRET 0
-#define SOLDIER_KAMIKAZE 1
-#define SOLDIER_GROUND 2
+#define SOLDIER 1
+#define SOLDIER_2ND_LEVEL 2
 
 Scene::Scene()
 {
@@ -230,7 +230,7 @@ void Scene::initBoss() {
 
 void Scene::initEnemies() {
 	if (activeLevel == 1) {
-		int number_of_enemies = 11; //cuantos enemigos hay en el nivel
+		int number_of_enemies = 12; //cuantos enemigos hay en el nivel
 		for (int i = 0; i < number_of_enemies; ++i) {
 			int enemy_x;
 			int enemy_y;
@@ -267,8 +267,10 @@ void Scene::initEnemies() {
 				enemy_x = 98; enemy_y = 6; typeofEnemy = TURRET;
 				break;
 			case 11:
-				enemy_x = 5; enemy_y = 3; typeofEnemy = SOLDIER_KAMIKAZE;
+				enemy_x = 5; enemy_y = 2; typeofEnemy = SOLDIER;
 				break;
+			case 12:
+				enemy_x = 7; enemy_y = 3; typeofEnemy = SOLDIER;
 			}
 			Enemy *enemy_aux;
 			enemy_aux = new Enemy();
