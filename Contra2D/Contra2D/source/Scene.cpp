@@ -251,14 +251,14 @@ void Scene::initBoss() {
 
 void Scene::initEnemies() {
 	if (activeLevel == 1) {
-		int number_of_enemies = 12; //cuantos enemigos hay en el nivel
+		int number_of_enemies = 19; //cuantos enemigos hay en el nivel
 		for (int i = 0; i < number_of_enemies; ++i) {
 			int enemy_x;
 			int enemy_y;
 			int typeofEnemy;
 			switch (i + 1) { //enemy_list
 			case 1:
-				enemy_x = 10; enemy_y = 5; typeofEnemy = TURRET;//PRIZE
+				enemy_x = 20; enemy_y = 5; typeofEnemy = TURRET;//PRIZE
 				break;
 			case 2:
 				enemy_x = 40; enemy_y = 5; typeofEnemy = TURRET;
@@ -288,10 +288,32 @@ void Scene::initEnemies() {
 				enemy_x = 98; enemy_y = 6; typeofEnemy = TURRET;
 				break;
 			case 11:
-				enemy_x = 9; enemy_y = 5; typeofEnemy = SOLDIER;
+				enemy_x = 15; enemy_y = 3; typeofEnemy = SOLDIER;
 				break;
 			case 12:
-				enemy_x = 7; enemy_y = 3; typeofEnemy = SOLDIER;
+				enemy_x = 30; enemy_y = 3; typeofEnemy = SOLDIER;
+				break;
+			case 13:
+				enemy_x = 45; enemy_y = 3; typeofEnemy = SOLDIER;
+				break;
+			case 14:
+				enemy_x = 62; enemy_y = 3; typeofEnemy = SOLDIER;
+				break;
+			case 15:
+				enemy_x = 75; enemy_y = 4; typeofEnemy = SOLDIER;
+				break;
+			case 16:
+				enemy_x = 82; enemy_y = 3; typeofEnemy = SOLDIER;
+				break;
+			case 17:
+				enemy_x = 90; enemy_y = 5; typeofEnemy = SOLDIER;
+				break;
+			case 18:
+				enemy_x = 93; enemy_y = 4; typeofEnemy = SOLDIER;
+				break;
+			case 19:
+				enemy_x = 98; enemy_y = 3; typeofEnemy = SOLDIER;
+				break;
 			}
 			Enemy *enemy_aux;
 			enemy_aux = new Enemy();
@@ -376,7 +398,7 @@ void Scene::initPowerUp() {
 		powerup = new PowerUp();
 		powerup->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 		powerup->setTileMap(map);
-		powerup->setPosition(glm::vec2(8 * map->getTileSize(), 3 * map->getTileSize()));
+		powerup->setPosition(glm::vec2(64 * map->getTileSize(), 3 * map->getTileSize()));
 	}
 	if (activeLevel == 3) {
 		powerup = new PowerUp();
