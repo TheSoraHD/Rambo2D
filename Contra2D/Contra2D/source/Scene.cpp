@@ -88,6 +88,10 @@ void Scene::init(int level)
 			break;
 		}
 		case 14: {
+			initTransition(4);
+			break;
+		}
+		case 15: {
 			initTransition(0);
 			break;
 		}
@@ -152,7 +156,8 @@ void Scene::update(int deltaTime)
 			checkPowerUp();
 		}
 		if (player->game_over()) {
-			//TODO GAME OVER
+			sound.stopBGM();
+			Game::instance().loadLevel(15);
 		}
 		if (!victory) checkVictory();
 
@@ -330,7 +335,8 @@ void Scene::initMainMenu() {
 void Scene::initTransition(int level) {
 	switch (level){
 		case 0:
-			spritesheet.loadFromFile("images/ending.png", TEXTURE_PIXEL_FORMAT_RGBA);
+			spritesheet.loadFromFile("images/gameover.png", TEXTURE_PIXEL_FORMAT_RGBA);
+			sound.playBGM("music/gameover.mp3", false);
 			transitionDelay = 600;
 			break;
 		case 1:
@@ -343,7 +349,13 @@ void Scene::initTransition(int level) {
 			break;
 		case 3:
 			spritesheet.loadFromFile("images/transition3.png", TEXTURE_PIXEL_FORMAT_RGBA);
+			spritesheet.loadFromFile("images/ending.png", TEXTURE_PIXEL_FORMAT_RGBA);
+			sound.playBGM("music/stageclear.mp3", false);
 			transitionDelay = 180;
+			break;
+		case 4:
+			
+			transitionDelay = 600;
 			break;
 	}
 	nextLevel = level;
