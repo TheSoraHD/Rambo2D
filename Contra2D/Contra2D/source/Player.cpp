@@ -39,6 +39,8 @@ void Player::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Bul
 	spritesheet.loadFromFile("images/lance2x.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	sprite = Sprite::createSprite(glm::ivec2(64, 128), glm::vec2(0.0625f, 0.125f), &spritesheet, &shaderProgram);
 	aux = &shaderProgram;
+	size.x = 64;
+	size.y = 64;
 	sprite->setNumberAnimations(22);
 	
 		sprite->setAnimationSpeed(STAND_LEFT, 6);
@@ -144,7 +146,7 @@ void Player::update(int deltaTime)
 	movement();
 	int offset_x = 0;
 	int offset_y = 0;
-	if ((Game::instance().getKey('2'))) spreadGun = true;
+	//if ((Game::instance().getKey('2'))) spreadGun = true;
 	if ((Game::instance().getKey('z') || Game::instance().getKey('Z')) && cooldown_shot <= 0) { //disparar
 		int direction = RIGHT;
 		switch (sprite->animation()) {
@@ -327,6 +329,18 @@ void Player::movement() {
 			}
 		}
 	}
+}
+
+glm::vec2 Player::ret_pos() {
+	return posPlayer;
+}
+
+glm::vec2 Player::ret_size() {
+	return size;
+}
+
+void Player::activateSpread(bool powerUp) {
+	spreadGun = powerUp;
 }
 
 void Player::render()

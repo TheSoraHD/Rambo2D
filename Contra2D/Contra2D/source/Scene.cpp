@@ -26,6 +26,7 @@ Scene::Scene()
 	for (int i = 0; i < int(enemyList.size()); ++i)
 		enemyList[i] = NULL;
 	transition = NULL;
+	powerup = NULL;
 }
 
 Scene::~Scene()
@@ -36,6 +37,8 @@ Scene::~Scene()
 		delete map;
 	if(player != NULL)
 		delete player;
+	if (powerup != NULL)
+		delete powerup;
 	if (bridgeList.size() != NULL) {
 		for (int i = 0; i < int(bridgeList.size()); ++i)
 			bridgeList[i] = NULL;
@@ -94,6 +97,7 @@ void Scene::init(int level)
 		bulletManager.setTileMap(map);
 		//initBridges();
 		initEnemies();
+		initPowerUp();
 		initPlayer();
 	}
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
@@ -140,6 +144,10 @@ void Scene::update(int deltaTime)
 			enemyList[i]->update(deltaTime); //TODO eliminar enemigo si se sale del scroll
 		if (boss != NULL) boss->update(deltaTime);
 		player->update(deltaTime);
+		if (powerup != NULL) {
+			powerup->update(deltaTime);
+			checkPowerUp();
+		}
 		if (!victory) checkVictory();
 
 		//Specific level behaviours
@@ -172,6 +180,7 @@ void Scene::render()
 			bridgeList[i]->render();
 		if (boss != NULL) boss->render();
 		player->render();
+		if (powerup != NULL) powerup->render();
 		bulletManager.render();
 	}
 	else mainMenu.render();
@@ -267,7 +276,7 @@ void Scene::initEnemies() {
 				enemy_x = 98; enemy_y = 6; typeofEnemy = TURRET;
 				break;
 			case 11:
-				enemy_x = 5; enemy_y = 2; typeofEnemy = SOLDIER;
+				enemy_x = 9; enemy_y = 3; typeofEnemy = SOLDIER;
 				break;
 			case 12:
 				enemy_x = 7; enemy_y = 3; typeofEnemy = SOLDIER;
@@ -316,6 +325,27 @@ void Scene::initPlayer() {
 	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, &bulletManager);
 	player->setTileMap(map);
 	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
+}
+
+void Scene::initPowerUp() {
+	powerup = new PowerUp();
+	powerup->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	powerup->setTileMap(map);
+	powerup->setPosition(glm::vec2(8 * map->getTileSize(), 3 * map->getTileSize()));
+}
+
+void Scene::checkPowerUp() {
+	bool collisionX = ((((10 + powerup->ret_pos().x) + powerup->ret_size().x) >= player->ret_pos().x) &&
+		((player->ret_pos().x + player->ret_size().x) >= (10 + powerup->ret_pos().x)));
+	bool collisionY = ((((15 + powerup->ret_pos().y) + powerup->ret_size().y) >= (64 + player->ret_pos().y)) &&
+		(((64 + player->ret_pos().y) + player->ret_size().y) >= (15 + powerup->ret_pos().y)));
+	if (collisionX && collisionY) {
+		sound.playSFX("sfx/powerup_spread.wav");
+		player->activateSpread(true);
+		powerup->~PowerUp();
+		powerup = NULL;
+
+	}
 }
 
 void Scene::checkHits() {

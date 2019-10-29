@@ -20,6 +20,7 @@
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\MainMenu.cpp" />
     <ClCompile Include="source\Player.cpp" />
+    <ClCompile Include="source\PowerUp.cpp" />
     <ClCompile Include="source\Scene.cpp" />
     <ClCompile Include="source\Shader.cpp" />
     <ClCompile Include="source\ShaderProgram.cpp" />
@@ -38,6 +39,7 @@
     <ClInclude Include="source\Game.h" />
     <ClInclude Include="source\MainMenu.h" />
     <ClInclude Include="source\Player.h" />
+    <ClInclude Include="source\PowerUp.h" />
     <ClInclude Include="source\Scene.h" />
     <ClInclude Include="source\Shader.h" />
     <ClInclude Include="source\ShaderProgram.h" />
