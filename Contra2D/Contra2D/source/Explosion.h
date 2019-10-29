@@ -12,7 +12,9 @@ public:
 	void init(glm::vec2 pos_explosion, ShaderProgram &shaderProgram);
 	void render();
 	void setTileMap(TileMap *tileMap);
-	void setPosition(const glm::vec2 &pos, ShaderProgram &shaderProgram);
+	void setPosition();
+	void update();
+	int ret_timer();
 
 
 private:

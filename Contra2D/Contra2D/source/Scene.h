@@ -47,12 +47,14 @@ private:
 	void checkHits();
 	void checkfall();
 	void checkBullets();
+	void checkExplosions();
 
 
 private:
 	BulletManager bulletManager;
 	SoundManager sound;				  // Audio engine
 	vector<Bullet*> activeBullets;
+	vector<Explosion*> activeExplosions;
 
 	MainMenu mainMenu;
 
