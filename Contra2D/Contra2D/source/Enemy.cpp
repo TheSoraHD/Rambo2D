@@ -210,21 +210,27 @@ void Enemy::turretAnim() {
 }
 
 glm::vec2 Enemy::ret_pos() {
-	return posEnemy;
+	if (this != NULL)
+		return posEnemy;
 }
 
 glm::vec2 Enemy::ret_size() {
-	return size;
+	if (this != NULL)
+		return size;
 }
 
 void Enemy::hit() {
-	sound.playSFX("sfx/Soldier_death.wav");
-	--health;
-	if (health == 0) {
-		sprite = NULL;
+	if (this != NULL) {
+		sound.playSFX("sfx/Soldier_death.wav");
+		--health;
+		if (health == 0) {
+			sprite = NULL;
+		}
 	}
 }
+	
 
 int Enemy::health_remaining() {
-	return health;
+	if (this != NULL)
+		return health;
 }
