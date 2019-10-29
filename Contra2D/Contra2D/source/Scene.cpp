@@ -408,8 +408,9 @@ void Scene::checkHits() {
 
 
 void Scene::checkfall() {
-	if (player->ret_pos().y > 12 && !player->ret_hurt()) {
-		//player->hit(); //si lo descomento muerte por caída funciona pero el hit se triggerea nada más empezar el nivel
+	if (player->ret_pos().y > 400 && !player->ret_hurt()) {
+		player->hit();
+		if (player->isgod()) player->setPosition(glm::vec2(float(map->getScroll() + 10), float(5.0f)));
 	}
 
 }

@@ -372,7 +372,7 @@ void Player::activateSpread(bool powerUp) {
 }
 
 void Player::hit() {
-	if (!hurt) {
+	if (!hurt && !god_mode) {
 		hurt = true;
 		--lifes;
 		if (sprite->animation() != DEATH)
@@ -384,6 +384,10 @@ void Player::hit() {
 
 bool Player::ret_hurt() {
 	return hurt;
+}
+
+bool Player::isgod() {
+	return god_mode;
 }
 
 bool Player::game_over() {

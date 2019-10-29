@@ -23,6 +23,7 @@ public:
 	void hit();
 	bool ret_hurt();
 	bool game_over();
+	bool isgod();
 	void render();
 	
 	void setTileMap(TileMap *tileMap);
