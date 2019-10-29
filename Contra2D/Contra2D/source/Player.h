@@ -27,13 +27,14 @@ public:
 	void render();
 	
 	void setTileMap(TileMap *tileMap);
+	void second_level_mode(bool status);
 	void setPosition(const glm::vec2 &pos);
 	const glm::vec2 sharePosition();
 	
 private:
 	BulletManager *bM;
 	SoundManager sound;
-	bool bJumping, spreadGun, left, hurt;
+	bool bJumping, spreadGun, left, hurt, second_level;
 	glm::vec2 posPlayer, size;
 	int jumpAngle, startY, lifes;
 	Texture spritesheet;

@@ -39,11 +39,22 @@ void BulletManager::createPlayerBullet(float posPlayerx, float posPlayery, int d
 	}
 }
 
-void BulletManager::createEnemyBullet(float posEnemyx, float posEnemyy, int direction, ShaderProgram &shaderProgram) {
+void BulletManager::createEnemyBullet(float posEnemyx, float posEnemyy, int direction, bool spreadGun, ShaderProgram &shaderProgram) {
 	Bullet* new_bull;
 	new_bull = new Bullet;
 	new_bull->setTileMap(map);
-	new_bull->createBullet(posEnemyx, posEnemyy, direction, false, NO_DEVIATION, 0, shaderProgram);
+	new_bull->createBullet(posEnemyx, posEnemyy, direction, spreadGun, NO_DEVIATION, 0, shaderProgram);
+	/*if (spreadGun) {
+		new_bull = new Bullet;
+		new_bull->setTileMap(map);
+		new_bull->createBullet(posEnemyx, posEnemyy, direction, spreadGun, DEVIATION_1L, 0, shaderProgram);
+		activeBullets.emplace_back(new_bull);
+
+		new_bull = new Bullet;
+		new_bull->setTileMap(map);
+		new_bull->createBullet(posEnemyx, posEnemyy, direction, spreadGun, DEVIATION_1R, 0, shaderProgram);
+		activeBullets.emplace_back(new_bull);
+	} */
 	activeBullets.emplace_back(new_bull);
 }
 

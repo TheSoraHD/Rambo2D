@@ -37,6 +37,7 @@ void Player::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Bul
 	left = false;
 	hurt = false;
 	lifes = 2;
+	second_level = false;
 	cooldown_shot = 0;
 	cooldown_dead = 0;
 	//posPlayer.x = 1;
@@ -174,61 +175,69 @@ void Player::update(int deltaTime)
 		int offset_y = 0;
 		if ((Game::instance().getKey('2'))) god_mode = true;
 		if ((Game::instance().getKey('3'))) god_mode = false;
-		if ((Game::instance().getKey('z') || Game::instance().getKey('Z')) && cooldown_shot <= 0) { //disparar
+		if (((Game::instance().getKey('z') || Game::instance().getKey('Z')) && cooldown_shot <= 0) && sprite->animation() != DOWN_LEVEL2) { //disparar
 			int direction = RIGHT;
-			switch (sprite->animation()) {
-			case (STAND_RIGHT):
-				direction = RIGHT; offset_x = 36; offset_y = 78;
-				break;
-			case (STAND_LEFT):
-				direction = LEFT; offset_x = 0; offset_y = 78;
-				break;
-			case (MOVE_LEFT):
-				direction = LEFT; offset_x = 0; offset_y = 78;
-				break;
-			case (LOOK_UP):
-				direction = UP; offset_x = 20; offset_y = 40;
-				break;
-			case (LOOK_DOWN):
-				direction = RIGHT; offset_x = 60; offset_y = 105;
-				break;
-			case (JUMP_LEFT):
-				direction = LEFT; offset_x = 0; offset_y = 78;
-				break;
-			case (JUMP_RIGHT):
-				direction = RIGHT; offset_x = 36; offset_y = 78;
-				break;
-			case (SHOOT_RIGHT):
-				direction = RIGHT; offset_x = 36; offset_y = 78;
-				break;
-			case (SHOOT_LEFT):
-				direction = LEFT; offset_x = 0; offset_y = 78;
-				break;
-			case (SHOOT_DOWN):
-				direction = DOWN; offset_x = 16; offset_y = 78;
-				break;
-			case (MOVE_UR):
-				direction = UR; offset_x = 31; offset_y = 58;
-				break;
-			case (MOVE_DR):
-				direction = DR; offset_x = 33; offset_y = 90;
-				break;
-			case (MOVE_UL):
-				direction = UL; offset_x = 0; offset_y = 58;
-				break;
-			case (MOVE_DL):
-				direction = DL; offset_x = 0; offset_y = 90;
-				break;
-			case (UP_LEVEL2):
-				direction = UP; offset_x = 20; offset_y = 40;
-				break;
-			case (DOWN_LEVEL2):
-				direction = UP; offset_x = 20; offset_y = 40;
-				break;
+			if (!second_level) {
+				switch (sprite->animation()) {
+				case (STAND_RIGHT):
+					direction = RIGHT; offset_x = 36; offset_y = 78;
+					break;
+				case (STAND_LEFT):
+					direction = LEFT; offset_x = 0; offset_y = 78;
+					break;
+				case (MOVE_LEFT):
+					direction = LEFT; offset_x = 0; offset_y = 78;
+					break;
+				case (LOOK_UP):
+					direction = UP; offset_x = 20; offset_y = 40;
+					break;
+				case (LOOK_DOWN):
+					direction = RIGHT; offset_x = 60; offset_y = 105;
+					break;
+				case (JUMP_LEFT):
+					direction = LEFT; offset_x = 0; offset_y = 78;
+					break;
+				case (JUMP_RIGHT):
+					direction = RIGHT; offset_x = 36; offset_y = 78;
+					break;
+				case (SHOOT_RIGHT):
+					direction = RIGHT; offset_x = 36; offset_y = 78;
+					break;
+				case (SHOOT_LEFT):
+					direction = LEFT; offset_x = 0; offset_y = 78;
+					break;
+				case (SHOOT_DOWN):
+					direction = DOWN; offset_x = 16; offset_y = 78;
+					break;
+				case (MOVE_UR):
+					direction = UR; offset_x = 31; offset_y = 58;
+					break;
+				case (MOVE_DR):
+					direction = DR; offset_x = 33; offset_y = 90;
+					break;
+				case (MOVE_UL):
+					direction = UL; offset_x = 0; offset_y = 58;
+					break;
+				case (MOVE_DL):
+					direction = DL; offset_x = 0; offset_y = 90;
+					break;
+				case (UP_LEVEL2):
+					direction = UP; offset_x = 20; offset_y = 40;
+					break;
+				}
+			}
+			else {
+				direction = UP;
+				offset_x = 15;
+				offset_y = 40;
+				if (sprite->animation() != UP_LEVEL2) {
+					sprite->changeAnimation(UP_LEVEL2);
+				}
 			}
 			bM->createPlayerBullet(posPlayer.x + (int)offset_x, posPlayer.y + (int)offset_y, direction, spreadGun, *aux);
 			sound.playSFX("sfx/shoot.wav");
 			cooldown_shot = 10;
+
 		}
 		--cooldown_shot;
 	}
@@ -295,24 +304,38 @@ void Player::movement() {
 
 	}
 	else if (Game::instance().getSpecialKey(GLUT_KEY_UP)) {
-		if (sprite->animation() != LOOK_UP && !bJumping) {
+		if (second_level) {
+			if (sprite->animation() != UP_LEVEL2) {
+			sprite->changeAnimation(UP_LEVEL2);
+			}
+		}
+		else if (sprite->animation() != LOOK_UP && !bJumping) {
 			sprite->changeAnimation(LOOK_UP);
 		}
 	}
 	else if (Game::instance().getSpecialKey(GLUT_KEY_DOWN)) {
-		if (sprite->animation() != LOOK_DOWN && !bJumping) {
-			sprite->changeAnimation(LOOK_DOWN);
+		if (second_level) {
+			if (sprite->animation() != DOWN_LEVEL2) {
+				sprite->changeAnimation(DOWN_LEVEL2);
+			}
 		}
-		else if (sprite->animation() != SHOOT_DOWN && bJumping) {
-			sprite->changeAnimation(SHOOT_DOWN);
+		else {
+			if (sprite->animation() != LOOK_DOWN && !bJumping) {
+				sprite->changeAnimation(LOOK_DOWN);
+			}
+			else if (sprite->animation() != SHOOT_DOWN && bJumping) {
+				sprite->changeAnimation(SHOOT_DOWN);
+			}
 		}
 	}
 	else
 	{
-		if (sprite->animation() != STAND_LEFT && left &&!bJumping)
-			sprite->changeAnimation(STAND_LEFT);
-		else if (sprite->animation() != STAND_RIGHT && !left && !bJumping)
-			sprite->changeAnimation(STAND_RIGHT);
+		if (!second_level || (second_level && !((Game::instance().getKey('z') || Game::instance().getKey('Z'))))) {
+			if (sprite->animation() != STAND_LEFT && left && !bJumping)
+				sprite->changeAnimation(STAND_LEFT);
+			else if (sprite->animation() != STAND_RIGHT && !left && !bJumping)
+				sprite->changeAnimation(STAND_RIGHT);
+		}
 	}
 
 	if (bJumping)
@@ -342,7 +365,7 @@ void Player::movement() {
 		posPlayer.y += FALL_STEP;
 		if (map->collisionMoveDown(posPlayer, glm::ivec2(64, 128), &posPlayer.y))
 		{
-			if (Game::instance().getKey('x') || Game::instance().getKey('X')) //saltar
+			if (!second_level && (Game::instance().getKey('x') || Game::instance().getKey('X'))) //saltar
 			{
 				bJumping = true;
 				jumpAngle = 0;
@@ -408,6 +431,10 @@ void Player::setPosition(const glm::vec2 &pos)
 {
 	posPlayer = pos;
 	sprite->setPosition(glm::vec2(float(posPlayer.x - map->getScroll()), float(posPlayer.y)));
+}
+
+void Player::second_level_mode(bool status) {
+	second_level = status;
 }
 
 const glm::vec2 Player::sharePosition() {

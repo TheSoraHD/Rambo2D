@@ -54,7 +54,7 @@ void Enemy::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Play
 			sprite->setNumberAnimations(1);
 			size.x = 64;
 			size.y = 64;
-			health = 3;
+			health = 7;
 			sprite->setAnimationSpeed(DEFAULT, 5);
 			sprite->addKeyframe(DEFAULT, glm::vec2(0.0f, 0.0f));
 			break;
@@ -85,7 +85,7 @@ void Enemy::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Play
 void Enemy::update(int deltaTime)
 {
 	if (typeofEnemy == TURRET) turretAim();
-	else if (typeofEnemy == SOLDIER) soldierShoot();
+	else soldierShoot();
 	sprite->update(deltaTime);
 	sprite->setPosition(glm::vec2(float(posEnemy.x - map->getScroll()), float(posEnemy.y)));
 }
@@ -112,8 +112,17 @@ void Enemy::turretAim() {
 
 void Enemy::soldierShoot() {
 	if (cooldown <= 0) {
-		bM->createEnemyBullet(posEnemy.x, posEnemy.y + 5, LEFT_BULL, *aux);
-		cooldown = 100;
+		switch (typeofEnemy) {
+			case SOLDIER:
+				bM->createEnemyBullet(posEnemy.x, posEnemy.y + 5, LEFT_BULL, false, *aux);
+				cooldown = 100;
+				break;
+			case SOLDIER_2ND_LEVEL:
+				bM->createEnemyBullet(posEnemy.x + 11, posEnemy.y + 35, DOWN_BULL, true, *aux);
+				cooldown = 150;
+				break;
+
+		}
 	}
 	else --cooldown;
 }

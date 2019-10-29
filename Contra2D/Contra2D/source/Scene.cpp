@@ -139,6 +139,8 @@ void Scene::update(int deltaTime)
 		bulletManager.update(deltaTime);
 		checkHits();
 		checkfall();
+		if (activeLevel == 2) player->second_level_mode(true);
+		else player->second_level_mode(false);
 		for (int i = 0; i < int(bridgeList.size()); i++)
 			bridgeList[i]->update(deltaTime);
 		for (int i = 0; i < int(enemyList.size()); ++i)
@@ -292,7 +294,32 @@ void Scene::initEnemies() {
 			enemy_aux->setPosition(glm::vec2(enemy_x * map->getTileSize(), enemy_y * map->getTileSize()));
 			enemyList.push_back(enemy_aux);
 		}
-	}	
+	}
+	else if (activeLevel == 2) {
+		int number_of_enemies = 3; //cuantos enemigos hay en el nivel
+		for (int i = 0; i < number_of_enemies; ++i) {
+			int enemy_x;
+			int enemy_y;
+			int typeofEnemy;
+			switch (i + 1) { //enemy_list
+			case 1:
+				enemy_x = 2; enemy_y = 4; typeofEnemy = SOLDIER_2ND_LEVEL;//PRIZE
+				break;
+			case 2:
+				enemy_x = 5; enemy_y = 4; typeofEnemy = SOLDIER_2ND_LEVEL;
+				break;
+			case 3:
+				enemy_x = 8; enemy_y = 4; typeofEnemy = SOLDIER_2ND_LEVEL;//PRIZE
+				break;
+			}
+			Enemy *enemy_aux;
+			enemy_aux = new Enemy();
+			enemy_aux->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, player, typeofEnemy, &bulletManager);
+			enemy_aux->setTileMap(map);
+			enemy_aux->setPosition(glm::vec2(enemy_x * map->getTileSize(), enemy_y * map->getTileSize()));
+			enemyList.push_back(enemy_aux);
+		}
+	}
 }
 
 void Scene::initMainMenu() {
