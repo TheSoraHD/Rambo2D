@@ -149,7 +149,9 @@ void Scene::update(int deltaTime)
 			powerup->update(deltaTime);
 			checkPowerUp();
 		}
-		if (player->game_over()) //TODO GAME OVER
+		if (player->game_over()) {
+			//TODO GAME OVER
+		}
 		if (!victory) checkVictory();
 
 		//Specific level behaviours
