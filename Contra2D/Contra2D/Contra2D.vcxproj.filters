@@ -51,9 +51,6 @@
     <ClCompile Include="source\Bullet.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="source\BulletManager.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
     <ClCompile Include="source\Bridge.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
@@ -63,7 +60,7 @@
     <ClCompile Include="source\Boss.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="source\PowerUp.cpp">
+    <ClCompile Include="source\BulletManager.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
   </ItemGroup>
@@ -104,9 +101,6 @@
     <ClInclude Include="source\Bullet.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="source\BulletManager.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="source\Bridge.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
@@ -116,7 +110,7 @@
     <ClInclude Include="source\Boss.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="source\PowerUp.h">
+    <ClInclude Include="source\BulletManager.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

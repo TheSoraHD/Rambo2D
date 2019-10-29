@@ -17,9 +17,6 @@ public:
 	void init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, BulletManager *bulletManager);
 	void update(int deltaTime);
 	void movement();
-	glm::vec2 ret_size();
-	glm::vec2 ret_pos();
-	void activateSpread(bool powerUp);
 	void render();
 	
 	void setTileMap(TileMap *tileMap);
@@ -30,7 +27,7 @@ private:
 	BulletManager *bM;
 	SoundManager sound;
 	bool bJumping, spreadGun, left;
-	glm::vec2 posPlayer, size;
+	glm::vec2 posPlayer;
 	int jumpAngle, startY, lifes;
 	Texture spritesheet;
 	Sprite *sprite;

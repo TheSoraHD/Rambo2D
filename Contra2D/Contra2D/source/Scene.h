@@ -12,7 +12,6 @@
 #include "ShaderProgram.h"
 #include "SoundManager.h"
 #include "TileMap.h"
-#include "PowerUp.h"
 
 
 // Scene contains all the entities of our game.
@@ -40,11 +39,8 @@ private:
 	void initEnemies();
 	void initMainMenu();
 	void initPlayer();
-	void initPowerUp();
 	void initTransition(int level);
-	void checkPowerUp();
 	void checkHits();
-
 
 private:
 	BulletManager bulletManager;
@@ -58,7 +54,6 @@ private:
 
 	Boss *boss;
 	Player *player;
-	PowerUp *powerup;
 	vector<Bridge*> bridgeList;
 	vector<Enemy*> enemyList;
 	ShaderProgram texProgram;
