@@ -56,6 +56,8 @@ private:
 	MainMenu mainMenu;
 
 	bool victory = false;
+	bool za_warudo = false;
+	int timer_za_warudo = 300;
 	int activeLevel, nextLevel;
 	float transitionDelay;
 
