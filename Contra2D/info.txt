@@ -27,4 +27,6 @@ Instrucciones del juego:
 Flechas de dirección: Desplazarse (se tira al suelo si pulsas hacia abajo) y apuntar
 Z: Disparar en la dirección apuntada
 X: Saltar
+Botón 2: Iniciar God Mode (para testear, cuando caes no pierdes vida y las balas te atraviesan)
+Botón 3: Desactivar God Mode
 Esc: Salir del juego
