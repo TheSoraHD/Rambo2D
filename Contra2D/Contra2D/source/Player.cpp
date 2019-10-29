@@ -275,15 +275,15 @@ void Player::movement() {
 	else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT))
 	{
 		left = false;
-		posPlayer.x += 12.5;
+		posPlayer.x += 3.5f;
 
 		if(map->collisionMoveRight(posPlayer, glm::ivec2(64, 128)) || posPlayer.x >= (map->getLevelWidth() - 64.0f))
 		{
-			posPlayer.x -= 12.5;
+			posPlayer.x -= 3.5f;
 			sprite->changeAnimation(STAND_RIGHT);
 		}
 		else if (posPlayer.x >= (map->getScroll() + (SCREEN_WIDTH / 2)) && posPlayer.x < (map->getLevelWidth() - (SCREEN_WIDTH / 2) - 32.0f)) //Level 3 Hack
-			map->increaseScroll(12.5);
+			map->increaseScroll(3.5f);
 
 		if (Game::instance().getSpecialKey(GLUT_KEY_UP)) {
 			if (sprite->animation() != MOVE_UR && !bJumping)

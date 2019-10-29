@@ -49,6 +49,7 @@ void Bullet::createBullet(float posx, float posy, int direction, bool spreadGun,
 
 void Bullet::update(int deltaTime) {
 	float dev_x = 0;
+	float speed = 1.5f;
 	switch (dev) {
 		case (DEVIATION_1L):
 			dev_x = 0.75; break;
@@ -61,36 +62,36 @@ void Bullet::update(int deltaTime) {
 	}
 	switch (dir) {
 		case (LEFT):
-			posBullet.x -= 5;
-			posBullet.y += (0 + dev_x);
+			posBullet.x -= 5 * speed;
+			posBullet.y += (0 + dev_x)* speed;
 			break;
 		case (RIGHT):
-			posBullet.x += 5;
-			posBullet.y += (0 + dev_x);
+			posBullet.x += 5 * speed;
+			posBullet.y += (0 + dev_x)* speed;
 			break;
 		case (UP):
-			posBullet.x += (0 + dev_x);
-			posBullet.y -= 5;
+			posBullet.x += (0 + dev_x)* speed;
+			posBullet.y -= 5 * speed;
 			break;
 		case (DOWN):
-			posBullet.x += (0 + dev_x);
-			posBullet.y += 5;
+			posBullet.x += (0 + dev_x)* speed;
+			posBullet.y += 5 * speed;
 			break;
 		case (UR):
-			posBullet.x += (2.5 + dev_x);
-			posBullet.y -= (2.5 - dev_x);
+			posBullet.x += (2.5 + dev_x)* speed;
+			posBullet.y -= (2.5 - dev_x)* speed;
 			break;
 		case (DR):
-			posBullet.x += (2.5 + dev_x);
-			posBullet.y += (2.5 - dev_x);
+			posBullet.x += (2.5 + dev_x)* speed;
+			posBullet.y += (2.5 - dev_x)* speed;
 			break;
 		case (UL):
-			posBullet.x -= (2.5 + dev_x);
-			posBullet.y -= (2.5 - dev_x);
+			posBullet.x -= (2.5 + dev_x)* speed;
+			posBullet.y -= (2.5 - dev_x)* speed;
 			break;
 		case (DL):
-			posBullet.x -= (2.5 + dev_x);
-			posBullet.y += (2.5 - dev_x);
+			posBullet.x -= (2.5 + dev_x)* speed;
+			posBullet.y += (2.5 - dev_x)* speed;
 			break;
 	}
 	sprite->update(deltaTime);
