@@ -103,6 +103,8 @@ void Scene::init(int level)
 		initEnemies();
 		initPowerUp();
 		initPlayer();
+		hud.init(texProgram);
+		hud.setPosition(player->getLifes(),za_warudo);
 	}
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	currentTime = 0.0f;
@@ -149,6 +151,9 @@ void Scene::update(int deltaTime)
 			timer_shindeiru -= 0.1f * deltaTime;
 		}
 		else {
+			if (shindeiru) {
+				sound.resumeBGM();
+			}
 			player->update(deltaTime);
 			checkfall();
 
@@ -162,11 +167,6 @@ void Scene::update(int deltaTime)
 				powerup->update(deltaTime);
 				checkPowerUp();
 			}
-			for (int i = 0; i < int(bridgeList.size()); i++)
-				bridgeList[i]->update(deltaTime);
-			for (int i = 0; i < int(enemyList.size()); ++i)
-				enemyList[i]->update(deltaTime);
-			if (boss != NULL) boss->update(deltaTime);
 	
 			//Specific level behaviours
 			if (activeLevel == 3) {
@@ -185,11 +185,18 @@ void Scene::update(int deltaTime)
 			if (za_warudo && (timer_za_warudo > 0)) timer_za_warudo -= 0.1f * deltaTime;
 
 			else {
+				for (int i = 0; i < int(bridgeList.size()); i++)
+					bridgeList[i]->update(deltaTime);
+				for (int i = 0; i < int(enemyList.size()); ++i)
+					enemyList[i]->update(deltaTime);
+				if (boss != NULL) boss->update(deltaTime);
+
 				bulletManager.update(deltaTime);
 				checkHits();
 				checkBullets();
-				checkExplosions();
+				checkExplosions(deltaTime);
 			}
+			hud.update(deltaTime, player->getLifes(), za_warudo);
 
 			if (!victory) checkVictory();
 		}
@@ -221,7 +228,7 @@ void Scene::render()
 		player->render();
 		if (powerup != NULL) powerup->render();
 		bulletManager.render();
-
+		hud.render();
 	}
 	else mainMenu.render();
 }
@@ -470,7 +477,7 @@ void Scene::checkHits() {
 						sound.playSFX("sfx/Explosion_corta.wav");
 						Explosion *boom = new Explosion ();
 						activeExplosions.emplace_back(boom);
-						boom->init(enemyList[j]->ret_pos(), texProgram);
+						boom->init(enemyList[j]->ret_pos(), glm::ivec2(128, 128), texProgram);
 						boom->setTileMap(map);
 
 						enemyList[j] = NULL;
@@ -549,9 +556,9 @@ void Scene::checkBullets() {
 	} 
 }
 
-void Scene::checkExplosions() {
+void Scene::checkExplosions(int deltaTime) {
 	for (int i = 0; i < activeExplosions.size(); ++i) {
-		activeExplosions[i]->update();
+		activeExplosions[i]->update(deltaTime);
 		if (activeExplosions[i]->ret_timer() <= 0) {
 			activeExplosions[i]->~Explosion();
 			activeExplosions.erase(activeExplosions.begin() + i);

@@ -7,6 +7,7 @@
 #include "Bridge.h"
 #include "BulletManager.h"
 #include "Enemy.h"
+#include "HUD.h"
 #include "MainMenu.h"
 #include "Player.h"
 #include "ShaderProgram.h"
@@ -47,7 +48,7 @@ private:
 	void checkHits();
 	void checkfall();
 	void checkBullets();
-	void checkExplosions();
+	void checkExplosions(int deltaTime);
 
 
 private:
@@ -68,6 +69,7 @@ private:
 
 	Boss *boss;
 	Player *player;
+	HUD hud;
 	PowerUp *powerup;
 	vector<Bridge*> bridgeList;
 	vector<Enemy*> enemyList;

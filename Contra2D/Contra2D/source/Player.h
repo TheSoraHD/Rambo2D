@@ -30,6 +30,7 @@ public:
 	void second_level_mode(bool status);
 	void setPosition(const glm::vec2 &pos);
 	const glm::vec2 sharePosition();
+	int getLifes() { return lifes; }
 	
 private:
 	BulletManager *bM;

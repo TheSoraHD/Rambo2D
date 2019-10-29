@@ -9,25 +9,15 @@ enum ExplosionAnims
 	DEFAULT
 };
 
-Explosion::Explosion()
-{
-	posExplosion.x = NULL;
-	posExplosion.y = NULL; 
-}
-
-
-Explosion::~Explosion()
-{
-}
-
-void Explosion::init(glm::vec2 pos_explosion, ShaderProgram &shaderProgram) {
+void Explosion::init(glm::vec2 pos_explosion, glm::ivec2 size, ShaderProgram &shaderProgram) {
 	posExplosion = pos_explosion;
 	timer = 50;
 
 	spritesheet.loadFromFile("images/explosion2.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	sprite = Sprite::createSprite(glm::ivec2(128, 128), glm::vec2(0.0625f, 1.0f), &spritesheet, &shaderProgram);
+	sprite = Sprite::createSprite(size, glm::vec2(0.059f, 1.0f), &spritesheet, &shaderProgram);
+
 	sprite->setNumberAnimations(1);
-	sprite->setAnimationSpeed(DEFAULT, 5);
+	sprite->setAnimationSpeed(DEFAULT, 15);
 	sprite->addKeyframe(DEFAULT, glm::vec2(0.0f, 0.0f));
 	sprite->addKeyframe(DEFAULT, glm::vec2(0.0625f, 0.0f));
 	sprite->addKeyframe(DEFAULT, glm::vec2(0.125f, 0.0f));
@@ -65,8 +55,10 @@ void Explosion::setPosition()
 	sprite->setPosition(glm::vec2(float(posExplosion.x - map->getScroll()), float(posExplosion.y)));
 }
 
-void Explosion::update() {
-	--timer;
+void Explosion::update(int deltaTime)
+{
+	sprite->update(deltaTime);
+	timer -= 0.1f * deltaTime;
 }
 
 int Explosion::ret_timer() {

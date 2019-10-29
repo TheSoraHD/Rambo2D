@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _EXPLOSION_INCLUDE
+#define _EXPLOSION_INCLUDE
+
 #include <glm/glm.hpp>
 #include "Sprite.h"
 #include "TileMap.h"
@@ -6,14 +8,12 @@
 class Explosion
 {
 public:
-	Explosion();
-	~Explosion();
 
-	void init(glm::vec2 pos_explosion, ShaderProgram &shaderProgram);
+	void init(glm::vec2 pos_explosion, glm::ivec2 size, ShaderProgram &shaderProgram);
 	void render();
 	void setTileMap(TileMap *tileMap);
 	void setPosition();
-	void update();
+	void update(int deltaTime);
 	int ret_timer();
 
 
@@ -25,3 +25,4 @@ private:
 	TileMap *map;
 };
 
+#endif

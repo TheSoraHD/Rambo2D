@@ -29,15 +29,17 @@ void Bullet::createBullet(float posx, float posy, int direction, bool spreadGun,
 	size.y = 8;
 
 	spritesheet.loadFromFile("images/bullet.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	sprite = Sprite::createSprite(glm::ivec2(16, 16), glm::vec2(0.5f, 1.0f), &spritesheet, &shaderProgram);
+	sprite = Sprite::createSprite(glm::ivec2(16, 16), glm::vec2(0.5f, 0.5f), &spritesheet, &shaderProgram);
 
 	sprite->setNumberAnimations(2);
 
 	sprite->setAnimationSpeed(NORMAL, 3);
-	sprite->addKeyframe(NORMAL, glm::vec2(0.0f, 0.0f));
+	if (player) sprite->addKeyframe(NORMAL, glm::vec2(0.0f, 0.0f));
+	else sprite->addKeyframe(NORMAL, glm::vec2(0.0f, 0.5f));
 
 	sprite->setAnimationSpeed(SPREAD, 3);
-	sprite->addKeyframe(SPREAD, glm::vec2(0.5f, 0.0f));
+	if (player) sprite->addKeyframe(SPREAD, glm::vec2(0.5f, 0.0f));
+	else sprite->addKeyframe(SPREAD, glm::vec2(0.5f, 0.5f));
 
 	sprite->changeAnimation(0);
 

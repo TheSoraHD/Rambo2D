@@ -3,6 +3,7 @@
 
 #include "BulletManager.h"
 #include "Enemy.h"
+#include "Explosion.h"
 #include "Player.h"
 #include "SoundManager.h"
 #include "Sprite.h"
@@ -33,6 +34,8 @@ private:
 	int cutsceneDelay;
 	float phase3offset;
 	glm::vec2 posEnemy, size;
+
+	Explosion *explosion;
 
 	BulletManager *bM;
 	ShaderProgram sP;

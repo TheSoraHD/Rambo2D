@@ -55,8 +55,12 @@ void Boss::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Playe
 	isPhase1 = isPhase2 = isPhase3 = false;
 	phase3offset = 0.0f;
 	phase3direction = 0;
+	explosion = NULL;
 
 	sM.playSFX("sfx/godzilla.wav");
+	explosion = new Explosion;
+	explosion->init(glm::vec2(2252.0f, 100.0f), glm::ivec2(256, 256), sP);
+	explosion->init(glm::vec2(2152.0f, 200.0f), glm::ivec2(256, 256), sP);
 }
 
 void Boss::defeated() {
@@ -129,6 +133,7 @@ void Boss::phase3(int deltaTime) { //1/3 HP
 
 void Boss::render() {
 	bossBaseSprite->render();
+	if (explosion != NULL) explosion->render();
 }
 
 void Boss::setTileMap(TileMap *tileMap)
@@ -154,6 +159,7 @@ void Boss::update(int deltaTime) {
 		}
 	}
 	bossBaseSprite->setPosition(glm::vec2(1952.0f - map->getScroll(), 0.0f));
+	if (explosion != NULL) explosion->update(deltaTime);
 }
 
 bool Boss::stopMusic() {

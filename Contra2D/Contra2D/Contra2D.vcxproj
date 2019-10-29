@@ -16,7 +16,9 @@
     <ClCompile Include="source\Bullet.cpp" />
     <ClCompile Include="source\BulletManager.cpp" />
     <ClCompile Include="source\Enemy.cpp" />
+    <ClCompile Include="source\Explosion.cpp" />
     <ClCompile Include="source\Game.cpp" />
+    <ClCompile Include="source\HUD.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\MainMenu.cpp" />
     <ClCompile Include="source\Player.cpp" />
@@ -36,7 +38,9 @@
     <ClInclude Include="source\Bullet.h" />
     <ClInclude Include="source\BulletManager.h" />
     <ClInclude Include="source\Enemy.h" />
+    <ClInclude Include="source\Explosion.h" />
     <ClInclude Include="source\Game.h" />
+    <ClInclude Include="source\HUD.h" />
     <ClInclude Include="source\MainMenu.h" />
     <ClInclude Include="source\Player.h" />
     <ClInclude Include="source\PowerUp.h" />
