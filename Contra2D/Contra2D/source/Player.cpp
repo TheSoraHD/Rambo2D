@@ -45,8 +45,8 @@ void Player::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Bul
 	spritesheet.loadFromFile("images/lance2x.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	sprite = Sprite::createSprite(glm::ivec2(64, 128), glm::vec2(0.0625f, 0.125f), &spritesheet, &shaderProgram);
 	aux = &shaderProgram;
-	size.x = 64;
-	size.y = 64;
+	size.x = 32;
+	size.y = 32;
 	sprite->setNumberAnimations(23);
 	
 		sprite->setAnimationSpeed(STAND_LEFT, 6);

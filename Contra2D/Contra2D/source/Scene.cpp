@@ -282,7 +282,7 @@ void Scene::initEnemies() {
 				enemy_x = 98; enemy_y = 6; typeofEnemy = TURRET;
 				break;
 			case 11:
-				enemy_x = 9; enemy_y = 3; typeofEnemy = SOLDIER;
+				enemy_x = 9; enemy_y = 5; typeofEnemy = SOLDIER;
 				break;
 			case 12:
 				enemy_x = 7; enemy_y = 3; typeofEnemy = SOLDIER;
@@ -405,8 +405,10 @@ void Scene::checkHits() {
 			else {
 				bool collisionX = (((activeBullets[i]->ret_pos().x + activeBullets[i]->ret_size().x) >= player->ret_pos().x) &&
 					((player->ret_pos().x + player->ret_size().x) >= activeBullets[i]->ret_pos().x));
-				bool collisionY = (((activeBullets[i]->ret_pos().y + activeBullets[i]->ret_size().x) >= (64 + player->ret_pos().y)) &&
-					(((64 + player->ret_pos().y) + player->ret_size().y) >= enemyList[j]->ret_pos().y));
+				//bool collisionY = (((activeBullets[i]->ret_pos().y + activeBullets[i]->ret_size().y) >= player->ret_pos().y) &&
+				//	((player->ret_pos().y + player->ret_size().y) >= enemyList[j]->ret_pos().y));
+				bool collisionY = (((activeBullets[i]->ret_pos().y + activeBullets[i]->ret_size().y) >= (64 + player->ret_pos().y)) &&
+					(((64 + player->ret_pos().y) + player->ret_size().y) >= activeBullets[i]->ret_pos().y));
 
 				if (collisionX && collisionY && !player->ret_hurt()) {
 					player->hit();
