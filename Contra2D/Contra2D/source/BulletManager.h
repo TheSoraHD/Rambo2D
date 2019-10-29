@@ -11,6 +11,8 @@ public:
 	void setTileMap(TileMap *tileMap);
 	void update(int deltaTime);
 	void render();
+
+	void set_actBullets(vector<Bullet*> bullets);
 	vector<Bullet*> ret_actBullets();
 
 

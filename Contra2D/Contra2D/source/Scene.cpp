@@ -329,12 +329,28 @@ void Scene::checkHits() {
 
 			if (collisionX && collisionY) {
 				enemyList[j]->hit();
-				if (enemyList[j]->health_remaining() == 0) {
-					//kill enemy
-				}
+				activeBullets[i]->~Bullet();
+				activeBullets.erase(activeBullets.begin() + i);
 			}
 		}
 	}
+	if (boss != NULL) {
+		for (int i = 0; i < int(activeBullets.size()); ++i) {
+			//colision en las X
+			bool collisionX = (((boss->ret_pos().x + boss->ret_size().x) >= activeBullets[i]->ret_pos().x) &&
+				((activeBullets[i]->ret_pos().x + activeBullets[i]->ret_size().x) >= boss->ret_pos().x));
+			//colision en las Y
+			bool collisionY = (((boss->ret_pos().y + boss->ret_size().y) >= activeBullets[i]->ret_pos().y) &&
+				((activeBullets[i]->ret_pos().y + activeBullets[i]->ret_size().y) >= boss->ret_pos().y));
+
+			if (collisionX && collisionY) {
+				boss->hit();
+				activeBullets[i]->~Bullet();
+				activeBullets.erase(activeBullets.begin() + i);
+			}
+		}
+	}
+	bulletManager.set_actBullets(activeBullets);
 }
 
 
