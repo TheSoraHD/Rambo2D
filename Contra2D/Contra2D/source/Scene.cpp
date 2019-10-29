@@ -463,6 +463,9 @@ void Scene::checkHits() {
 					activeBullets.erase(activeBullets.begin() + i);
 					if (enemyList[j]->health_remaining() <= 0) {
 						sound.playSFX("sfx/Explosion_corta.wav");
+						Explosion *boom = new Explosion ();
+						glm::vec2 pos_explosion = enemyList[j]->ret_pos();
+						boom->init(pos_explosion, texProgram);
 						enemyList[j] = NULL;
 						enemyList.erase(enemyList.begin() + j);
 					}

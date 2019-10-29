@@ -13,6 +13,7 @@
 #include "SoundManager.h"
 #include "TileMap.h"
 #include "PowerUp.h"
+#include "Explosion.h"
 
 
 // Scene contains all the entities of our game.
