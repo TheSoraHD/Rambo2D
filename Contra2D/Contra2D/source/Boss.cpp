@@ -58,13 +58,12 @@ void Boss::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Playe
 	explosion = NULL;
 
 	sM.playSFX("sfx/godzilla.wav");
-	explosion = new Explosion;
-	explosion->init(glm::vec2(2252.0f, 100.0f), glm::ivec2(256, 256), sP);
-	explosion2 = new Explosion;
-	explosion2->init(glm::vec2(2152.0f, 200.0f), glm::ivec2(256, 256), sP);
 }
 
 void Boss::defeated() {
+	explosion = new Explosion;
+	explosion->setTileMap(map);
+	explosion->init(glm::vec2(2052.0f, 25.0f), glm::ivec2(512, 512), sP);
 	bossBaseSprite->changeAnimation(4);
 	cutsceneDelay = 300;
 	sM.stopBGM();
