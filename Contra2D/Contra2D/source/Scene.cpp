@@ -372,10 +372,18 @@ void Scene::initPlayer() {
 }
 
 void Scene::initPowerUp() {
-	powerup = new PowerUp();
-	powerup->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
-	powerup->setTileMap(map);
-	powerup->setPosition(glm::vec2(8 * map->getTileSize(), 3 * map->getTileSize()));
+	if (activeLevel == 1) {
+		powerup = new PowerUp();
+		powerup->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+		powerup->setTileMap(map);
+		powerup->setPosition(glm::vec2(8 * map->getTileSize(), 3 * map->getTileSize()));
+	}
+	if (activeLevel == 3) {
+		powerup = new PowerUp();
+		powerup->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+		powerup->setTileMap(map);
+		powerup->setPosition(glm::vec2(8 * map->getTileSize(), 4 * map->getTileSize()));
+	}
 }
 
 void Scene::checkPowerUp() {

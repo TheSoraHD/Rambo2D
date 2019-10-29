@@ -26,7 +26,7 @@ enum SoldierAnims
 void Enemy::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Player *target, int typeOf, BulletManager *bulletManager)
 {
 	typeofEnemy = typeOf;
-	cooldown = 5;
+	cooldown = 50;
 	aux = &shaderProgram;
 	switch (typeofEnemy) {
 		case TURRET:
