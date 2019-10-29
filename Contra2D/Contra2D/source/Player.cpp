@@ -383,11 +383,20 @@ void Player::movement() {
 }
 
 glm::vec2 Player::ret_pos() {
-	return posPlayer;
+	glm::vec2 posaux = posPlayer;
+	posaux.y += 64;
+	if (sprite->animation() == LOOK_DOWN) {
+		posaux.y += 32;
+	}
+	return posaux;
 }
 
 glm::vec2 Player::ret_size() {
-	return size;
+	glm::vec2 sizeaux = size;
+	if (sprite->animation() == LOOK_DOWN) {
+		sizeaux.y = 16;
+	}
+	return sizeaux;
 }
 
 void Player::activateSpread(bool powerUp) {
