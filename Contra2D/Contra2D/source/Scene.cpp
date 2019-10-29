@@ -446,6 +446,19 @@ void Scene::checkfall() {
 
 }
 
+void Scene::checkBullets() {
+	/*vector<Bullet*> activeBullets = bulletManager.ret_actBullets();
+	for (int i = 0; i < int(activeBullets.size()); ++i) {
+		bool collisionX = ((activeBullets[i]->ret_pos().x < (map->getScroll())) && (activeBullets[i]->ret_pos().x < (map->getScroll()+128)));
+		bool collisionY = (((activeBullets[i]->ret_pos().y < 0) && (activeBullets[i]->ret_pos().y < 64)));
+		if (collisionX || collisionY) {
+			activeBullets[i]->~Bullet();
+			activeBullets.erase(activeBullets.begin() + i);
+			sound.playSFX("sfx/godzilla.wav");
+		}
+	} */
+}
+
 /*void BulletManager::update(int deltaTime, vector<Enemy*> enemyList) {
 	for (int j = 0; j < int(enemyList.size()); ++j) {
 		for (int i = 0; i < int(activeBullets.size()); ++i) {

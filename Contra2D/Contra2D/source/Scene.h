@@ -45,6 +45,7 @@ private:
 	void checkPowerUp();
 	void checkHits();
 	void checkfall();
+	void checkBullets();
 
 
 private:
