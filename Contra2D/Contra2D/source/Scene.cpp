@@ -138,6 +138,7 @@ void Scene::update(int deltaTime)
 	else if (activeLevel != 0) {
 		bulletManager.update(deltaTime);
 		checkHits();
+		checkBullets();
 		checkfall();
 		if (activeLevel == 2) player->second_level_mode(true);
 		else player->second_level_mode(false);
@@ -447,16 +448,17 @@ void Scene::checkfall() {
 }
 
 void Scene::checkBullets() {
-	/*vector<Bullet*> activeBullets = bulletManager.ret_actBullets();
+	vector<Bullet*> activeBullets = bulletManager.ret_actBullets();
 	for (int i = 0; i < int(activeBullets.size()); ++i) {
-		bool collisionX = ((activeBullets[i]->ret_pos().x < (map->getScroll())) && (activeBullets[i]->ret_pos().x < (map->getScroll()+128)));
-		bool collisionY = (((activeBullets[i]->ret_pos().y < 0) && (activeBullets[i]->ret_pos().y < 64)));
+		bool collisionX = ((activeBullets[i]->ret_pos().x < (map->getScroll())) || (activeBullets[i]->ret_pos().x > (SCREEN_WIDTH + map->getScroll())));
+		bool collisionY = (((activeBullets[i]->ret_pos().y < 0) || (activeBullets[i]->ret_pos().y > SCREEN_HEIGHT)));
 		if (collisionX || collisionY) {
 			activeBullets[i]->~Bullet();
 			activeBullets.erase(activeBullets.begin() + i);
-			sound.playSFX("sfx/godzilla.wav");
+			bulletManager.set_actBullets(activeBullets);
+			sound.playSFX("sfx/select.wav");
 		}
-	} */
+	} 
 }
 
 /*void BulletManager::update(int deltaTime, vector<Enemy*> enemyList) {
