@@ -44,6 +44,7 @@ private:
 	void initTransition(int level);
 	void checkPowerUp();
 	void checkHits();
+	void checkfall();
 
 
 private:

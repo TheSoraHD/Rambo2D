@@ -20,28 +20,31 @@ enum PlayerAnims
 	SHOOT_RIGHT, SHOOT_LEFT, SHOOT_DOWN,
 	MOVE_UR, MOVE_DR, MOVE_UL, MOVE_DL,
 	UP_LEVEL2, DOWN_LEVEL2,
-	DEATH
+	DEATH, DEAD
 
 };
 
 enum directions
 {
-	LEFT, RIGHT, UP, DOWN, UR, DR, UL, DL
+	RIGHT, LEFT, UP, DOWN, UR, DR, UL, DL
 };
 
 void Player::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, BulletManager *bulletManager)
 {
+	god_mode = false;
 	bJumping = false;
 	spreadGun = false;
 	left = false;
+	hurt = false;
 	lifes = 2;
 	cooldown_shot = 0;
+	cooldown_dead = 0;
 	spritesheet.loadFromFile("images/lance2x.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	sprite = Sprite::createSprite(glm::ivec2(64, 128), glm::vec2(0.0625f, 0.125f), &spritesheet, &shaderProgram);
 	aux = &shaderProgram;
 	size.x = 64;
 	size.y = 64;
-	sprite->setNumberAnimations(22);
+	sprite->setNumberAnimations(23);
 	
 		sprite->setAnimationSpeed(STAND_LEFT, 6);
 		sprite->addKeyframe(STAND_LEFT, glm::vec2(0.5f, 0.f));
@@ -121,17 +124,20 @@ void Player::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Bul
 		sprite->addKeyframe(MOVE_DL, glm::vec2(0.5625f, 0.75f));
 		sprite->addKeyframe(MOVE_DL, glm::vec2(0.625f, 0.75f));
 
-		sprite->setAnimationSpeed(DEATH, 6);
-		sprite->addKeyframe(DEATH, glm::vec2(0.0f, 0.25f));
-		sprite->addKeyframe(DEATH, glm::vec2(0.0625f, 0.25f));
-		sprite->addKeyframe(DEATH, glm::vec2(0.125f, 0.25f));
-
 		sprite->setAnimationSpeed(UP_LEVEL2, 6);
 		sprite->addKeyframe(UP_LEVEL2, glm::vec2(0.375f, 0.0f));
 		sprite->addKeyframe(UP_LEVEL2, glm::vec2(0.4375f, 0.0f));
 
 		sprite->setAnimationSpeed(DOWN_LEVEL2, 6);
 		sprite->addKeyframe(DOWN_LEVEL2, glm::vec2(0.375f, 0.125f));
+
+		sprite->setAnimationSpeed(DEATH, 2);
+		sprite->addKeyframe(DEATH, glm::vec2(0.0f, 0.25f));
+		sprite->addKeyframe(DEATH, glm::vec2(0.0625f, 0.25f));
+		sprite->addKeyframe(DEATH, glm::vec2(0.125f, 0.25f));
+
+		sprite->setAnimationSpeed(DEAD, 6);
+		sprite->addKeyframe(DEAD, glm::vec2(0.125f, 0.25f));
 
 	sprite->changeAnimation(0);
 	sprite->setPosition(glm::vec2(float(posPlayer.x), float(posPlayer.y)));
@@ -142,14 +148,33 @@ void Player::update(int deltaTime)
 {
 	//if (Game::instance().getSpecialKey(GLUT_KEY_UP)) sound.playSFX("sfx/zawarudo.wav");
 	sprite->update(deltaTime);
+	if (cooldown_dead > 450) {
+		--cooldown_dead;
+		if (cooldown_dead == 560) {
+			if (sprite->animation() != DEAD) sprite->changeAnimation(DEAD);
+		}
+		if (cooldown_dead == 450) {
+			//respawn with inmunity
+			posPlayer.x = map->getScroll()+10;
+			posPlayer.y = 5;
+			sprite->setPosition(glm::vec2(float(posPlayer.x - map->getScroll()), float(posPlayer.y)));
+			if (sprite->animation() != JUMP_RIGHT) sprite->changeAnimation(JUMP_RIGHT); //no cambia animación because reasons
+		}
+	}
+	else {
+		if (cooldown_dead > 0) {
+			--cooldown_dead;
+			if (cooldown_dead == 0) hurt = false; //inmunity off
+		}
 
-	movement();
-	int offset_x = 0;
-	int offset_y = 0;
-	//if ((Game::instance().getKey('2'))) spreadGun = true;
-	if ((Game::instance().getKey('z') || Game::instance().getKey('Z')) && cooldown_shot <= 0) { //disparar
-		int direction = RIGHT;
-		switch (sprite->animation()) {
+		movement();
+		int offset_x = 0;
+		int offset_y = 0;
+		if ((Game::instance().getKey('2'))) god_mode = true;
+		if ((Game::instance().getKey('3'))) god_mode = false;
+		if ((Game::instance().getKey('z') || Game::instance().getKey('Z')) && cooldown_shot <= 0) { //disparar
+			int direction = RIGHT;
+			switch (sprite->animation()) {
 			case (STAND_RIGHT):
 				direction = RIGHT; offset_x = 36; offset_y = 78;
 				break;
@@ -198,12 +223,13 @@ void Player::update(int deltaTime)
 			case (DOWN_LEVEL2):
 				direction = UP; offset_x = 20; offset_y = 40;
 				break;
+			}
+			bM->createPlayerBullet(posPlayer.x + (int)offset_x, posPlayer.y + (int)offset_y, direction, spreadGun, *aux);
+			sound.playSFX("sfx/shoot.wav");
+			cooldown_shot = 10;
 		}
-		bM->createPlayerBullet(posPlayer.x+(int)offset_x,posPlayer.y+(int)offset_y, direction, spreadGun, *aux);
-		sound.playSFX("sfx/shoot.wav");
-		cooldown_shot = 10;
+		--cooldown_shot;
 	}
-	--cooldown_shot;
 	sprite->setPosition(glm::vec2(float(posPlayer.x - map->getScroll()), float(posPlayer.y)));
 }
 
@@ -344,7 +370,22 @@ void Player::activateSpread(bool powerUp) {
 }
 
 void Player::hit() {
-	sound.playSFX("sfx/playerhit.wav");
+	if (!hurt) {
+		hurt = true;
+		--lifes;
+		if (sprite->animation() != DEATH)
+			sprite->changeAnimation(DEATH);
+		cooldown_dead = 600;
+		sound.playSFX("sfx/playerhit.wav");
+	}
+}
+
+bool Player::ret_hurt() {
+	return hurt;
+}
+
+bool Player::game_over() {
+	return ((lifes == 0) && (cooldown_dead == 451));
 }
 
 void Player::render()

@@ -138,6 +138,7 @@ void Scene::update(int deltaTime)
 	else if (activeLevel != 0) {
 		bulletManager.update(deltaTime);
 		checkHits();
+		checkfall();
 		for (int i = 0; i < int(bridgeList.size()); i++)
 			bridgeList[i]->update(deltaTime);
 		for (int i = 0; i < int(enemyList.size()); ++i)
@@ -148,6 +149,7 @@ void Scene::update(int deltaTime)
 			powerup->update(deltaTime);
 			checkPowerUp();
 		}
+		if (player->game_over()) //TODO GAME OVER
 		if (!victory) checkVictory();
 
 		//Specific level behaviours
@@ -377,7 +379,7 @@ void Scene::checkHits() {
 				bool collisionY = (((activeBullets[i]->ret_pos().y + activeBullets[i]->ret_size().x) >= (64 + player->ret_pos().y)) &&
 					(((64 + player->ret_pos().y) + player->ret_size().y) >= enemyList[j]->ret_pos().y));
 
-				if (collisionX && collisionY) {
+				if (collisionX && collisionY && !player->ret_hurt()) {
 					player->hit();
 					activeBullets[i]->~Bullet();
 					activeBullets.erase(activeBullets.begin() + i);
@@ -405,9 +407,13 @@ void Scene::checkHits() {
 }
 
 
+void Scene::checkfall() {
+	if (player->ret_pos().y > 12 && !player->ret_hurt()) {
+		player->hit();
 
+	}
 
-
+}
 
 /*void BulletManager::update(int deltaTime, vector<Enemy*> enemyList) {
 	for (int j = 0; j < int(enemyList.size()); ++j) {

@@ -21,6 +21,8 @@ public:
 	glm::vec2 ret_pos();
 	void activateSpread(bool powerUp);
 	void hit();
+	bool ret_hurt();
+	bool game_over();
 	void render();
 	
 	void setTileMap(TileMap *tileMap);
@@ -30,13 +32,14 @@ public:
 private:
 	BulletManager *bM;
 	SoundManager sound;
-	bool bJumping, spreadGun, left;
+	bool bJumping, spreadGun, left, hurt;
 	glm::vec2 posPlayer, size;
 	int jumpAngle, startY, lifes;
 	Texture spritesheet;
 	Sprite *sprite;
 	TileMap *map;
-	int cooldown_shot;
+	int cooldown_shot, cooldown_dead;
+	int god_mode;
 };
 
 

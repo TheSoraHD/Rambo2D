@@ -113,7 +113,7 @@ void Enemy::turretAim() {
 void Enemy::soldierShoot() {
 	if (cooldown <= 0) {
 		bM->createEnemyBullet(posEnemy.x, posEnemy.y + 5, LEFT_BULL, *aux);
-		cooldown = 50;
+		cooldown = 100;
 	}
 	else --cooldown;
 }
