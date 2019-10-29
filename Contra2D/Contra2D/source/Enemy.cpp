@@ -34,7 +34,7 @@ void Enemy::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Play
 			sprite = Sprite::createSprite(glm::ivec2(64, 64), glm::vec2(0.25f, 0.25f), &spritesheet, &shaderProgram);
 			size.x = 64;
 			size.y = 64;
-			health = 3;
+			health = 10;
 			turretAnim();
 			break;
 		case SOLDIER:
@@ -43,7 +43,7 @@ void Enemy::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Play
 			sprite->setNumberAnimations(1);
 			size.x = 34;
 			size.y = 64;
-			health = 2;
+			health = 5;
 			sprite->setAnimationSpeed(DEFAULT, 5);
 			sprite->addKeyframe(DEFAULT, glm::vec2(0.0f, 0.0f));
 			sprite->addKeyframe(DEFAULT, glm::vec2(0.5f, 0.0f));

@@ -17,8 +17,8 @@ private:
 	bool introAnim;
 	float backgroundPos;
 	int cursor, inputDelay;
-	Texture spritesheet, spritesheet2;
-	Sprite *background, *medal;
+	Texture spritesheet, spritesheet2, spritesheet3;
+	Sprite *background, *medal, *instructions;
 };
 
 #endif
