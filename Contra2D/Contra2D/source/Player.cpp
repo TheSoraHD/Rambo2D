@@ -406,7 +406,8 @@ void Player::hit() {
 }
 
 bool Player::ret_hurt() {
-	return hurt;
+	if (sprite->animation() == DOWN_LEVEL2) return true;
+	else return hurt;
 }
 
 bool Player::isgod() {
