@@ -26,7 +26,7 @@ enum PlayerAnims
 
 enum directions
 {
-	RIGHT, LEFT, UP, DOWN, UR, DR, UL, DL
+	LEFT, RIGHT, UP, DOWN, UR, DR, UL, DL
 };
 
 void Player::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, BulletManager *bulletManager)
@@ -39,6 +39,8 @@ void Player::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Bul
 	lifes = 2;
 	cooldown_shot = 0;
 	cooldown_dead = 0;
+	//posPlayer.x = 1;
+	//posPlayer.y = 3;
 	spritesheet.loadFromFile("images/lance2x.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	sprite = Sprite::createSprite(glm::ivec2(64, 128), glm::vec2(0.0625f, 0.125f), &spritesheet, &shaderProgram);
 	aux = &shaderProgram;
@@ -158,7 +160,7 @@ void Player::update(int deltaTime)
 			posPlayer.x = map->getScroll()+10;
 			posPlayer.y = 5;
 			sprite->setPosition(glm::vec2(float(posPlayer.x - map->getScroll()), float(posPlayer.y)));
-			if (sprite->animation() != JUMP_RIGHT) sprite->changeAnimation(JUMP_RIGHT); //no cambia animación because reasons
+			//if (sprite->animation() != JUMP_RIGHT) sprite->changeAnimation(JUMP_RIGHT); //no cambia animación because reasons
 		}
 	}
 	else {

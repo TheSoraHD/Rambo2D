@@ -28,7 +28,7 @@ void Bullet::createBullet(float posx, float posy, int direction, bool spreadGun,
 	size.y = 8;
 
 	spritesheet.loadFromFile("images/bullet.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	sprite = Sprite::createSprite(glm::ivec2(8, 8), glm::vec2(0.5f, 1.0f), &spritesheet, &shaderProgram);
+	sprite = Sprite::createSprite(glm::ivec2(16, 16), glm::vec2(0.5f, 1.0f), &spritesheet, &shaderProgram);
 
 	sprite->setNumberAnimations(2);
 
