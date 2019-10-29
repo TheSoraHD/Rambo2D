@@ -397,8 +397,8 @@ void Scene::checkHits() {
 					activeBullets.erase(activeBullets.begin() + i);
 					if (enemyList[j]->health_remaining() <= 0) {
 						sound.playSFX("sfx/Explosion_corta.wav");
-						//enemyList[j]->~Enemy();
-						//enemyList.erase(enemyList.begin() + j);
+						enemyList[j] = NULL;
+						enemyList.erase(enemyList.begin() + j);
 					}
 				}
 			}

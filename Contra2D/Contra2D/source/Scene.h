@@ -50,6 +50,7 @@ private:
 private:
 	BulletManager bulletManager;
 	SoundManager sound;				  // Audio engine
+	vector<Bullet*> activeBullets;
 
 	MainMenu mainMenu;
 

@@ -86,8 +86,10 @@ void Enemy::update(int deltaTime)
 {
 	if (typeofEnemy == TURRET) turretAim();
 	else soldierShoot();
-	sprite->update(deltaTime);
-	sprite->setPosition(glm::vec2(float(posEnemy.x - map->getScroll()), float(posEnemy.y)));
+	if (sprite != NULL) {
+		sprite->update(deltaTime);
+		sprite->setPosition(glm::vec2(float(posEnemy.x - map->getScroll()), float(posEnemy.y)));
+	}
 }
 
 void Enemy::turretAim() {
@@ -218,12 +220,11 @@ glm::vec2 Enemy::ret_size() {
 void Enemy::hit() {
 	sound.playSFX("sfx/Soldier_death.wav");
 	--health;
+	if (health == 0) {
+		sprite = NULL;
+	}
 }
 
 int Enemy::health_remaining() {
 	return health;
-}
-
-Enemy::~Enemy() {
-
 }
