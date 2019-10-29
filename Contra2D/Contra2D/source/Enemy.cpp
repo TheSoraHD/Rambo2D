@@ -43,7 +43,7 @@ void Enemy::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Play
 			sprite->setNumberAnimations(1);
 			size.x = 64;
 			size.y = 64;
-			health = 1;
+			health = 2;
 			sprite->setAnimationSpeed(DEFAULT, 5);
 			sprite->addKeyframe(DEFAULT, glm::vec2(0.0f, 0.0f));
 			sprite->addKeyframe(DEFAULT, glm::vec2(0.5f, 0.0f));
@@ -213,4 +213,8 @@ void Enemy::hit() {
 
 int Enemy::health_remaining() {
 	return health;
+}
+
+Enemy::~Enemy() {
+
 }

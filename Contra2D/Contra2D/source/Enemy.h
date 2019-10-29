@@ -24,6 +24,7 @@ public:
 	glm::vec2 ret_size();
 	void hit();
 	int health_remaining();
+	~Enemy();
 
 private:
 	BulletManager *bM;

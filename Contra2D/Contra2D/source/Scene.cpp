@@ -364,6 +364,11 @@ void Scene::checkHits() {
 					enemyList[j]->hit();
 					activeBullets[i]->~Bullet();
 					activeBullets.erase(activeBullets.begin() + i);
+					if (enemyList[j]->health_remaining() <= 0) {
+						sound.playSFX("sfx/Explosion_corta.wav");
+						//enemyList[j]->~Enemy();
+						//enemyList.erase(enemyList.begin() + j);
+					}
 				}
 			}
 			else {
