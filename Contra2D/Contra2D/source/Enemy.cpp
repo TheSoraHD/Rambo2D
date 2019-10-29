@@ -146,7 +146,7 @@ void Enemy::soldierShoot() {
 				cooldown = 100;
 				break;
 			case SOLDIER_2ND_LEVEL:
-				bM->createEnemyBullet(posEnemy.x + 11, posEnemy.y + 35, DOWN_BULL, true, *aux, 1.0f);
+				bM->createEnemyBullet(posEnemy.x + 11, posEnemy.y + 35, DOWN_BULL, true, *aux, 0.5f);
 				cooldown = 150;
 				break;
 

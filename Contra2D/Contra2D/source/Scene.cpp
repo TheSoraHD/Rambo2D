@@ -477,9 +477,9 @@ void Scene::checkHits() {
 						sound.playSFX("sfx/Explosion_corta.wav");
 						Explosion *boom = new Explosion ();
 						activeExplosions.emplace_back(boom);
-						boom->init(enemyList[j]->ret_pos(), glm::ivec2(128, 128), texProgram);
 						boom->setTileMap(map);
-
+						boom->init(enemyList[j]->ret_pos(), glm::ivec2(128, 128), texProgram);
+						
 						enemyList[j] = NULL;
 						enemyList.erase(enemyList.begin() + j);
 					}
