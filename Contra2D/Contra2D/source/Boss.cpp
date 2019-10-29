@@ -67,7 +67,7 @@ void Boss::defeated() {
 	bossBaseSprite->changeAnimation(4);
 	cutsceneDelay = 300;
 	sM.stopBGM();
-	sM.playSFX("sfx/booom.wav");
+	sM.playSFX("sfx/BigExplosion.wav");
 	isInvincible = true;
 	isDefeated = true;
 }

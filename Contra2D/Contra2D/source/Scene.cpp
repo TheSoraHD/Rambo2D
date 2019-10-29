@@ -449,7 +449,7 @@ void Scene::checkPowerUp() {
 	bool collisionY = ((((15 + powerup->ret_pos().y) + powerup->ret_size().y) >= (player->ret_pos().y)) &&
 		(((player->ret_pos().y) + player->ret_size().y) >= (15 + powerup->ret_pos().y)));
 	if (collisionX && collisionY) {
-		sound.playSFX("sfx/powerup_spread.wav");
+		sound.playSFX("sfx/Powerupfuturista.wav");
 		player->activateSpread(true);
 		powerup->~PowerUp();
 		powerup = NULL;
