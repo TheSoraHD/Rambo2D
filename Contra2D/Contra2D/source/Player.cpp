@@ -249,7 +249,7 @@ void Player::movement() {
 	if (Game::instance().getSpecialKey(GLUT_KEY_LEFT))
 	{
 		left = true;
-		posPlayer.x -= 2.5;
+		if (!(second_level && (Game::instance().getKey('z') || Game::instance().getKey('Z')))) posPlayer.x -= 2.5;
 		if (map->collisionMoveLeft(posPlayer, glm::ivec2(64, 128)) || posPlayer.x <= map->getScroll())
 		{
 			posPlayer.x += 2.5;
@@ -266,7 +266,12 @@ void Player::movement() {
 				sprite->changeAnimation(SHOOT_DOWN);
 		}
 		else if (Game::instance().getKey('z') || Game::instance().getKey('Z')) {
-			if (sprite->animation() != SHOOT_LEFT && !bJumping)
+			if (second_level) {
+				if (sprite->animation() != UP_LEVEL2) {
+					sprite->changeAnimation(UP_LEVEL2);
+				}
+			}
+			else if (sprite->animation() != SHOOT_LEFT && !bJumping)
 				sprite->changeAnimation(SHOOT_LEFT);
 		}
 		else if (sprite->animation() != MOVE_LEFT && !bJumping)
@@ -275,7 +280,7 @@ void Player::movement() {
 	else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT))
 	{
 		left = false;
-		posPlayer.x += 3.5f;
+		if (!(second_level && (Game::instance().getKey('z') || Game::instance().getKey('Z')))) posPlayer.x += 3.5f;
 
 		if(map->collisionMoveRight(posPlayer, glm::ivec2(64, 128)) || posPlayer.x >= (map->getLevelWidth() - 64.0f))
 		{
@@ -296,7 +301,12 @@ void Player::movement() {
 				sprite->changeAnimation(SHOOT_DOWN);
 		}
 		else if (Game::instance().getKey('z') || Game::instance().getKey('Z')) {
-			if (sprite->animation() != SHOOT_RIGHT && !bJumping)
+			if (second_level) {
+				if (sprite->animation() != UP_LEVEL2) {
+					sprite->changeAnimation(UP_LEVEL2);
+				}
+			}
+			else if (sprite->animation() != SHOOT_RIGHT && !bJumping)
 				sprite->changeAnimation(SHOOT_RIGHT);
 		}
 		else if (sprite->animation() != MOVE_RIGHT && !bJumping)
