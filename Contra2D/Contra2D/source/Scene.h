@@ -57,7 +57,9 @@ private:
 
 	bool victory = false;
 	bool za_warudo = false;
-	int timer_za_warudo = 300;
+	bool shindeiru = false;
+	int timer_za_warudo = 550;
+	int timer_shindeiru = 275;
 	int activeLevel, nextLevel;
 	float transitionDelay;
 

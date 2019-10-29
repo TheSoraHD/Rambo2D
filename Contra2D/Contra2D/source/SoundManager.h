@@ -11,11 +11,14 @@ public:
 	~SoundManager();
 	void playBGM(const char* filename, bool isLooped);
 	void stopBGM();
+	void pauseBGM();
+	void resumeBGM();
 	void playSFX(const char* filename);
 
 private:
 	irrklang::ISoundEngine* soundEngine;
 	irrklang::ISound* music;
+	irrklang::ISound* sfx;
 };
 
 #endif

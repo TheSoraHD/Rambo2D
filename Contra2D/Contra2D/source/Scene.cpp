@@ -141,48 +141,57 @@ void Scene::update(int deltaTime)
 	}
 	else if (activeLevel != 0) {
 
-		player->update(deltaTime);
-		checkfall();
-		if (player->game_over()) {
-			sound.stopBGM();
-			Game::instance().loadLevel(15);
+		if (za_warudo && (timer_za_warudo <= 0) && !shindeiru) {
+			sound.playSFX("sfx/omae_wa_mo_shindeiru.wav");
+			shindeiru = true;
 		}
-		if (activeLevel == 2) player->second_level_mode(true);
-		else player->second_level_mode(false);
-		if (powerup != NULL) {
-			powerup->update(deltaTime);
-			checkPowerUp();
+		else if (shindeiru && timer_shindeiru > 0) {
+			timer_shindeiru -= 0.1f * deltaTime;
 		}
-		for (int i = 0; i < int(bridgeList.size()); i++)
-			bridgeList[i]->update(deltaTime);
-		for (int i = 0; i < int(enemyList.size()); ++i)
-			enemyList[i]->update(deltaTime);
-
-		if (boss != NULL) boss->update(deltaTime);
-		//Specific level behaviours
-		if (activeLevel == 3) {
-			if (boss == NULL) {
-				if (player->sharePosition().x >= (map->getLevelWidth() - 400.0f)) initBoss();
-			}
-			else if (boss->stopMusic()) sound.stopBGM();
-		}
-
-		//ZA WARUDO
-		if (Game::instance().getKey('c') && (!za_warudo && (timer_za_warudo > 0))) {
-			za_warudo = true;
-			sound.playSFX("zawarudo.wav");
-		}
-		if (za_warudo && (timer_za_warudo > 0)) --timer_za_warudo;
-
 		else {
-			bulletManager.update(deltaTime);
-			checkHits();
-			checkBullets();
+			player->update(deltaTime);
+			checkfall();
+
+			if (player->game_over()) {
+				sound.stopBGM();
+				Game::instance().loadLevel(15);
+			}
+			if (activeLevel == 2) player->second_level_mode(true);
+			else player->second_level_mode(false);
+			if (powerup != NULL) {
+				powerup->update(deltaTime);
+				checkPowerUp();
+			}
+			for (int i = 0; i < int(bridgeList.size()); i++)
+				bridgeList[i]->update(deltaTime);
+			for (int i = 0; i < int(enemyList.size()); ++i)
+				enemyList[i]->update(deltaTime);
+			if (boss != NULL) boss->update(deltaTime);
+	
+			//Specific level behaviours
+			if (activeLevel == 3) {
+				if (boss == NULL) {
+					if (player->sharePosition().x >= (map->getLevelWidth() - 400.0f)) initBoss();
+				}
+				else if (boss->stopMusic()) sound.stopBGM();
+			}
+
+			//ZA WARUDO
+			if (Game::instance().getKey('c') && (!za_warudo && (timer_za_warudo > 0))) {
+				za_warudo = true;
+				sound.pauseBGM();
+				sound.playSFX("sfx/zawarudo.wav");
+			}
+			if (za_warudo && (timer_za_warudo > 0)) timer_za_warudo -= 0.1f * deltaTime;
+
+			else {
+				bulletManager.update(deltaTime);
+				checkHits();
+				checkBullets();
+			}
+
+			if (!victory) checkVictory();
 		}
-
-		if (!victory) checkVictory();
-
-
 	}
 	else mainMenu.update(deltaTime);
 }

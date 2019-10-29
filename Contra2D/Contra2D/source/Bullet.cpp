@@ -95,7 +95,6 @@ void Bullet::update(int deltaTime) {
 			break;
 	}
 	sprite->update(deltaTime);
-	sprite->setPosition(glm::vec2(float(posBullet.x - map->getScroll()), float(posBullet.y)));
 }
 
 void Bullet::setTileMap(TileMap *tileMap)
@@ -104,6 +103,7 @@ void Bullet::setTileMap(TileMap *tileMap)
 }
 
 void Bullet::render() {
+	sprite->setPosition(glm::vec2(float(posBullet.x - map->getScroll()), float(posBullet.y)));
 	sprite->render();
 }
 
