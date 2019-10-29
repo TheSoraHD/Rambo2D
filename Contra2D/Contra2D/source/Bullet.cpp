@@ -18,12 +18,13 @@ enum SpreadDeviation {
 	DEVIATION_1L, DEVIATION_2L, NO_DEVIATION, DEVIATION_1R, DEVIATION_2R
 };
 
-void Bullet::createBullet(float posx, float posy, int direction, bool spreadGun, int deviation, bool player, ShaderProgram &shaderProgram) {
+void Bullet::createBullet(float posx, float posy, int direction, bool spreadGun, int deviation, bool player, ShaderProgram &shaderProgram, float speedy) {
 	dir = direction;
 	posBullet = glm::vec2(float(posx), float(posy));
 	isPlayer = player;
 	spreadBullet = spreadGun;
 	dev = deviation;
+	speed = speedy;
 	size.x = 8;
 	size.y = 8;
 
@@ -49,7 +50,6 @@ void Bullet::createBullet(float posx, float posy, int direction, bool spreadGun,
 
 void Bullet::update(int deltaTime) {
 	float dev_x = 0;
-	float speed = 1.5f;
 	switch (dev) {
 		case (DEVIATION_1L):
 			dev_x = 0.75; break;

@@ -18,7 +18,7 @@ enum directions //1, 2, 3, 4
 void Boss::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Player *target, BulletManager *bulletManager)
 {
 	spritesheet.loadFromFile("images/bossbase2x.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	bossBaseSprite = Sprite::createSprite(glm::ivec2(448, 256), glm::vec2(1.0f, 0.125f), &spritesheet, &shaderProgram);
+	bossBaseSprite = Sprite::createSprite(glm::ivec2(448, 256), glm::vec2(1.0f, 0.1249f), &spritesheet, &shaderProgram);
 	bossBaseSprite->setPosition(glm::vec2(1952.0f - map->getScroll(), 0.0f));
 	bossBaseSprite->setNumberAnimations(5);
 
@@ -44,7 +44,7 @@ void Boss::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Playe
 
 	bossBaseSprite->changeAnimation(0);
 
-	bossHealth = bossMaxHealth = 240;
+	bossHealth = bossMaxHealth = 210;
 	posEnemy.x = 2152.0f; posEnemy.y = 64.0f;
 	size.x = 64.0f; size.y = 100.0f;
 	bM = bulletManager;
@@ -53,6 +53,8 @@ void Boss::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Playe
 	isInvincible = true;
 	isDefeated = false;
 	isPhase1 = isPhase2 = isPhase3 = false;
+	phase3offset = 0.0f;
+	phase3direction = 0;
 
 	sM.playSFX("sfx/godzilla.wav");
 }
@@ -69,34 +71,59 @@ void Boss::defeated() {
 void Boss::phase1() { //FULL HP
 	if (!isPhase1) {
 		bossBaseSprite->changeAnimation(1);
-		cooldownMax = 15;
+		cooldownMax = 200;
 		isPhase1 = true;
 		isInvincible = false;
 	}
+	if (cooldown > 100.0f && cooldown <= 102.0f) {
+		bM->createEnemyBullet(1850.0f, 325.0f + (rand() % 3) * 10.0f, RIGHT, false, sP, 0.75);
+	}
 	if (cooldown <= 0) {
 		cooldown = cooldownMax;
-		bM->createEnemyBullet(1952.0f, 50.0f, DOWN, true, sP);
+		bM->createEnemyBullet(2500.0f, 325.0f + (rand() % 3) * 10.0f, LEFT, false, sP, 0.75);
 	}
 }
 
 void Boss::phase2() { //2/3 HP
 	if (!isPhase2) {
 		bossBaseSprite->changeAnimation(2);
-		cooldownMax = 60;
+		cooldownMax = 100;
 		isPhase2 = true;
+	}
+	if (cooldown > 70.0f && cooldown <= 72.0f) {
+		bM->createEnemyBullet(1850.0f + (rand() % 50), 50.0f + (rand() % 200), DR, false, sP, 0.85);
 	}
 	if (cooldown <= 0) {
 		cooldown = cooldownMax;
-		bM->createEnemyBullet(1952.0f, 100.0f, DOWN, false, sP);
+		bM->createEnemyBullet(2500.0f - (rand() % 50), 50.0f + (rand() % 200), DL, false, sP, 0.85);
 	}
 }
 
-void Boss::phase3() { //1/3 HP
+void Boss::phase3(int deltaTime) { //1/3 HP
 	bossBaseSprite->changeAnimation(3);
-	cooldownMax = 3;
+	cooldownMax = 12;
 	if (cooldown <= 0) {
 		cooldown = cooldownMax;
-		bM->createEnemyBullet(1952.0f, 100.0f, DOWN, false, sP);
+		bM->createEnemyBullet(1850.0f + phase3offset, 0.0f, DOWN, false, sP, 0.9);
+		bM->createEnemyBullet(1900.0f + phase3offset, 0.0f, DOWN, false, sP, 0.9);
+		bM->createEnemyBullet(1950.0f + phase3offset, 0.0f, DOWN, false, sP, 0.9);
+		bM->createEnemyBullet(2000.0f + phase3offset, 0.0f, DOWN, false, sP, 0.9);
+		bM->createEnemyBullet(2050.0f + phase3offset, 0.0f, DOWN, false, sP, 0.9);
+		bM->createEnemyBullet(2100.0f + phase3offset, 0.0f, DOWN, false, sP, 0.9);
+
+		bM->createEnemyBullet(2250.0f + phase3offset, 0.0f, DOWN, false, sP, 0.9);
+		bM->createEnemyBullet(2300.0f + phase3offset, 0.0f, DOWN, false, sP, 0.9);
+		bM->createEnemyBullet(2350.0f + phase3offset, 0.0f, DOWN, false, sP, 0.9);
+		bM->createEnemyBullet(2400.0f + phase3offset, 0.0f, DOWN, false, sP, 0.9);
+		bM->createEnemyBullet(2450.0f + phase3offset, 0.0f, DOWN, false, sP, 0.9);
+		bM->createEnemyBullet(2500.0f + phase3offset, 0.0f, DOWN, false, sP, 0.9);
+	}
+	phase3direction += 0.1f * deltaTime;
+	if (phase3direction % 800 < 100 || (phase3direction % 800 >= 600 && phase3direction % 800 < 700)){
+		phase3offset += 0.15f * deltaTime;
+	}
+	else if ((phase3direction % 800 >= 200 && phase3direction % 800 < 300) || (phase3direction % 800 >= 400 && phase3direction % 800 < 500)) {
+		phase3offset -= 0.15f * deltaTime;
 	}
 }
 
@@ -121,8 +148,8 @@ void Boss::update(int deltaTime) {
 		else {
 			//AI
 			cooldown -= 0.1f * deltaTime;
-			if (bossHealth <= bossMaxHealth / 3) phase3();
-			else if (bossHealth <= bossMaxHealth * 2 / 3) phase2();
+			if (bossHealth <= bossMaxHealth / 3) phase3(deltaTime);
+			else if (bossHealth <= bossMaxHealth * 3 / 4) phase2();
 			else phase1();
 		}
 	}

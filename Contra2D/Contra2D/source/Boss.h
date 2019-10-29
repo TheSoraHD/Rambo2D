@@ -15,7 +15,7 @@ public:
 	void defeated();
 	void phase1();
 	void phase2();
-	void phase3();
+	void phase3(int deltaTime);
 	void render();
 	void setTileMap(TileMap *tileMap);
 	void update(int deltaTime);
@@ -29,8 +29,9 @@ public:
 private:
 
 	bool isInvincible, isDefeated, isPhase1, isPhase2, isPhase3;
-	int bossHealth, bossMaxHealth, cooldown, cooldownMax;
+	int bossHealth, bossMaxHealth, cooldown, cooldownMax, phase3direction;
 	int cutsceneDelay;
+	float phase3offset;
 	glm::vec2 posEnemy, size;
 
 	BulletManager *bM;
