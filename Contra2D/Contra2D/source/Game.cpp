@@ -8,7 +8,7 @@ void Game::init()
 	bPlay = true;
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	scene = new Scene;
-	scene->init(1); //MUST BE 0
+	scene->init(3); //MUST BE 0
 }
 
 void Game::loadLevel(int level)

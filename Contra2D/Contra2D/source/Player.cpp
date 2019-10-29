@@ -36,7 +36,7 @@ void Player::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Bul
 	spreadGun = false;
 	left = false;
 	hurt = false;
-	lifes = 2;
+	lifes = 3;
 	second_level = false;
 	cooldown_shot = 0;
 	cooldown_dead = 0;
@@ -429,7 +429,8 @@ bool Player::game_over() {
 
 void Player::render()
 {
-	sprite->render();
+	if(cooldown_dead % 16 < 8 || cooldown_dead > 150)
+		sprite->render();
 }
 
 void Player::setTileMap(TileMap *tileMap)

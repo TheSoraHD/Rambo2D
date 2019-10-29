@@ -75,7 +75,7 @@ void Boss::phase1() { //FULL HP
 	}
 	if (cooldown <= 0) {
 		cooldown = cooldownMax;
-		bM->createPlayerBullet(1952.0f, 50.0f, DOWN, true, sP);
+		bM->createEnemyBullet(1952.0f, 50.0f, DOWN, true, sP);
 	}
 }
 
@@ -87,7 +87,7 @@ void Boss::phase2() { //2/3 HP
 	}
 	if (cooldown <= 0) {
 		cooldown = cooldownMax;
-		bM->createPlayerBullet(1952.0f, 100.0f, DOWN, false, sP);
+		bM->createEnemyBullet(1952.0f, 100.0f, DOWN, false, sP);
 	}
 }
 
@@ -96,7 +96,7 @@ void Boss::phase3() { //1/3 HP
 	cooldownMax = 3;
 	if (cooldown <= 0) {
 		cooldown = cooldownMax;
-		bM->createPlayerBullet(1952.0f, 100.0f, DOWN, false, sP);
+		bM->createEnemyBullet(1952.0f, 100.0f, DOWN, false, sP);
 	}
 }
 

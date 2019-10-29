@@ -441,17 +441,31 @@ void Scene::checkHits() {
 	}
 	if (boss != NULL) {
 		for (int i = 0; i < int(activeBullets.size()); ++i) {
-			//colision en las X
-			bool collisionX = (((boss->ret_pos().x + boss->ret_size().x) >= activeBullets[i]->ret_pos().x) &&
-				((activeBullets[i]->ret_pos().x + activeBullets[i]->ret_size().x) >= boss->ret_pos().x));
-			//colision en las Y
-			bool collisionY = (((boss->ret_pos().y + boss->ret_size().y) >= activeBullets[i]->ret_pos().y) &&
-				((activeBullets[i]->ret_pos().y + activeBullets[i]->ret_size().y) >= boss->ret_pos().y));
+			if (activeBullets[i]->ret_player_bullet()) {
+				//colision en las X
+				bool collisionX = (((boss->ret_pos().x + boss->ret_size().x) >= activeBullets[i]->ret_pos().x) &&
+					((activeBullets[i]->ret_pos().x + activeBullets[i]->ret_size().x) >= boss->ret_pos().x));
+				//colision en las Y
+				bool collisionY = (((boss->ret_pos().y + boss->ret_size().y) >= activeBullets[i]->ret_pos().y) &&
+					((activeBullets[i]->ret_pos().y + activeBullets[i]->ret_size().y) >= boss->ret_pos().y));
 
-			if (collisionX && collisionY) {
-				boss->hit();
-				activeBullets[i]->~Bullet();
-				activeBullets.erase(activeBullets.begin() + i);
+				if (collisionX && collisionY) {
+					boss->hit();
+					activeBullets[i]->~Bullet();
+					activeBullets.erase(activeBullets.begin() + i);
+				}
+			}
+			else {
+				bool collisionX = (((activeBullets[i]->ret_pos().x + activeBullets[i]->ret_size().x) >= player->ret_pos().x) &&
+					((player->ret_pos().x + player->ret_size().x) >= activeBullets[i]->ret_pos().x));
+				bool collisionY = (((activeBullets[i]->ret_pos().y + activeBullets[i]->ret_size().y) >= (player->ret_pos().y)) &&
+					(((player->ret_pos().y) + player->ret_size().y) >= activeBullets[i]->ret_pos().y));
+
+				if (collisionX && collisionY && !player->ret_hurt()) {
+					player->hit();
+					activeBullets[i]->~Bullet();
+					activeBullets.erase(activeBullets.begin() + i);
+				}
 			}
 		}
 	}
