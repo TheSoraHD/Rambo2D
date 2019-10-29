@@ -407,8 +407,8 @@ void Scene::checkHits() {
 					((player->ret_pos().x + player->ret_size().x) >= activeBullets[i]->ret_pos().x));
 				//bool collisionY = (((activeBullets[i]->ret_pos().y + activeBullets[i]->ret_size().y) >= player->ret_pos().y) &&
 				//	((player->ret_pos().y + player->ret_size().y) >= enemyList[j]->ret_pos().y));
-				bool collisionY = (((activeBullets[i]->ret_pos().y + activeBullets[i]->ret_size().y) >= (64 + player->ret_pos().y)) &&
-					(((64 + player->ret_pos().y) + player->ret_size().y) >= activeBullets[i]->ret_pos().y));
+				bool collisionY = (((activeBullets[i]->ret_pos().y + activeBullets[i]->ret_size().y) >= (player->ret_pos().y)) &&
+					(((player->ret_pos().y) + player->ret_size().y) >= activeBullets[i]->ret_pos().y));
 
 				if (collisionX && collisionY && !player->ret_hurt()) {
 					player->hit();

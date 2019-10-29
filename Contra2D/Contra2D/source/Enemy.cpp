@@ -41,7 +41,7 @@ void Enemy::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Play
 			spritesheet.loadFromFile("images/soldier2x.png", TEXTURE_PIXEL_FORMAT_RGBA);
 			sprite = Sprite::createSprite(glm::ivec2(64, 64), glm::vec2(0.5f, 1.0f), &spritesheet, &shaderProgram);
 			sprite->setNumberAnimations(1);
-			size.x = 64;
+			size.x = 34;
 			size.y = 64;
 			health = 2;
 			sprite->setAnimationSpeed(DEFAULT, 5);
@@ -52,7 +52,7 @@ void Enemy::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Play
 			spritesheet.loadFromFile("images/soldierLevel2_2x.png", TEXTURE_PIXEL_FORMAT_RGBA);
 			sprite = Sprite::createSprite(glm::ivec2(32, 64), glm::vec2(1.0f, 1.0f), &spritesheet, &shaderProgram);
 			sprite->setNumberAnimations(1);
-			size.x = 64;
+			size.x = 23;
 			size.y = 64;
 			health = 7;
 			sprite->setAnimationSpeed(DEFAULT, 5);
@@ -210,13 +210,20 @@ void Enemy::turretAnim() {
 }
 
 glm::vec2 Enemy::ret_pos() {
-	if (this != NULL)
-		return posEnemy;
+	if (this != NULL) {
+		glm::vec2 posaux = posEnemy;
+		if (typeofEnemy == SOLDIER) {
+			posaux.x += 20;
+		}
+		return posaux;
+	}
+	return glm::vec2(0.0f,0.0f);
 }
 
 glm::vec2 Enemy::ret_size() {
 	if (this != NULL)
 		return size;
+	return glm::vec2(0.0f, 0.0f);
 }
 
 void Enemy::hit() {
@@ -233,4 +240,5 @@ void Enemy::hit() {
 int Enemy::health_remaining() {
 	if (this != NULL)
 		return health;
+	return 0;
 }
