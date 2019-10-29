@@ -381,8 +381,8 @@ void Scene::initPowerUp() {
 void Scene::checkPowerUp() {
 	bool collisionX = ((((10 + powerup->ret_pos().x) + powerup->ret_size().x) >= player->ret_pos().x) &&
 		((player->ret_pos().x + player->ret_size().x) >= (10 + powerup->ret_pos().x)));
-	bool collisionY = ((((15 + powerup->ret_pos().y) + powerup->ret_size().y) >= (64 + player->ret_pos().y)) &&
-		(((64 + player->ret_pos().y) + player->ret_size().y) >= (15 + powerup->ret_pos().y)));
+	bool collisionY = ((((15 + powerup->ret_pos().y) + powerup->ret_size().y) >= (player->ret_pos().y)) &&
+		(((player->ret_pos().y) + player->ret_size().y) >= (15 + powerup->ret_pos().y)));
 	if (collisionX && collisionY) {
 		sound.playSFX("sfx/powerup_spread.wav");
 		player->activateSpread(true);
