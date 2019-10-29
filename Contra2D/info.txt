@@ -1,0 +1,30 @@
+Integrantes del grupo:
+Sven Wallin Haro
+Joel Alarcón Julian
+
+Funcionalidades implementadas:
+
+--Base--
+-Desplazamiento del jugador por el mapa con scroll
+-Efecto gravedad (pierdes vida si caes al vacío)
+-Efecto de profundidad en el nivel 2 (solo puedes disparar de frente)
+-Los enemigos se mueren al recibir X número de balas = a su vida
+-Las balas desaparecen cuando se salen de la pantalla
+-Obtención de la SpreadGun cuando se recoge el powerup
+-Menú de inicio con créditos en la parte inferior izquierda
+-Opción a instrucciones, empezar el juego o salir de la partida
+-Transición de niveles, de game over y de final del juego
+-Efectos de sonido y música para las interacciones del juego
+
+
+--Extra--
+-Capacidad de parar el tiempo 1 vez por partida por un breve período de tiempo
+-Si te tiras al suelo en el nivel 2, te pones a cubierto y las balas no te dan
+-Animaciones del jugador en 8 direcciones distintas
+-Animaciones de las torretas en 8 direcciones distintas
+
+Instrucciones del juego:
+Flechas de dirección: Desplazarse (se tira al suelo si pulsas hacia abajo) y apuntar
+Z: Disparar en la dirección apuntada
+X: Saltar
+Esc: Salir del juego
