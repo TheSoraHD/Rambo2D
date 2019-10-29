@@ -20,6 +20,7 @@ public:
 	glm::vec2 ret_size();
 	glm::vec2 ret_pos();
 	void activateSpread(bool powerUp);
+	void hit();
 	void render();
 	
 	void setTileMap(TileMap *tileMap);

@@ -26,15 +26,15 @@ public:
 	int health_remaining();
 
 private:
-
 	BulletManager *bM;
 	SoundManager sound;
-	int typeofEnemy, health;
+	int typeofEnemy, health, cooldown;
 	glm::vec2 posEnemy, size;
 	Player *player;
 	Texture spritesheet;
 	Sprite *sprite;
 	TileMap *map;
+	ShaderProgram *aux;
 };
 
 #endif

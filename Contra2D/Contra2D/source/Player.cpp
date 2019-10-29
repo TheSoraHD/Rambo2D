@@ -24,7 +24,7 @@ enum PlayerAnims
 
 };
 
-enum directions //1, 2, 3, 4
+enum directions
 {
 	LEFT, RIGHT, UP, DOWN, UR, DR, UL, DL
 };
@@ -341,6 +341,10 @@ glm::vec2 Player::ret_size() {
 
 void Player::activateSpread(bool powerUp) {
 	spreadGun = powerUp;
+}
+
+void Player::hit() {
+	sound.playSFX("sfx/playerhit.wav");
 }
 
 void Player::render()

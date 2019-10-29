@@ -116,3 +116,7 @@ glm::vec2 Bullet::ret_pos() {
 glm::vec2 Bullet::ret_size() {
 	return size;
 }
+
+bool Bullet::ret_player_bullet() {
+	return isPlayer;
+}

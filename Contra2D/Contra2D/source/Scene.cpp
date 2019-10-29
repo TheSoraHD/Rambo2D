@@ -352,17 +352,31 @@ void Scene::checkHits() {
 	vector<Bullet*> activeBullets = bulletManager.ret_actBullets();
 	for (int j = 0; j < int(enemyList.size()); ++j) {
 		for (int i = 0; i < int(activeBullets.size()); ++i) {
-			//colision en las X
-			bool collisionX = (((enemyList[j]->ret_pos().x + enemyList[j]->ret_size().x) >= activeBullets[i]->ret_pos().x) &&
-				((activeBullets[i]->ret_pos().x + activeBullets[i]->ret_size().x) >= enemyList[j]->ret_pos().x));
-			//colision en las Y
-			bool collisionY = (((enemyList[j]->ret_pos().y + enemyList[j]->ret_size().y) >= activeBullets[i]->ret_pos().y) &&
-				((activeBullets[i]->ret_pos().y + activeBullets[i]->ret_size().y) >= enemyList[j]->ret_pos().y));
+			if (activeBullets[i]->ret_player_bullet()) {
+				//colision en las X
+				bool collisionX = (((enemyList[j]->ret_pos().x + enemyList[j]->ret_size().x) >= activeBullets[i]->ret_pos().x) &&
+					((activeBullets[i]->ret_pos().x + activeBullets[i]->ret_size().x) >= enemyList[j]->ret_pos().x));
+				//colision en las Y
+				bool collisionY = (((enemyList[j]->ret_pos().y + enemyList[j]->ret_size().y) >= activeBullets[i]->ret_pos().y) &&
+					((activeBullets[i]->ret_pos().y + activeBullets[i]->ret_size().y) >= enemyList[j]->ret_pos().y));
 
-			if (collisionX && collisionY) {
-				enemyList[j]->hit();
-				activeBullets[i]->~Bullet();
-				activeBullets.erase(activeBullets.begin() + i);
+				if (collisionX && collisionY) {
+					enemyList[j]->hit();
+					activeBullets[i]->~Bullet();
+					activeBullets.erase(activeBullets.begin() + i);
+				}
+			}
+			else {
+				bool collisionX = (((activeBullets[i]->ret_pos().x + activeBullets[i]->ret_size().x) >= player->ret_pos().x) &&
+					((player->ret_pos().x + player->ret_size().x) >= activeBullets[i]->ret_pos().x));
+				bool collisionY = (((activeBullets[i]->ret_pos().y + activeBullets[i]->ret_size().x) >= (64 + player->ret_pos().y)) &&
+					(((64 + player->ret_pos().y) + player->ret_size().y) >= enemyList[j]->ret_pos().y));
+
+				if (collisionX && collisionY) {
+					player->hit();
+					activeBullets[i]->~Bullet();
+					activeBullets.erase(activeBullets.begin() + i);
+				}
 			}
 		}
 	}

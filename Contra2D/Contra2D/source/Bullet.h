@@ -12,6 +12,7 @@ public:
 	~Bullet();
 	glm::vec2 ret_pos();
 	glm::vec2 ret_size();
+	bool ret_player_bullet();
 
 private:
 	int dev;

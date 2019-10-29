@@ -9,6 +9,11 @@
 #define SOLDIER 1
 #define SOLDIER_2ND_LEVEL 2
 
+enum directions_bullets
+{
+	LEFT_BULL, RIGHT_BULL, UP_BULL, DOWN_BULL, UR_BULL, DR_BULL, UL_BULL, DL_BULL
+};
+
 enum TurretAnims
 {
 	LEFT, L_TO_UP, UP_TO_L, UP, UP_TO_R, R_TO_UP, RIGHT, R_TO_D, D_TO_R, DOWN, D_TO_L, L_TO_D
@@ -21,6 +26,8 @@ enum SoldierAnims
 void Enemy::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Player *target, int typeOf, BulletManager *bulletManager)
 {
 	typeofEnemy = typeOf;
+	cooldown = 5;
+	aux = &shaderProgram;
 	switch (typeofEnemy) {
 		case TURRET:
 			spritesheet.loadFromFile("images/turrets.png", TEXTURE_PIXEL_FORMAT_RGBA);
@@ -78,7 +85,7 @@ void Enemy::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Play
 void Enemy::update(int deltaTime)
 {
 	if (typeofEnemy == TURRET) turretAim();
-	//else if (typeofEnemy == SOLDIER_KAMIKAZE) soldierShoot();
+	else if (typeofEnemy == SOLDIER) soldierShoot();
 	sprite->update(deltaTime);
 	sprite->setPosition(glm::vec2(float(posEnemy.x - map->getScroll()), float(posEnemy.y)));
 }
@@ -102,8 +109,13 @@ void Enemy::turretAim() {
 	}*/
 }
 
-void Enemy::soldierShoot() {
 
+void Enemy::soldierShoot() {
+	if (cooldown <= 0) {
+		bM->createEnemyBullet(posEnemy.x, posEnemy.y + 5, LEFT_BULL, *aux);
+		cooldown = 50;
+	}
+	else --cooldown;
 }
 
 void Enemy::render()

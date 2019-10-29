@@ -39,6 +39,14 @@ void BulletManager::createPlayerBullet(float posPlayerx, float posPlayery, int d
 	}
 }
 
+void BulletManager::createEnemyBullet(float posEnemyx, float posEnemyy, int direction, ShaderProgram &shaderProgram) {
+	Bullet* new_bull;
+	new_bull = new Bullet;
+	new_bull->setTileMap(map);
+	new_bull->createBullet(posEnemyx, posEnemyy, direction, false, NO_DEVIATION, 0, shaderProgram);
+	activeBullets.emplace_back(new_bull);
+}
+
 void BulletManager::update(int deltaTime) {
 	for (int i = 0; i < int(activeBullets.size()); ++i) {
 		activeBullets[i]->update(deltaTime);
