@@ -267,7 +267,7 @@ void Scene::initEnemies() {
 				enemy_x = 98; enemy_y = 6; typeofEnemy = TURRET;
 				break;
 			case 11:
-				enemy_x = 5; enemy_y = 3; typeofEnemy = SOLDIER_GROUND;
+				enemy_x = 5; enemy_y = 3; typeofEnemy = SOLDIER_KAMIKAZE;
 				break;
 			}
 			Enemy *enemy_aux;

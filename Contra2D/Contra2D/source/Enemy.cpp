@@ -8,6 +8,8 @@
 #define TURRET 0
 #define SOLDIER_KAMIKAZE 1
 #define SOLDIER_GROUND 2
+#define SOLDIER 3
+#define SOLDIER_2ND_LEVEL 3
 
 enum TurretAnims
 {
@@ -16,6 +18,10 @@ enum TurretAnims
 enum GroundAnims
 {
 	GROUND
+};
+enum KamikazeAnims
+{
+	RUN
 };
 
 void Enemy::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Player *target, int typeOf, BulletManager *bulletManager)
@@ -40,6 +46,23 @@ void Enemy::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Play
 			sprite->setAnimationSpeed(GROUND, 5);
 			sprite->addKeyframe(GROUND, glm::vec2(0.0f, 0.0f));
 			break;
+		case SOLDIER_KAMIKAZE:
+			spritesheet.loadFromFile("images/kamikaze2x.png", TEXTURE_PIXEL_FORMAT_RGBA);
+			sprite = Sprite::createSprite(glm::ivec2(32, 64), glm::vec2(0.125f, 1.0f), &spritesheet, &shaderProgram);
+			sprite->setNumberAnimations(1);
+			size.x = 32;
+			size.y = 64;
+			health = 1;
+			sprite->setAnimationSpeed(RUN, 6);
+			//sprite->addKeyframe(RUN, glm::vec2(0.75f, 0.0f));
+			sprite->addKeyframe(RUN, glm::vec2(0.625f, 0.0f));
+			sprite->addKeyframe(RUN, glm::vec2(0.5f, 0.0f));
+			sprite->addKeyframe(RUN, glm::vec2(0.375f, 0.0f));
+			sprite->addKeyframe(RUN, glm::vec2(0.25f, 0.0f));
+			sprite->addKeyframe(RUN, glm::vec2(0.125f, 0.0f));
+			sprite->addKeyframe(RUN, glm::vec2(0.0f, 0.0f));
+			
+			break;
 	}
 	sprite->changeAnimation(0);
 	//sprite->setPosition(glm::vec2(float(posEnemy.x - map->getScroll()), float(posEnemy.y)));
@@ -49,7 +72,8 @@ void Enemy::init(const glm::vec2 &tileMapPos, ShaderProgram &shaderProgram, Play
 
 void Enemy::update(int deltaTime)
 {
-	turretAim();
+	if (typeofEnemy == TURRET) turretAim();
+	//else if (typeofEnemy == SOLDIER_KAMIKAZE) soldierShoot();
 	sprite->update(deltaTime);
 	sprite->setPosition(glm::vec2(float(posEnemy.x - map->getScroll()), float(posEnemy.y)));
 }
@@ -71,6 +95,10 @@ void Enemy::turretAim() {
 			sprite->changeAnimation(U_TO_R);
 		}
 	}*/
+}
+
+void Enemy::soldierShoot() {
+
 }
 
 void Enemy::render()
