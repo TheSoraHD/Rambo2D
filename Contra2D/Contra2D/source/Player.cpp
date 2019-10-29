@@ -151,12 +151,12 @@ void Player::update(int deltaTime)
 {
 	//if (Game::instance().getSpecialKey(GLUT_KEY_UP)) sound.playSFX("sfx/zawarudo.wav");
 	sprite->update(deltaTime);
-	if (cooldown_dead > 450) {
+	if (cooldown_dead > 150) {
 		--cooldown_dead;
-		if (cooldown_dead == 560) {
+		if (cooldown_dead == 260) {
 			if (sprite->animation() != DEAD) sprite->changeAnimation(DEAD);
 		}
-		if (cooldown_dead == 450) {
+		if (cooldown_dead == 150) {
 			//respawn with inmunity
 			posPlayer.x = map->getScroll()+10;
 			posPlayer.y = 5;
@@ -409,7 +409,7 @@ void Player::hit() {
 		--lifes;
 		if (sprite->animation() != DEATH)
 			sprite->changeAnimation(DEATH);
-		cooldown_dead = 600;
+		cooldown_dead = 300;
 		sound.playSFX("sfx/playerhit.wav");
 	}
 }
@@ -424,7 +424,7 @@ bool Player::isgod() {
 }
 
 bool Player::game_over() {
-	return ((lifes == 0) && (cooldown_dead == 451));
+	return ((lifes == 0) && (cooldown_dead == 151));
 }
 
 void Player::render()
