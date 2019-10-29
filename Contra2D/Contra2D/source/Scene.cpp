@@ -395,13 +395,13 @@ void Scene::initTransition(int level) {
 			break;
 		case 3:
 			spritesheet.loadFromFile("images/transition3.png", TEXTURE_PIXEL_FORMAT_RGBA);
-			spritesheet.loadFromFile("images/ending.png", TEXTURE_PIXEL_FORMAT_RGBA);
-			sound.playBGM("music/stageclear.mp3", false);
 			transitionDelay = 180;
 			break;
 		case 4:
-			
+			spritesheet.loadFromFile("images/ending.png", TEXTURE_PIXEL_FORMAT_RGBA);
+			sound.playBGM("music/stageclear.mp3", false);
 			transitionDelay = 600;
+			level = 0;
 			break;
 	}
 	nextLevel = level;
