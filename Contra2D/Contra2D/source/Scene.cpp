@@ -468,7 +468,6 @@ void Scene::checkBullets() {
 			activeBullets[i]->~Bullet();
 			activeBullets.erase(activeBullets.begin() + i);
 			bulletManager.set_actBullets(activeBullets);
-			sound.playSFX("sfx/select.wav");
 		}
 	} 
 }
