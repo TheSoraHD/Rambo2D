@@ -188,6 +188,7 @@ void Scene::update(int deltaTime)
 				bulletManager.update(deltaTime);
 				checkHits();
 				checkBullets();
+				checkExplosions();
 			}
 
 			if (!victory) checkVictory();
@@ -213,10 +214,14 @@ void Scene::render()
 			enemyList[i]->render();
 		for (int i = 0; i < int(bridgeList.size()); ++i)
 			bridgeList[i]->render();
+		for (int i = 0; i < int(activeExplosions.size()); ++i) {
+			activeExplosions[i]->render();
+		}
 		if (boss != NULL) boss->render();
 		player->render();
 		if (powerup != NULL) powerup->render();
 		bulletManager.render();
+
 	}
 	else mainMenu.render();
 }
@@ -463,6 +468,11 @@ void Scene::checkHits() {
 					activeBullets.erase(activeBullets.begin() + i);
 					if (enemyList[j]->health_remaining() <= 0) {
 						sound.playSFX("sfx/Explosion_corta.wav");
+						Explosion *boom = new Explosion ();
+						activeExplosions.emplace_back(boom);
+						boom->init(enemyList[j]->ret_pos(), texProgram);
+						boom->setTileMap(map);
+
 						enemyList[j] = NULL;
 						enemyList.erase(enemyList.begin() + j);
 					}
@@ -537,6 +547,16 @@ void Scene::checkBullets() {
 			bulletManager.set_actBullets(activeBullets);
 		}
 	} 
+}
+
+void Scene::checkExplosions() {
+	for (int i = 0; i < activeExplosions.size(); ++i) {
+		activeExplosions[i]->update();
+		if (activeExplosions[i]->ret_timer() <= 0) {
+			activeExplosions[i]->~Explosion();
+			activeExplosions.erase(activeExplosions.begin() + i);
+		}
+	}
 }
 
 /*void BulletManager::update(int deltaTime, vector<Enemy*> enemyList) {

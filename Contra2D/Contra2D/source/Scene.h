@@ -13,6 +13,7 @@
 #include "SoundManager.h"
 #include "TileMap.h"
 #include "PowerUp.h"
+#include "Explosion.h"
 
 
 // Scene contains all the entities of our game.
@@ -46,12 +47,14 @@ private:
 	void checkHits();
 	void checkfall();
 	void checkBullets();
+	void checkExplosions();
 
 
 private:
 	BulletManager bulletManager;
 	SoundManager sound;				  // Audio engine
 	vector<Bullet*> activeBullets;
+	vector<Explosion*> activeExplosions;
 
 	MainMenu mainMenu;
 
