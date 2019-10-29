@@ -16,7 +16,7 @@ enum directions_bullets
 
 enum TurretAnims
 {
-	LEFT, L_TO_UP, UP_TO_L, UP, UP_TO_R, R_TO_UP, RIGHT, R_TO_D, D_TO_R, DOWN, D_TO_L, L_TO_D
+	UL, LEFT, L_TO_UP, UP_TO_L, UP, UP_TO_R, R_TO_UP, RIGHT, R_TO_D, D_TO_R, DOWN, D_TO_L, L_TO_D
 };
 enum SoldierAnims
 {
@@ -94,7 +94,7 @@ void Enemy::update(int deltaTime)
 
 void Enemy::turretAim() {
 
-	if (Game::instance().getKey('1')) sprite->changeAnimation(RIGHT);
+	/*if (Game::instance().getKey('1')) sprite->changeAnimation(RIGHT);
 	if (Game::instance().getKey('2')) sprite->changeAnimation(R_TO_D);
 	if (Game::instance().getKey('3')) sprite->changeAnimation(DOWN);
 	if (Game::instance().getKey('4')) sprite->changeAnimation(D_TO_L);
@@ -109,6 +109,11 @@ void Enemy::turretAim() {
 			sprite->changeAnimation(U_TO_R);
 		}
 	}*/
+	if (cooldown <= 0) {
+		bM->createEnemyBullet(posEnemy.x, posEnemy.y + 16, UL_BULL, false, *aux, 1.0f);
+		cooldown = 60;
+	}
+	else --cooldown;
 }
 
 
@@ -146,7 +151,7 @@ void Enemy::setPosition(const glm::vec2 &pos)
 }
 
 void Enemy::turretAnim() { 
-	sprite->setNumberAnimations(12);
+	sprite->setNumberAnimations(13);
 
 	sprite->setAnimationSpeed(RIGHT, 5);
 	sprite->addKeyframe(RIGHT, glm::vec2(0.0f, 0.0f));
@@ -192,6 +197,9 @@ void Enemy::turretAnim() {
 	sprite->addKeyframe(UP_TO_L, glm::vec2(0.5f, 0.5f));
 	sprite->addKeyframe(UP_TO_L, glm::vec2(0.25f, 0.5f));
 	sprite->addKeyframe(UP_TO_L, glm::vec2(0.0f, 0.5f));
+
+	sprite->setAnimationSpeed(UL, 5);
+	sprite->addKeyframe(UL, glm::vec2(0.25f, 0.5f));
 
 	sprite->setAnimationSpeed(UP, 5);
 	sprite->addKeyframe(UP, glm::vec2(0.0f, 0.75f));

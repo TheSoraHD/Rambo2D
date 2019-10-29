@@ -46,7 +46,7 @@ void Explosion::init(glm::vec2 pos_explosion, ShaderProgram &shaderProgram) {
 
 	sprite->changeAnimation(0);
 
-	//this->setPosition();
+	//setPosition();
 
 }
 
