@@ -110,13 +110,19 @@ Bullet::~Bullet() {
 }
 
 glm::vec2 Bullet::ret_pos() {
-	return posBullet;
+	if (this != NULL)
+		return posBullet;
+	return glm::vec2(0.0f, 0.0f);
 }
 
 glm::vec2 Bullet::ret_size() {
-	return size;
+	if (this != NULL)
+		return size;
+	return glm::vec2(0.0f, 0.0f);
 }
 
 bool Bullet::ret_player_bullet() {
-	return isPlayer;
+	if (this != NULL)
+		return isPlayer;
+	return false;
 }
